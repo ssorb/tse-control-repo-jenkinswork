@@ -6,3 +6,5 @@ license 'Apache 2.0'
 summary 'Puppet Labs SE Team Role Module'
 description 'Top-level profile-aggregator module to defining SE-Team-specific deployable roles'
 project_page 'https://github.com/puppetlabs-seteam/puppet-module-role'
+
+dependency 'seteam/profile', '>= 0.0.1'
