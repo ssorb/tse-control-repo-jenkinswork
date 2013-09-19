@@ -1,5 +1,5 @@
 name    'seteam-role'
-version '0.0.3'
+version '0.1.0'
 source 'https://github.com/puppetlabs-seteam/puppet-module-role.git'
 author 'Puppet Labs SE Team'
 license 'Apache 2.0'
@@ -8,3 +8,6 @@ description 'Top-level profile-aggregator module to defining SE-Team-specific de
 project_page 'https://github.com/puppetlabs-seteam/puppet-module-role'
 
 dependency 'seteam/profile', '>= 0.0.1'
+dependency 'jay/console_env', '>= 0.0.2'
+dependency 'puppetlabs/firewall', '>= 0.4.2'
+dependency 'puppetlabs/inifile', '>= 1.0.0'

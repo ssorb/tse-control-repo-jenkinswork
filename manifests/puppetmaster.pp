@@ -7,6 +7,9 @@ class role::puppetmaster (
   $r10k_environments_dir    = '/etc/puppetlabs/puppet/environments',
   $r10k_environments_remote = 'https://github.com/puppetlabs-seteam/puppet-environments',
 ) {
+  # Custom PE Console configuration
+  include console_env
+
   # Puppet master firewall rules
   include profile::firewall
   Firewall {
