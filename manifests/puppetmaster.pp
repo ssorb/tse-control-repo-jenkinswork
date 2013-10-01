@@ -52,6 +52,7 @@ class role::puppetmaster (
   }
 
   exec { 'instantiate_environment':
+    path    => '/opt/puppet/bin:/usr/bin:/bin',
     command => '/opt/puppet/bin/r10k deploy environment -p',
     creates => $r10k_environments_dir,
     require => [
