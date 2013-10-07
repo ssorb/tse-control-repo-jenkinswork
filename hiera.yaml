@@ -3,9 +3,9 @@
   - yaml
 
 :hierarchy:
-  - "%{certname}"
-  - "%{environment}"
-  - common
+  - "certname/%{certname}"
+  - "environment/%{environment}"
+  - "common"
 
 :yaml:
-  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
+  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/data"
