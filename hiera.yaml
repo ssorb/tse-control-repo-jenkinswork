@@ -3,7 +3,7 @@
   - yaml
 
 :hierarchy:
-  - "certname/%{certname}"
+  - "clientcert/%{clientcert}"
   - "environment/%{environment}"
   - "common"
 
