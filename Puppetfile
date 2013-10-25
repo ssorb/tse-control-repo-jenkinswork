@@ -7,3 +7,8 @@
 # Brief example:
 #
 #   mod 'puppetlabs/stdlib', '4.1.0'
+#
+# The default production environment for the SE Team is just going to pull in
+# the current version of our "profile" module from the Forge and whatever
+# dependencies it has.
+mod 'seteam/profile'
