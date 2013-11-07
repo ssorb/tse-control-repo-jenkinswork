@@ -9,6 +9,7 @@ class role::puppetmaster (
 ) {
   # Custom PE Console configuration
   include console_env
+  include git
 
   # Puppet master firewall rules
   include profile::firewall
@@ -22,10 +23,6 @@ class role::puppetmaster (
   firewall { '110 puppetmaster allow all': dport  => '8140';  }
   firewall { '110 dashboard allow all':    dport  => '443';   }
   firewall { '110 mcollective allow all':  dport  => '61613'; }
-
-  package { 'git':
-    ensure => present,
-  }
 
   package { 'r10k':
     ensure   => present,
@@ -71,7 +68,7 @@ class role::puppetmaster (
     creates => $r10k_environments_dir,
     require => [
       Package['r10k'],
-      Package['git'],
+      Class['git'],
       File['/etc/r10k.yaml'],
     ],
   }
