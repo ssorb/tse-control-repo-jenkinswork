@@ -6,10 +6,12 @@
 class role::puppetmaster (
   $r10k_environments_dir    = '/etc/puppetlabs/puppet/environments',
   $r10k_environments_remote = 'https://github.com/puppetlabs-seteam/puppet-environments',
+  $srv_root                 = '/var/seteam-files',
 ) {
   # Custom PE Console configuration
   include console_env
   include git
+  include apache
 
   # Puppet master firewall rules
   include profile::firewall
@@ -23,6 +25,14 @@ class role::puppetmaster (
   firewall { '110 puppetmaster allow all': dport  => '8140';  }
   firewall { '110 dashboard allow all':    dport  => '443';   }
   firewall { '110 mcollective allow all':  dport  => '61613'; }
+  firewall { '110 apache allow all':       dport  => '80';    }
+
+  apache::vhost { 'seteam-files':
+    vhost_name => '*',
+    port       => '80',
+    docroot    => $srv_root,
+    priority   => '10',
+  }
 
   package { 'r10k':
     ensure   => present,
