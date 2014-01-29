@@ -26,6 +26,8 @@ mod 'seteam/profile', '0.2.3'
     mod 'stahnma/epel', '0.0.5'
 mod 'puppetlabs/firewall',   '0.4.2'
 mod 'joshcooper/powershell', '0.0.6'
+mod 'puppetlabs/dism', '0.1.0'
+mod 'simondean/iis', '0.1.3'
 mod 'dotnetcms',
   :git => 'git@github.com:mrzarquon/dotnetcms.git'
 mod 'staging',
