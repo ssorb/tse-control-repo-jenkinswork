@@ -29,7 +29,8 @@ mod 'joshcooper/powershell', '0.0.6'
 mod 'puppetlabs/dism', '0.1.0'
 mod 'simondean/iis', '0.1.3'
 mod 'dotnetcms',
-  :git => 'git@github.com:mrzarquon/dotnetcms.git'
+  :git => 'git@github.com:mrzarquon/dotnetcms.git',
+  :ref => 'a5469eefc38bf65a03d1f46a428fa06b647fc740'
 mod 'staging',
-  :git => 'git://github.com/reidmv/puppet-module-staging.git',
-  :ref => 'c315c9b956161bf755b281461670fa00bf946405'
+  :git => 'git@github.com:nanliu/puppet-staging.git',
+  :ref => '7b3a69b184d22cff6e8b5bfa0de511481ae46d70'
