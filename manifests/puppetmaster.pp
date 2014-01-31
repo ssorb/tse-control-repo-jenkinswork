@@ -72,15 +72,25 @@ class role::puppetmaster (
     value   => "${r10k_environments_dir}/\$environment/hiera.yaml"
   }
 
-  exec { 'instantiate_environment':
+  Exec {
     path    => '/opt/puppet/bin:/usr/bin:/bin',
-    command => '/opt/puppet/bin/r10k deploy environment -p',
-    creates => $r10k_environments_dir,
     require => [
       Package['r10k'],
       Class['git'],
       File['/etc/r10k.yaml'],
     ],
+  }
+
+  exec { 'instantiate_environments':
+    command => '/opt/puppet/bin/r10k deploy environment',
+    creates => $r10k_environments_dir,
+  }
+
+  exec { 'instantiate_production_modules':
+    cwd     => '/etc/puppetlabs/puppet/environments/production',
+    command => '/opt/puppet/bin/r10k puppetfile install',
+    creates => "${r10k_environments_dir}/modules",
+    require => Exec['instantiate_environments'],
   }
 
 }
