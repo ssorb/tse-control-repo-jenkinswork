@@ -1,3 +1,6 @@
 ---
 classes:
   - pe_mcollective
+splunk::params::version:  "6.0"
+splunk::params::build:    "182037"
+splunk::params::src_root: "http://master/demo_offline_splunk"
