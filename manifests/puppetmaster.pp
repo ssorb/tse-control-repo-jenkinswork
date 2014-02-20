@@ -57,19 +57,19 @@ class role::puppetmaster (
     setting => 'modulepath',
     value   => "${r10k_environments_dir}/\$environment/modules:/opt/puppet/share/puppet/modules",
   }
-  ini_setting { 'puppet_manifestdir':
+  ini_setting { 'puppet_manifest':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'main',
-    setting => 'manifestdir',
-    value   => "${r10k_environments_dir}/\$environment/manifests"
+    setting => 'manifest',
+    value   => "${r10k_environments_dir}/\$environment/manifests/site.pp"
   }
   ini_setting { 'puppet_hieraconfig':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'main',
     setting => 'hiera_config',
-    value   => "${r10k_environments_dir}/\$environment/hiera.yaml"
+    value   => "${r10k_environments_dir}/production/hiera.yaml"
   }
 
   Exec {
