@@ -12,7 +12,7 @@
 # the current version of our "profile" module from the Forge and whatever
 # dependencies it has.
 
-mod 'seteam/profile', '0.2.3'
+mod 'seteam/profile', '0.2.4'
 mod 'seteam/splunk', '3.0.1'
 mod 'puppetlabs/inifile', '1.0.3'
 mod 'seteam/tomcat', '0.1.0'
