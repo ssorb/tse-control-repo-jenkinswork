@@ -12,6 +12,8 @@
 # the current version of our "profile" module from the Forge and whatever
 # dependencies it has.
 
+forge "https://forge.puppetlabs.com"
+
 # PL Modules
 mod 'puppetlabs/java', '1.0.1'
 mod 'puppetlabs/git', '0.0.3'

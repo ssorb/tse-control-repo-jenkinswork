@@ -1,4 +1,7 @@
 /modules
 /pkg
+/.tmp
+/.librarian
+Puppetfile.lock
 *.swp
 .DS_Store
