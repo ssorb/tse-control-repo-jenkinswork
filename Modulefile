@@ -7,7 +7,6 @@ summary 'Puppet Labs SE Team Role Module'
 description 'Top-level profile-aggregator module to defining SE-Team-specific deployable roles'
 project_page 'https://github.com/puppetlabs-seteam/puppet-module-role'
 
-dependency 'jay/console_env', '>= 0.0.2'
 dependency 'puppetlabs/firewall', '>= 0.4.2'
 dependency 'puppetlabs/git', '>= 0.0.3'
 dependency 'puppetlabs/inifile', '>= 1.0.0'
