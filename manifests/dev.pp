@@ -3,7 +3,7 @@
 # Amazon, and generally enables SE Team specific patterns dependent on master
 # capabilities.
 #
-class role::puppetmaster (
+class role::dev (
   $r10k_environments_dir    = '/etc/puppetlabs/puppet/environments',
   $r10k_environments_remote = 'https://github.com/puppetlabs-seteam/puppet-environments',
   $srv_root                 = '/var/seteam-files',
