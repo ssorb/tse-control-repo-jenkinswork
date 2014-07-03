@@ -193,11 +193,11 @@ class tomcat_files (
   }
   staging::file { 'sample-1.0.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.0.war',
-    target => "${srv_root}/tomcat/sample-1.0.war",
+    target => "${srv_root}/tomcat/plsample-1.0.war",
   }
   staging::file { 'sample-1.2.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.2.war',
-    target => "${srv_root}/tomcat/sample-1.2.war",
+    target => "${srv_root}/tomcat/plsample-1.2.war",
   }
 }
 include splunk_files
