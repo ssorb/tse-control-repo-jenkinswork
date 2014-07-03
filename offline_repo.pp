@@ -1,9 +1,9 @@
 class offline_repo {
 
-  package { 'yum-downloadonly':
+  package { 'yum-plugin-downloadonly':
     ensure => present,
   }
-  package { 'createrepo':,
+  package { 'createrepo':
     ensure => present,
   }
 
@@ -12,12 +12,13 @@ class offline_repo {
   }
 
   exec { 'yum_download':
-    command => 'yum -y install tomcat6-docs-webapp tomcat6-webapps tomcat6 fontconfig dejavu-fonts-common java java-1.7.0-openjdk tomcat6-admin-webapps --downloadonly --downloaddir=/var/seteam-files/rpms',
+    command => '/usr/bin/yum -y install tomcat6-docs-webapp tomcat6-webapps tomcat6 fontconfig dejavu-fonts-common java java-1.7.0-openjdk tomcat6-admin-webapps --downloadonly --downloaddir=/var/seteam-files/rpms',
     require => [
-      Package['yum-downloadonly'],
+      Package['yum-plugin-downloadonly'],
       Package['createrepo'],
       File['/var/seteam-files/rpms'],
     ],
+    returns => [ '0','1'],
   }
 
   exec { 'createrepo':

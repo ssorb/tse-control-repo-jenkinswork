@@ -23,6 +23,8 @@ mod 'puppetlabs/registry', '1.0.0'
 mod 'puppetlabs/acl', '1.0.1'
 mod 'puppetlabs/apache', '1.0.1'
 mod 'puppetlabs/pe_gem', '0.0.1'
+mod 'puppetlabs/vcsrepo', '1.0.2'
+mod 'puppetlabs/inifile', '1.0.3'
 mod 'stdlib',
   :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git',
   :ref => '4.1.0'
