@@ -153,6 +153,11 @@ class tomcat_files (
   
   $directories = [
     "${srv_root}/tomcat",
+    "${srv_root}/war",
+    "${srv_root}/war/1.400",
+    "${srv_root}/war/1.449",
+    "${srv_root}/war/1.525",
+    "${srv_root}/war/latest",
   ]
 
   Staging::File {
@@ -174,19 +179,27 @@ class tomcat_files (
   }
   staging::file { 'jenkins-1.400.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.400.war',
-    target => "${srv_root}/tomcat/jenkins-1.400.war",
+    target => "${srv_root}/war/1.400/jenkins.war",
   }
   staging::file { 'jenkins-1.449.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.449.war',
-    target => "${srv_root}/tomcat/jenkins-1.449.war",
+    target => "${srv_root}/war/1.449/jenkins.war",
+  }
+  staging::file { 'jenkins-1.525.war':
+    source => 'http://mirrors.jenkins-ci.org/war/1.525/jenkins.war',
+    target => "${srv_root}/war/1.525/jenkins.war",
+  }
+  staging::file { 'jenkins-latest.war':
+    source => 'http://mirrors.jenkins-ci.org/war/latest/jenkins.war',
+    target => "${srv_root}/war/latest/jenkins.war",
   }
   staging::file { 'sample-1.0.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.0.war',
-    target => "${srv_root}/tomcat/sample-1.0.war",
+    target => "${srv_root}/tomcat/plsample-1.0.war",
   }
   staging::file { 'sample-1.2.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.2.war',
-    target => "${srv_root}/tomcat/sample-1.2.war",
+    target => "${srv_root}/tomcat/plsample-1.2.war",
   }
 }
 include splunk_files

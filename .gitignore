@@ -1,3 +1,6 @@
 /modules
+/pkg
+/.tmp
+/.librarian
 *.swp
 .DS_Store
