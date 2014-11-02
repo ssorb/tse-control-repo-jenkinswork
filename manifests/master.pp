@@ -6,6 +6,17 @@
 class role::master (
   $srv_root                 = '/var/seteam-files',
 ) {
+  # Detect Vagrant
+
+  $apache_user = $virtual ? {
+    'virtualbox' => 'vagrant',
+    default      => 'root',
+  }
+  $apache_group = $virtual ? {
+    'virtualbox' => 'vagrant',
+    default      => 'root',
+  }
+  
   # Custom PE Console configuration
   include git
   include apache
@@ -29,8 +40,8 @@ class role::master (
     port          => '80',
     docroot       => $srv_root,
     priority      => '10',
-    docroot_owner => 'vagrant',
-    docroot_group => 'vagrant',
+    docroot_owner => $apache_user,
+    docroot_group => $apache_group,
   }
 
 }
