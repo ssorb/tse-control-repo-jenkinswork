@@ -11,7 +11,7 @@ basename="${containing_dir}/${working_dir}"
 
 # see if we are already in our working directory
 if [ $basename != '/etc/puppetlabs/puppet/environments/production/scripts' ]; then
-  mv $basename/../* /etc/puppetlabs/puppet/environments/production
+  /bin/cp -Rfu $basename/../* /etc/puppetlabs/puppet/environments/production/
 fi
 
 /opt/puppet/bin/puppet config set disable_warnings deprecations --section main
