@@ -75,6 +75,10 @@ mod 'win_rdp',
   :ref => 'a3dfad580bf9ec1f5318790cd2398f79bf482691'
 mod 'tsefacts',
   :git => 'git@github.com:mrzarquon/tsefacts.git'
+mod 'ldap',
+  :git => 'git@github.com:mrzarquon/puppet-ldap.git'
+mod 'windows':
+  git => 'git@github.com:mrzarquon/puppet-windows.git'
 
 # in development mode
 mod 'role',

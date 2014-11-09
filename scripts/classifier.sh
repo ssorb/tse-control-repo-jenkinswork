@@ -17,6 +17,7 @@ find_guid()
 read -r -d '' PE_MASTER_POST << MASTER_JSON
 {
 "classes": {
+"ldap": { },
 "pe_repo": { },
 "pe_repo::platform::el_6_x86_64": {},
 "pe_repo::platform::el_7_x86_64": {},
@@ -46,7 +47,8 @@ MASTER_JSON
 read -r -d '' PE_LINUX_GROUP << LINUX_JSON
 {
     "classes": {
-        "ntp": {}
+      "profile::pe_env": {},
+      "ntp": {}
     },
     "environment": "production",
     "environment_trumps": false,
