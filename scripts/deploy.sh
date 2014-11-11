@@ -30,6 +30,6 @@ fi
 
 /bin/bash $basename/refresh_classes.sh
 /bin/bash $basename/classifier.sh
-/bin/bash $basename/stage_agents.sh
+#/bin/bash $basename/stage_agents.sh
 
 /opt/puppet/bin/puppet agent --onetime --no-daemonize --color=false --verbose

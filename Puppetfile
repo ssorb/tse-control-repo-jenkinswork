@@ -77,8 +77,8 @@ mod 'tsefacts',
   :git => 'git@github.com:mrzarquon/tsefacts.git'
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
-mod 'windows':
-  git => 'git@github.com:mrzarquon/puppet-windows.git'
+mod 'windows',
+  :git => 'git@github.com:mrzarquon/puppet-windows.git'
 
 # in development mode
 mod 'role',
