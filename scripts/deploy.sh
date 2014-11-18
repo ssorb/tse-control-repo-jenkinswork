@@ -20,7 +20,8 @@ fi
 
 /opt/puppet/bin/puppet config set hiera_config \$confdir/environments/production/hiera.yaml --section main
 
-/etc/init.d/pe-puppetserver restart
+/opt/puppet/bin/puppet resource service pe-puppetserver ensure=stopped
+/opt/puppet/bin/puppet resource service pe-puppetserver ensure=running
 
 /opt/puppet/bin/puppet apply --exec 'include role::master'
 
