@@ -29,7 +29,7 @@ mod 'puppetlabs/powershell', '1.0.3'
 mod 'puppetlabs/ntp', '3.2.1'
 #mod 'puppetlabs/tomcat', '1.1.0'
 mod 'puppetlabs/concat', '1.1.2'
-mod 'puppetlabs/firewall', '1.1.3'
+mod 'puppetlabs/firewall', '1.2.0'
 mod 'puppetlabs/inifile', '1.1.4'
 
 # Community Modules
