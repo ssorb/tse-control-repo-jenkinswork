@@ -31,6 +31,7 @@ mod 'puppetlabs/ntp', '3.2.1'
 mod 'puppetlabs/concat', '1.1.2'
 mod 'puppetlabs/firewall', '1.2.0'
 mod 'puppetlabs/inifile', '1.1.4'
+mod 'puppetlabs/mysql', '2.3.1'
 
 # Community Modules
 
@@ -44,6 +45,7 @@ mod 'elasticsearch/elasticsearch', '0.3.2'
 mod 'gini/archive', '0.2.1'
 mod 'cprice404/grafanadash', '0.0.5'
 mod 'dwerder/graphite', '5.3.3'
+mod 'hunner/wordpress', '1.0.0'
 
 
 # TSE modules - either maintained under seteam
