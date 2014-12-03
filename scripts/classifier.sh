@@ -5,6 +5,7 @@
 declare -x PE_CERT=$(/opt/puppet/bin/puppet agent --configprint hostcert)
 declare -x PE_KEY=$(/opt/puppet/bin/puppet agent --configprint hostprivkey)
 declare -x PE_CA=$(/opt/puppet/bin/puppet agent --configprint localcacert)
+declare -x PE_CERTNAME=$(/opt/puppet/bin/puppet agent --configprint certname)
 
 declare -x NC_CURL_OPT="-s --cacert $PE_CA --cert $PE_CERT --key $PE_KEY --insecure"
 
@@ -38,7 +39,7 @@ read -r -d '' PE_MASTER_POST << MASTER_JSON
 [
 "=",
 "name",
-"master.inf.puppetlabs.demo"
+"$PE_CERTNAME"
 ]
 ],
 "variables": {}
@@ -56,7 +57,18 @@ read -r -d '' PE_LINUX_GROUP << LINUX_JSON
     "name": "Linux Servers",
     "parent": "00000000-0000-4000-8000-000000000000",
     "rule": [
-        "and",
+           "and",
+        [
+            "not",
+            [
+                "=",
+                [
+                    "fact",
+                    "clientcert"
+                ],
+                "$PE_CERTNAME"
+            ]
+        ],
         [
             "=",
             [
@@ -64,7 +76,7 @@ read -r -d '' PE_LINUX_GROUP << LINUX_JSON
                 "kernel"
             ],
             "Linux"
-        ]
+        ] 
     ],
     "variables": {}
 }
@@ -72,7 +84,9 @@ LINUX_JSON
 
 read -r -d '' PE_WINDOWS_GROUP << WINDOWS_JSON
 {
-    "classes": {},
+    "classes": {
+    "chocolatey": {}
+    },
     "environment": "production",
     "environment_trumps": false,
     "name": "Windows Servers",

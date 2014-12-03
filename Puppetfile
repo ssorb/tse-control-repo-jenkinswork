@@ -39,8 +39,8 @@ mod 'stahnma/epel', '1.0.0'
 mod 'opentable/iis', '1.2.0'
 mod 'opentable/windowsfeature', '1.0.0'
 mod 'seteam/tomcat', '0.1.0'
-mod 'seteam/profile', '0.4.1'
-mod 'seteam/role', '0.7.0'
+mod 'seteam/profile', '0.4.4'
+mod 'seteam/role', '0.7.1'
 mod 'nanliu/staging', '1.0.2'
 mod 'elasticsearch/elasticsearch', '0.3.2'
 mod 'gini/archive', '0.2.1'
@@ -61,16 +61,12 @@ mod 'nonpriv',
 mod 'dotnet',
   :git => 'https://github.com/mrzarquon/dotnet.git'
 mod 'chocolatey',
-  :git => 'https://github.com/sseebald/chocolatey.git',
-  :ref => '4d81e1c75b12d4f42bda5fb74f4bf9abccfc4a0b'
+  :git => 'https://github.com/mrzarquon/chocolatey.git'
 mod 'cmsapp',
   :git => 'https://github.com/mrzarquon/cmsapp.git'
 mod 'pe_windows_shortcuts',
   :git => 'https://github.com/sseebald/pe_windows_shortcuts.git',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
-mod 'win_rdp',
-  :git => 'https://github.com/mrzarquon/win_rdp.git',
-  :ref => '74eb027fbf84f91ae86cc643222ac131bf0eeecf'
 mod 'tsefacts',
   :git => 'git@github.com:mrzarquon/tsefacts.git'
 mod 'ldap',
