@@ -36,10 +36,11 @@ mod 'puppetlabs/mysql', '2.3.1'
 # Community Modules
 
 mod 'stahnma/epel', '1.0.0'
-mod 'simondean/iis', '0.1.3'
+mod 'opentable/iis', '1.2.0'
+mod 'opentable/windowsfeature', '1.0.0'
 mod 'seteam/tomcat', '0.1.0'
-#mod 'seteam/profile', '0.3.0'
-#mod 'seteam/role', '0.6.0'
+mod 'seteam/profile', '0.4.1'
+mod 'seteam/role', '0.7.0'
 mod 'nanliu/staging', '1.0.2'
 mod 'elasticsearch/elasticsearch', '0.3.2'
 mod 'gini/archive', '0.2.1'
@@ -52,29 +53,24 @@ mod 'hunner/wordpress', '1.0.0'
 # or by individual SE's
 # mod 'seteam/profile', '0.2.4'
 mod 'seteam/splunk', '3.0.1'
-#mod 'dotnetcms',
-#  :git => 'git://github.com/reidmv/puppet-module-dotnetcms.git',
-#  :ref => '3dae59c9eb87811dfa40ae3f9d3d28a4ea5d6f62'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
 mod 'nonpriv',
   :git => 'git@github.com:jpadams/nonpriv.git'
 mod 'dotnet',
-  :git => 'https://github.com/sseebald/dotnet.git',
-  :ref => '891996e5c80dc06ed90019b8d45e3ba013d0377c'
+  :git => 'https://github.com/mrzarquon/dotnet.git'
 mod 'chocolatey',
   :git => 'https://github.com/sseebald/chocolatey.git',
   :ref => '4d81e1c75b12d4f42bda5fb74f4bf9abccfc4a0b'
 mod 'cmsapp',
-  :git => 'https://github.com/sseebald/cmsapp.git',
-  :ref => '0bfd34ffd1720baaf6e04b3cac1e4943dc394ee4'
+  :git => 'https://github.com/mrzarquon/cmsapp.git'
 mod 'pe_windows_shortcuts',
   :git => 'https://github.com/sseebald/pe_windows_shortcuts.git',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
 mod 'win_rdp',
-  :git => 'https://github.com/sseebald/win_rdp.git',
-  :ref => 'a3dfad580bf9ec1f5318790cd2398f79bf482691'
+  :git => 'https://github.com/mrzarquon/win_rdp.git',
+  :ref => '74eb027fbf84f91ae86cc643222ac131bf0eeecf'
 mod 'tsefacts',
   :git => 'git@github.com:mrzarquon/tsefacts.git'
 mod 'ldap',
@@ -82,8 +78,3 @@ mod 'ldap',
 mod 'windows',
   :git => 'git@github.com:mrzarquon/puppet-windows.git'
 
-# in development mode
-mod 'role',
-  :git => 'git@github.com:mrzarquon/puppet-module-role.git'
-mod 'profile',
-  :git => 'git@github.com:mrzarquon/puppet-module-profile.git'
