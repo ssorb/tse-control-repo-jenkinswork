@@ -22,7 +22,12 @@ fi
 
 /opt/puppet/bin/puppet resource service pe-puppetserver ensure=stopped
 /opt/puppet/bin/puppet resource service pe-puppetserver ensure=running
+# disable live management
+sed -i 's/disable_live_management: false/disable_live_management: true/g' /etc/puppetlabs/puppet-dashboard/settings.yml
+/opt/puppet/bin/puppet resource service pe-httpd ensure=stopped
+/opt/puppet/bin/puppet resource service pe-httpd ensure=running
 
+# apply our master role
 /opt/puppet/bin/puppet apply --exec 'include role::master'
 
 /opt/puppet/bin/puppet apply /etc/puppetlabs/puppet/environments/production/staging.pp
