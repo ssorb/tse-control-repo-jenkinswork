@@ -15,44 +15,45 @@
 forge "https://forgeapi.puppetlabs.com"
 
 # PL Modules
-mod 'puppetlabs/java', '1.1.2'
-mod 'puppetlabs/git', '0.2.0'
-mod 'puppetlabs/dism', '1.1.0'
-mod 'puppetlabs/reboot', '0.1.8'
-mod 'puppetlabs/registry', '1.0.3'
-mod 'puppetlabs/acl', '1.0.3'
-mod 'puppetlabs/apache', '1.1.1'
-mod 'puppetlabs/pe_gem', '0.0.1'
-mod 'puppetlabs/vcsrepo', '1.2.0'
-mod 'puppetlabs/stdlib', '4.3.2'
-mod 'puppetlabs/powershell', '1.0.3'
-mod 'puppetlabs/ntp', '3.2.1'
+mod 'puppetlabs/java'
+mod 'puppetlabs/git'
+mod 'puppetlabs/dism'
+mod 'puppetlabs/reboot'
+mod 'puppetlabs/registry'
+mod 'puppetlabs/acl'
+mod 'puppetlabs/apache'
+mod 'puppetlabs/pe_gem'
+mod 'puppetlabs/vcsrepo'
+mod 'puppetlabs/stdlib'
+mod 'puppetlabs/powershell'
+mod 'puppetlabs/ntp'
 #mod 'puppetlabs/tomcat', '1.1.0'
-mod 'puppetlabs/concat', '1.1.2'
-mod 'puppetlabs/firewall', '1.2.0'
-mod 'puppetlabs/inifile', '1.1.4'
-mod 'puppetlabs/mysql', '2.3.1'
+mod 'puppetlabs/concat'
+mod 'puppetlabs/firewall'
+mod 'puppetlabs/inifile'
+mod 'puppetlabs/mysql'
+mod 'puppetlabs/pe_puppetserver_gem'
 
 # Community Modules
 
-mod 'stahnma/epel', '1.0.0'
-mod 'opentable/iis', '1.2.0'
-mod 'opentable/windowsfeature', '1.0.0'
-mod 'seteam/tomcat', '0.1.0'
-mod 'seteam/profile', '0.4.4'
-mod 'seteam/role', '0.7.1'
-mod 'nanliu/staging', '1.0.2'
-mod 'elasticsearch/elasticsearch', '0.3.2'
-mod 'gini/archive', '0.2.1'
-mod 'cprice404/grafanadash', '0.0.5'
-mod 'dwerder/graphite', '5.3.3'
-mod 'hunner/wordpress', '1.0.0'
+mod 'stahnma/epel'
+mod 'opentable/iis'
+mod 'opentable/windowsfeature'
+mod 'seteam/tomcat'
+mod 'seteam/profile'
+mod 'seteam/role'
+mod 'nanliu/staging'
+mod 'elasticsearch/elasticsearch'
+mod 'gini/archive'
+mod 'cprice404/grafanadash'
+mod 'dwerder/graphite'
+mod 'hunner/wordpress'
 
 
 # TSE modules - either maintained under seteam
 # or by individual SE's
 # mod 'seteam/profile', '0.2.4'
-mod 'seteam/splunk', '3.0.1'
+mod 'seteam/splunk'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
@@ -73,4 +74,5 @@ mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
 mod 'windows',
   :git => 'git@github.com:mrzarquon/puppet-windows.git'
-
+mod 'tse_admins',
+  :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
