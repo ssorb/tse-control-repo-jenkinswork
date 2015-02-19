@@ -76,3 +76,5 @@ mod 'windows',
   :git => 'git@github.com:mrzarquon/puppet-windows.git'
 mod 'tse_admins',
   :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
+mod 'aws',
+  :git => 'git@github.com:puppetlabs/puppetlabs-aws.git'
