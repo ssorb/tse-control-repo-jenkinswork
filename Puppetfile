@@ -77,6 +77,3 @@ mod 'windows',
 mod 'tse_admins',
   :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
 
-# Dave's modules
-mod 'tse_sqlserver',
-  :git => 'git@github.com:dgrstl/tse_sqlserver.git'
