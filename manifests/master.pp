@@ -4,10 +4,12 @@
 # capabilities.
 #
 class role::master (
-  $srv_root                 = '/var/seteam-files',
 ) {
   # Detect Vagrant
-
+  $srv_root = $virtual ? {
+    'virtualbox' => '/var/seteam-files',
+      default    => '/opt/seteam-files',
+  }
   $apache_user = $virtual ? {
     'virtualbox' => 'vagrant',
     default      => 'root',
