@@ -1,7 +1,7 @@
 ## Version
 
-2.2.1
+3.0.2
 
 ## PE Version
 
-Use PE Version 3.7.0
+Use PE Version 3.7.2

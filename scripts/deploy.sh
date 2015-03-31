@@ -40,3 +40,9 @@ sed -i 's/disable_live_management: false/disable_live_management: true/g' /etc/p
 /bin/bash $basename/connect_ds.sh
 
 /opt/puppet/bin/puppet agent --onetime --no-daemonize --color=false --verbose
+
+if [ ! -z "$(/opt/puppet/bin/facter -p ec2_iam_info_0)" ]; then
+  echo "on a properly setup AWS node, deploy the herd"
+  /opt/puppet/bin/gem install aws-sdk-core retries
+  /opt/puppet/bin/puppet apply --exec 'include tse_awsnodes::deploy'
+fi
