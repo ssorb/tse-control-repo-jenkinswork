@@ -4,7 +4,7 @@
 # checked out modules) and place it in pkg/. The resulting artifact can be
 # uploaded to a file hosting service and fetched on target nodes.
 
-#r10k puppetfile install
+r10k puppetfile install
 
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
