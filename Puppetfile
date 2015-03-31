@@ -50,11 +50,10 @@ mod 'nanliu/staging', '1.0.3'
 #mod 'dwerder/graphite'
 mod 'hunner/wordpress', '1.0.0'
 
-
 # TSE modules - either maintained under seteam
 # or by individual SE's
 # mod 'seteam/profile', '0.2.4'
-mod 'seteam/splunk', '3.0.1'
+mod 'seteam/splunk'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
