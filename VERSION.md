@@ -1,6 +1,6 @@
 ## Version
 
-2.2.5
+3.0.2
 
 ## PE Version
 
