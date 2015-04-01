@@ -38,7 +38,7 @@ mod 'puppet/windows_firewall', '1.0.0'
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
-mod 'opentable/iis' '1.3.0'
+mod 'opentable/iis', '1.3.0'
 mod 'opentable/windowsfeature', '1.0.0'
 mod 'seteam/tomcat', '0.1.0'
 mod 'seteam/profile', '0.4.6'
@@ -49,6 +49,13 @@ mod 'nanliu/staging', '1.0.3'
 #mod 'cprice404/grafanadash'
 #mod 'dwerder/graphite'
 mod 'hunner/wordpress', '1.0.0'
+
+# github for role/profile
+#mod 'role',
+#  :git => 'git@github.com:puppetlabs-seteam/puppet-module-role.git'
+#mod 'profile',
+#  :git => 'git@github.com:puppetlabs-seteam/puppet-module-profile.git'
+
 
 # TSE modules - either maintained under seteam
 # or by individual SE's
@@ -69,16 +76,14 @@ mod 'pe_windows_shortcuts',
   :git => 'https://github.com/sseebald/pe_windows_shortcuts.git',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
 mod 'tsefacts',
-  :git => 'git@github.com:mrzarquon/tsefacts.git'
+  :git => 'git@github.com:mrzarquon/puppet-tse_facts.git'
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
-mod 'windows',
-  :git => 'git@github.com:mrzarquon/puppet-windows.git'
 mod 'tse_admins',
   :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
 mod 'tse_awsnodes',
   :git => 'git@github.com:mrzarquon/puppet-tse_awsnodes.git'
 mod 'tse_windows',
   :git => 'git@github.com:mrzarquon/puppet-tse_windows.git'
-mow 'ec2tags',
+mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
