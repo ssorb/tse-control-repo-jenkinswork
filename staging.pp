@@ -2,6 +2,7 @@ class splunk_files (
   $srv_root = '/var/seteam-files',
 ) {
 
+  
   $dir_root   = "${srv_root}/demo_offline_splunk"
   $version    = '6.0'
   $build      = '182037'
@@ -202,6 +203,14 @@ class tomcat_files (
     target => "${srv_root}/tomcat/plsample-1.2.war",
   }
 }
-include splunk_files
-include dotnetcms_files
-include tomcat_files 
+
+$sefiles = $virtual ? {
+  'virtualbox' => '/var/seteam-files',
+  default      => '/opt/seteam-files',
+}
+file { $sefiles:
+  ensure  => directory,
+}
+class { 'splunk_files': srv_root    => $sefiles, }
+class { 'dotnetcms_files': srv_root => $sefiles, }
+class { 'tomcat_files': srv_root    => $sefiles, }
