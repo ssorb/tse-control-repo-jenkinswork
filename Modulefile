@@ -1,5 +1,5 @@
 name    'seteam-role'
-version '0.7.2'
+version '0.8.0'
 source 'https://github.com/puppetlabs-seteam/puppet-module-role.git'
 author 'Puppet Labs SE Team'
 license 'Apache 2.0'
