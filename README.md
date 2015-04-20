@@ -1,6 +1,6 @@
 # Role Module #
 
-[![Build Status](https://travis-ci.org/puppetlabs-seteam/puppet-module-role.svg?branch=0.8.1)](https://travis-ci.org/puppetlabs-seteam/puppet-module-role)
+[![Build Status](https://travis-ci.org/puppetlabs-seteam/puppet-module-role.svg?branch=master)](https://travis-ci.org/puppetlabs-seteam/puppet-module-role)
 
 Roles are intended to be aggregator Puppet classes. Apply a single role at the
 classification level. If more than one role is being applied to a single node,
