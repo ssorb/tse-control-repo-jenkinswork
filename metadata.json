@@ -1,11 +1,11 @@
 {
   "name": "seteam-role",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "author": "Puppet Labs SE Team",
   "summary": "Puppet Labs SE Team Role Module",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "git@github.com:puppetlabs-seteam/puppet-module-role.git",
-  "project_page": "https://forge.puppetlabs.com/seteam/role",
+  "project_page": "https://github.com/puppetlabs-seteam/puppet-module-role",
   "issues_url": "https://github.com/puppetlabs-seteam/puppet-module-role/issues",
   "operatingsystem_support": [
     {
