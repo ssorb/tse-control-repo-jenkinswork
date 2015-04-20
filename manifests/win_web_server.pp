@@ -1,3 +1,4 @@
+#
 class role::win_web_server {
   include dotnet
   include profile::windows::baseline

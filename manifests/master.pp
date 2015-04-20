@@ -1,4 +1,3 @@
-#
 # The `puppetmaster` role sets up a master system, synchronizes files from
 # Amazon, and generally enables SE Team specific patterns dependent on master
 # capabilities.
@@ -6,19 +5,19 @@
 class role::master (
 ) {
   # Detect Vagrant
-  $srv_root = $virtual ? {
+  $srv_root = $::virtual ? {
     'virtualbox' => '/var/seteam-files',
       default    => '/opt/seteam-files',
   }
-  $apache_user = $virtual ? {
+  $apache_user = $::virtual ? {
     'virtualbox' => 'vagrant',
     default      => 'root',
   }
-  $apache_group = $virtual ? {
+  $apache_group = $::virtual ? {
     'virtualbox' => 'vagrant',
     default      => 'root',
   }
-  
+
   # Custom PE Console configuration
   include git
   include apache
@@ -49,15 +48,15 @@ class role::master (
   #Configure r10k to use seteam-puppet-environments
   file {'/root/.ssh':
     ensure => directory,
-    mode   => '700',
+    mode   => '0700',
     owner  => 'root',
     group  => 'root',
   }->
   file { '/root/.ssh/known_hosts':
-    ensure  => 'file',
-    group   => 'root',
-    mode    => '644',
-    owner   => 'root',
+    ensure => 'file',
+    group  => 'root',
+    mode   => '0644',
+    owner  => 'root',
   }->
   file_line { 'github_known_host':
     path => '/root/.ssh/known_hosts',
