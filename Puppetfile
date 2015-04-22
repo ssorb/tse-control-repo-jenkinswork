@@ -42,13 +42,14 @@ mod 'opentable/iis', '1.3.0'
 mod 'opentable/windowsfeature', '1.0.0'
 mod 'seteam/tomcat', '0.1.0'
 mod 'seteam/profile', '0.4.6'
-mod 'seteam/role', '0.7.2'
+mod 'seteam/role', '0.8.3'
 mod 'nanliu/staging', '1.0.3'
 #mod 'elasticsearch/elasticsearch', 
 #mod 'gini/archive'
 #mod 'cprice404/grafanadash'
 #mod 'dwerder/graphite'
 mod 'hunner/wordpress', '1.0.0'
+mod 'zack/r10k', '2.7.0'
 
 # github for role/profile
 #mod 'role',
