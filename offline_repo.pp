@@ -17,7 +17,7 @@ class offline_repo {
     ensure => present,
   }
 
-  file { "${sefiles}/rpm":
+  file { "${sefiles}/rpms":
     ensure => directory,
   }
 
