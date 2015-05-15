@@ -13,7 +13,7 @@ version=$1
 versioned_name="seteam-production-${version}"
 mkdir -p "${basename}/pkg"
 tar \
-  --disable-copyfile \
+#  --disable-copyfile \  #You'll want this back if you're running this on a mac.
   -C "${containing_dir}" \
   --exclude ".git" \
   --exclude ".gitignore" \
