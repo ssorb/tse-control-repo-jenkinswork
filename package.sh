@@ -9,7 +9,7 @@ r10k puppetfile install
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
 basename="${containing_dir}/${working_dir}"
-version=$(egrep "[0-9]+.[0-9]+.[0-9]+" "${basename}/VERSION.md" | head -n 1)
+version=$1
 versioned_name="seteam-production-${version}"
 mkdir -p "${basename}/pkg"
 tar \
