@@ -9,11 +9,13 @@ r10k puppetfile install
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
 basename="${containing_dir}/${working_dir}"
-version=$(egrep "[0-9]+.[0-9]+.[0-9]+" "${basename}/VERSION.md" | head -n 1)
+echo $working_dir
+echo $containing_dir
+echo $basename
+version=$1
 versioned_name="seteam-production-${version}"
 mkdir -p "${basename}/pkg"
 tar \
-  --disable-copyfile \
   -C "${containing_dir}" \
   --exclude ".git" \
   --exclude ".gitignore" \
@@ -23,7 +25,7 @@ tar \
   --exclude "${working_dir}/pkg" \
   --exclude "${working_dir}/pkg/*" \
   --exclude "${working_dir}/package.sh" \
-  -s "/${working_dir}/${versioned_name}/" \
+  --transform="s/${working_dir}/${versioned_name}/" \
   -cvzf "${containing_dir}/${versioned_name}.tar.gz" \
   "${working_dir}"
 mv "${containing_dir}/${versioned_name}.tar.gz" "${basename}/pkg"
