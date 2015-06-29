@@ -3,11 +3,11 @@
   - yaml
 
 :hierarchy:
-  - "clientcert/%{clientcert}"
+  - "nodes/%{clientcert}"
   - "environment/%{environment}"
   - "datacenter/%{datacenter}"
   - "virtual/%{virtual}"
   - "common"
 
 :yaml:
-  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/data"
+  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"

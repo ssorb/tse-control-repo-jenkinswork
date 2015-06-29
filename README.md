@@ -3,8 +3,8 @@
 ## Environments ##
 
 Each branch of this repository is a self-contained Puppet environment with its
-own puppet.conf file, it's own hiera.yaml, it's own data directory, and it's
-own Puppetfile listing the modules to retrieve in order to set up for the
+own puppet.conf file, it's own hiera.yaml, it's own hieradata directory, and
+it's own Puppetfile listing the modules to retrieve in order to set up for the
 target scenario.
 
 By convention, most demonstrations are named in such a way as to denote their
