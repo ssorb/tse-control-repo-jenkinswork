@@ -104,3 +104,22 @@ directly a la `puppet apply`.
    created/available on the master
 5. Edit hiera.yaml and create any data needed for the demo
 6. Push the new branch up to the origin repository
+
+## Building Offline Artifacts ##
+
+The Rakefile includes tasks for building tarballs containing a checkout of all
+modules (a static environment as it would be fully built out by r10k) and also
+a set of self-contained repositories that can be used to set up an offline
+version of this Environment.
+
+To build all artifacts run
+
+    rake
+
+To build all artifacts for a specific version (3.2.0, for example), run
+
+    rake version=3.2.0
+
+Run `rake --tasks` to view all available build actions. Build artifacts will be
+created in the build/ subdirectory.
+
