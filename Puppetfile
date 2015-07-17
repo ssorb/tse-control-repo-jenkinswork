@@ -15,6 +15,7 @@
 forge "https://forgeapi.puppetlabs.com"
 
 # PL Modules
+
 mod 'puppetlabs/java', '1.3.0'
 mod 'puppetlabs/git', '0.3.0'
 mod 'puppetlabs/dism', '1.1.0'
@@ -34,6 +35,7 @@ mod 'puppetlabs/mysql', '3.3.0'
 mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
 mod 'puppetlabs/aws', '1.0.0'
 mod 'puppet/windows_firewall', '1.0.0'
+mod 'puppetlabs/splunk', '3.1.1'
 
 # Community Modules
 
@@ -44,25 +46,12 @@ mod 'seteam/tomcat', '0.1.0'
 mod 'seteam/profile', '0.4.6'
 mod 'seteam/role', '1.0.0'
 mod 'nanliu/staging', '1.0.3'
-#mod 'elasticsearch/elasticsearch', 
-#mod 'gini/archive'
-#mod 'cprice404/grafanadash'
-#mod 'dwerder/graphite'
 mod 'hunner/wordpress', '1.0.0'
 mod 'zack/r10k', '2.7.0'
 mod 'lwf/remote_file', '1.0.1'
 
-# github for role/profile
-#mod 'role',
-#  :git => 'git@github.com:puppetlabs-seteam/puppet-module-role.git'
-#mod 'profile',
-#  :git => 'git@github.com:puppetlabs-seteam/puppet-module-profile.git'
+# TSE modules - either maintained under seteam or by individual SE's
 
-
-# TSE modules - either maintained under seteam
-# or by individual SE's
-# mod 'seteam/profile', '0.2.4'
-mod 'seteam/splunk'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
