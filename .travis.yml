@@ -1,5 +1,9 @@
 --- 
 
+# Tell Travis we don't use sudo so that we can use container infrastructure
+# for the builds.
+sudo: false
+
 # We're currently only using Travis CI for automatic Forge deployment. No real
 # test is run. This is specified here in order to override the default test.
 script: /bin/true
