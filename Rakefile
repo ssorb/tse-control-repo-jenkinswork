@@ -83,6 +83,7 @@ file ENV['control_repo_build_dir'] => ENV['offline_puppetfile'] do
   mkdir ENV['control_repo_build_dir']
   Dir.chdir(ENV['control_repo_build_dir']) do
     sh "git clone '#{File.join(ENV['project_dir'], '.git')}' ."
+    sh 'git branch -m production'
     cp ENV['offline_puppetfile'], 'Puppetfile'
     sh 'git add Puppetfile'
     sh 'git commit -m "Lab environment control repo initialized"'
