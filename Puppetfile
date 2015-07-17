@@ -50,6 +50,7 @@ mod 'nanliu/staging', '1.0.3'
 #mod 'dwerder/graphite'
 mod 'hunner/wordpress', '1.0.0'
 mod 'zack/r10k', '2.7.0'
+mod 'lwf/remote_file', '1.0.1'
 
 # github for role/profile
 #mod 'role',
