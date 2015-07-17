@@ -8,7 +8,7 @@
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
 puppetenv=$(/opt/puppet/bin/puppet config print environmentpath)
-scriptpath="${puppetenv}/production/tools"
+toolspath="${puppetenv}/production/tools"
 basename="${containing_dir}/${working_dir}"
 
 # see if we are already in our working directory
@@ -32,14 +32,14 @@ sed -i 's/disable_live_management: false/disable_live_management: true/g' /etc/p
 # apply our master role
 /opt/puppet/bin/puppet apply --exec 'include role::master'
 
-/opt/puppet/bin/puppet apply /etc/puppetlabs/puppet/environments/production/staging.pp
+/opt/puppet/bin/puppet apply $toolspath/staging.pp
 
-/opt/puppet/bin/puppet apply /etc/puppetlabs/puppet/environments/production/offline_repo.pp
+/opt/puppet/bin/puppet apply $toolspath/offline_repo.pp
 
-/bin/bash $scriptpath/refresh_classes.sh
-/bin/bash $scriptpath/classifier.sh
+/bin/bash $toolspath/refresh_classes.sh
+/bin/bash $toolspath/classifier.sh
 
-/bin/bash $scriptpath/connect_ds.sh
+/bin/bash $toolspath/connect_ds.sh
 
 /opt/puppet/bin/puppet agent --onetime --no-daemonize --color=false --verbose
 
