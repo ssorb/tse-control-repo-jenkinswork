@@ -4,7 +4,6 @@ require 'fileutils'
 # These are common string variables that are used by the build tasks.
 
 ENV['version']            ||= 'dev'
-ENV['project_dir']        ||= File.dirname(__FILE__)
 ENV['offline_repos_path'] ||= '/opt/puppetlabs/repos'
 ENV['repos_name']         ||= "seteam-production-repos-#{ENV['version']}"
 ENV['environment_name']   ||= "seteam-production-#{ENV['version']}"
