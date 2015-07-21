@@ -15,45 +15,43 @@
 forge "https://forgeapi.puppetlabs.com"
 
 # PL Modules
-mod 'puppetlabs/java'
-mod 'puppetlabs/git'
-mod 'puppetlabs/dism'
-mod 'puppetlabs/reboot'
-mod 'puppetlabs/registry'
-mod 'puppetlabs/acl'
-mod 'puppetlabs/apache'
-mod 'puppetlabs/pe_gem'
-mod 'puppetlabs/vcsrepo'
-mod 'puppetlabs/stdlib'
-mod 'puppetlabs/powershell'
-mod 'puppetlabs/ntp'
-#mod 'puppetlabs/tomcat', '1.1.0'
-mod 'puppetlabs/concat'
-mod 'puppetlabs/firewall'
-mod 'puppetlabs/inifile'
-mod 'puppetlabs/mysql'
-mod 'puppetlabs/pe_puppetserver_gem'
+
+mod 'puppetlabs/java', '1.3.0'
+mod 'puppetlabs/git', '0.3.0'
+mod 'puppetlabs/dism', '1.1.0'
+mod 'puppetlabs/reboot', '0.1.9'
+mod 'puppetlabs/registry', '1.0.3'
+mod 'puppetlabs/acl', '1.1.0'
+mod 'puppetlabs/apache', '1.3.0'
+mod 'puppetlabs/pe_gem', '0.1.0'
+mod 'puppetlabs/vcsrepo', '1.2.0'
+mod 'puppetlabs/stdlib', '4.5.1'
+mod 'puppetlabs/powershell', '1.0.4'
+mod 'puppetlabs/ntp', '3.3.0'
+mod 'puppetlabs/concat', '1.2.0'
+mod 'puppetlabs/firewall', '1.4.0'
+mod 'puppetlabs/inifile', '1.2.0'
+mod 'puppetlabs/mysql', '3.3.0'
+mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
+mod 'puppetlabs/aws', '1.0.0'
+mod 'puppet/windows_firewall', '1.0.0'
+mod 'puppetlabs/splunk', '3.1.1'
 
 # Community Modules
 
-mod 'stahnma/epel'
-mod 'opentable/iis'
-mod 'opentable/windowsfeature'
-mod 'seteam/tomcat'
-mod 'seteam/profile'
-mod 'seteam/role'
-mod 'nanliu/staging'
-mod 'elasticsearch/elasticsearch'
-mod 'gini/archive'
-mod 'cprice404/grafanadash'
-mod 'dwerder/graphite'
-mod 'hunner/wordpress'
+mod 'stahnma/epel', '1.0.2'
+mod 'opentable/iis', '1.3.0'
+mod 'opentable/windowsfeature', '1.0.0'
+mod 'seteam/tomcat', '0.1.0'
+mod 'seteam/profile', '0.4.6'
+mod 'seteam/role', '1.1.1'
+mod 'nanliu/staging', '1.0.3'
+mod 'hunner/wordpress', '1.0.0'
+mod 'zack/r10k', '2.8.2'
+mod 'lwf/remote_file', '1.0.1'
 
+# TSE modules - either maintained under seteam or by individual SE's
 
-# TSE modules - either maintained under seteam
-# or by individual SE's
-# mod 'seteam/profile', '0.2.4'
-mod 'seteam/splunk'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
@@ -69,10 +67,17 @@ mod 'pe_windows_shortcuts',
   :git => 'https://github.com/sseebald/pe_windows_shortcuts.git',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
 mod 'tsefacts',
-  :git => 'git@github.com:mrzarquon/tsefacts.git'
+  :git => 'git@github.com:mrzarquon/puppet-tse_facts.git'
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
-mod 'windows',
-  :git => 'git@github.com:mrzarquon/puppet-windows.git'
 mod 'tse_admins',
   :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
+mod 'tse_awsnodes',
+  :git => 'git@github.com:mrzarquon/puppet-tse_awsnodes.git'
+mod 'tse_windows',
+  :git => 'git@github.com:mrzarquon/puppet-tse_windows.git'
+mod 'ec2tags',
+  :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
+mod 'razordemo',
+  :git => 'https://github.com/chrismatteson/razordemo',
+  :ref => 'a4165f5fca5f162f098f65ac1f56916086cfaf19'

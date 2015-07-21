@@ -7,18 +7,20 @@
 
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
+puppetenv=$(/opt/puppet/bin/puppet config print environmentpath)
+toolspath="${puppetenv}/production/tools"
 basename="${containing_dir}/${working_dir}"
 
 # see if we are already in our working directory
-if [ $basename != '/etc/puppetlabs/puppet/environments/production/scripts' ]; then
-  /bin/cp -Rfu $basename/../* /etc/puppetlabs/puppet/environments/production/
+if [ $basename != "${puppetenv}/production/tools" ]; then
+  /bin/cp -Rfu $basename/../* $puppetenv/production/
 fi
 
 /opt/puppet/bin/puppet config set disable_warnings deprecations --section main
 
 /opt/puppet/bin/puppet config set environment_timeout 0 --section main
 
-/opt/puppet/bin/puppet config set hiera_config \$confdir/environments/production/hiera.yaml --section main
+/opt/puppet/bin/puppet config set hiera_config $puppetenv/production/hiera.yaml --section main
 
 /opt/puppet/bin/puppet resource service pe-puppetserver ensure=stopped
 /opt/puppet/bin/puppet resource service pe-puppetserver ensure=running
@@ -30,13 +32,19 @@ sed -i 's/disable_live_management: false/disable_live_management: true/g' /etc/p
 # apply our master role
 /opt/puppet/bin/puppet apply --exec 'include role::master'
 
-/opt/puppet/bin/puppet apply /etc/puppetlabs/puppet/environments/production/staging.pp
+/opt/puppet/bin/puppet apply $toolspath/staging.pp
 
-/opt/puppet/bin/puppet apply /etc/puppetlabs/puppet/environments/production/offline_repo.pp
+/opt/puppet/bin/puppet apply $toolspath/offline_repo.pp
 
-/bin/bash $basename/refresh_classes.sh
-/bin/bash $basename/classifier.sh
+/bin/bash $toolspath/refresh_classes.sh
+/bin/bash $toolspath/classifier.sh
 
-/bin/bash $basename/connect_ds.sh
+/bin/bash $toolspath/connect_ds.sh
 
 /opt/puppet/bin/puppet agent --onetime --no-daemonize --color=false --verbose
+
+if [ ! -z "$(/opt/puppet/bin/facter -p ec2_iam_info_0)" ]; then
+  echo "on a properly setup AWS node, deploy the herd"
+  /opt/puppet/bin/gem install aws-sdk-core retries
+  /opt/puppet/bin/puppet apply --exec 'include tse_awsnodes::deploy'
+fi
