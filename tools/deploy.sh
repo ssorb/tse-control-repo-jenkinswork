@@ -4,47 +4,46 @@
 # untar the environments code, and this now 
 # moves everything it needs into place
 # and configures the master
+PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
+puppet_environmentpath=$(puppet config print environmentpath)
 
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
-puppetenv=$(/opt/puppet/bin/puppet config print environmentpath)
-toolspath="${puppetenv}/production/tools"
+puppet_environmentpath=$(puppet config print environmentpath)
+tools_path="${puppet_environmentpath}/production/tools"
 basename="${containing_dir}/${working_dir}"
 
 # see if we are already in our working directory
-if [ $basename != "${puppetenv}/production/tools" ]; then
-  /bin/cp -Rfu $basename/../* $puppetenv/production/
+if [ $basename != "${puppet_environmentpath}/production/tools" ]; then
+  /bin/cp -Rfu $basename/../* $puppet_environmentpath/production/
 fi
 
-/opt/puppet/bin/puppet config set disable_warnings deprecations --section main
+#puppet config set disable_warnings deprecations --section main
+#puppet config set environment_timeout 0 --section main
 
-/opt/puppet/bin/puppet config set environment_timeout 0 --section main
+puppet config set hiera_config $puppet_environmentpath/production/hiera.yaml --section main
 
-/opt/puppet/bin/puppet config set hiera_config $puppetenv/production/hiera.yaml --section main
-
-/opt/puppet/bin/puppet resource service pe-puppetserver ensure=stopped
-/opt/puppet/bin/puppet resource service pe-puppetserver ensure=running
-# disable live management
-sed -i 's/disable_live_management: false/disable_live_management: true/g' /etc/puppetlabs/puppet-dashboard/settings.yml
-/opt/puppet/bin/puppet resource service pe-httpd ensure=stopped
-/opt/puppet/bin/puppet resource service pe-httpd ensure=running
+puppet resource service pe-puppetserver ensure=stopped
+puppet resource service pe-puppetserver ensure=running
+puppet resource service pe-nginx ensure=stopped
+puppet resource service pe-nginx ensure=running
 
 # apply our master role
-/opt/puppet/bin/puppet apply --exec 'include role::master'
+puppet apply --exec 'include role::master'
 
-/opt/puppet/bin/puppet apply $toolspath/staging.pp
+puppet apply $tools_path/staging.pp
 
-/opt/puppet/bin/puppet apply $toolspath/offline_repo.pp
+puppet apply $tools_path/offline_repo.pp
 
-/bin/bash $toolspath/refresh_classes.sh
-/bin/bash $toolspath/classifier.sh
+/bin/bash $tools_path/refresh_classes.sh
+/bin/bash $tools_path/classifier.sh
 
-/bin/bash $toolspath/connect_ds.sh
+/bin/bash $tools_path/connect_ds.sh
 
-/opt/puppet/bin/puppet agent --onetime --no-daemonize --color=false --verbose
+puppet agent --onetime --no-daemonize --color=false --verbose
 
-if [ ! -z "$(/opt/puppet/bin/facter -p ec2_iam_info_0)" ]; then
+if [ ! -z "$(facter -p ec2_iam_info_0)" ]; then
   echo "on a properly setup AWS node, deploy the herd"
-  /opt/puppet/bin/gem install aws-sdk-core retries
-  /opt/puppet/bin/puppet apply --exec 'include tse_awsnodes::deploy'
+  gem install aws-sdk-core retries
+  puppet apply --exec 'include tse_awsnodes::deploy'
 fi
