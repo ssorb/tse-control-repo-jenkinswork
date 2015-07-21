@@ -1,3 +1,5 @@
+PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
+
 curl -X POST -H 'Content-Type: application/json' \
 -d \
 '{
@@ -17,4 +19,4 @@ curl -X POST -H 'Content-Type: application/json' \
     },
     "variables": {}
 }' \
---cacert `/opt/puppet/bin/puppet agent --configprint localcacert` --cert `/opt/puppet/bin/puppet agent --configprint hostcert` --key `/opt/puppet/bin/puppet agent --configprint hostprivkey` --insecure https://localhost:4433/classifier-api/v1/groups | python -m json.tool
+--cacert `puppet agent --configprint localcacert` --cert `puppet agent --configprint hostcert` --key `puppet agent --configprint hostprivkey` --insecure https://localhost:4433/classifier-api/v1/groups | python -m json.tool
