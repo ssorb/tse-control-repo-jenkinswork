@@ -29,14 +29,14 @@ mod 'puppetlabs/stdlib', '4.5.1'
 mod 'puppetlabs/powershell', '1.0.4'
 mod 'puppetlabs/ntp', '3.3.0'
 mod 'puppetlabs/concat', '1.2.0'
-mod 'puppetlabs/firewall', '1.4.0'
+mod 'firewall',
+  :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git'
 mod 'puppetlabs/inifile', '1.2.0'
 mod 'puppetlabs/mysql', '3.3.0'
 mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
 mod 'puppetlabs/aws', '1.0.0'
 mod 'puppet/windows_firewall', '1.0.0'
 mod 'puppetlabs/splunk', '3.1.1'
-
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
