@@ -20,7 +20,6 @@ read -r -d '' PE_MASTER_POST << MASTER_JSON
 "classes": {
 "ldap": { },
 "ntp": { },
-"profile::pe_env": { },
 "pe_repo": { },
 "pe_repo::platform::el_6_x86_64": {},
 "pe_repo::platform::el_7_x86_64": {},
