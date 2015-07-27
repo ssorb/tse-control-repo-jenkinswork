@@ -2,7 +2,7 @@
 # /vagrant/scripts/setup_ds.sh
 # to configure the sample DS.
 
-PUPPET='/opt/puppet/bin/puppet'
+PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
 
 curl -X PUT -H 'Content-Type: application/json' \
 -d \
@@ -27,8 +27,8 @@ curl -X PUT -H 'Content-Type: application/json' \
     "user_lookup_attr": "cn",
     "user_rdn": "ou=users"
 }' \
---cacert `$PUPPET config print localcacert` \
---cert   `$PUPPET config print hostcert` \
---key    `$PUPPET config print hostprivkey` \
+--cacert `puppet config print localcacert` \
+--cert   `puppet config print hostcert` \
+--key    `puppet config print hostprivkey` \
 --insecure \
 https://localhost:4433/rbac-api/v1/ds | python -m json.tool

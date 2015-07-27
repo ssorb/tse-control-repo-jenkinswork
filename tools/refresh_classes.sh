@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# simple 3.7 NC classifier commands
+PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
 
-declare -x PE_CERT=$(/opt/puppet/bin/puppet agent --configprint hostcert)
-declare -x PE_KEY=$(/opt/puppet/bin/puppet agent --configprint hostprivkey)
-declare -x PE_CA=$(/opt/puppet/bin/puppet agent --configprint localcacert)
+declare -x PE_CERT=$(puppet agent --configprint hostcert)
+declare -x PE_KEY=$(puppet agent --configprint hostprivkey)
+declare -x PE_CA=$(puppet agent --configprint localcacert)
 
 declare -x NC_CURL_OPT="-s --cacert $PE_CA --cert $PE_CERT --key $PE_KEY --insecure"
 
