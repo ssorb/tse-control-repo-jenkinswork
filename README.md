@@ -12,7 +12,7 @@ target scenario.
 
 For each demo, you want to make a profile, for example, the sqlserver demo should be called:
 
-tse_sqlserver
+tse_sqlserver 
 
 For the large files you want to use in this profile, you do not want them in
 your repo, instead, you want to upload the files to S3, take a checksum of the
