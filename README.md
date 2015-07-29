@@ -1,4 +1,4 @@
-# SE Team Puppet Environments #
+# SE Team Puppet Environments # 
 
 ## Environments ##
 
