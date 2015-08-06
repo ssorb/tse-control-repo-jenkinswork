@@ -79,5 +79,4 @@ mod 'tse_windows',
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'razordemo',
-  :git => 'https://github.com/chrismatteson/razordemo',
-  :ref => '300539445e07c7136b471807860b5b895b937012'
+  :git => 'git@github.com:puppetlabs/tse-module-razordemo.git'
