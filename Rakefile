@@ -116,12 +116,11 @@ file 'build/environment' => all_files_in_git do
   end
 
   Dir.entries('build/environment/modules').reject{|e| e =~ /^\./}.each do |mod|
-    unless File.exist?("build/environment/modules/#{mod}/.git")
-      Dir.chdir("build/environment/modules/#{mod}") do
-        sh 'git init .'
-        sh 'git add -f *'
-        sh 'git commit -m "create new repo from snapshot"'
-      end
+    Dir.chdir("build/environment/modules/#{mod}") do
+      rm_rf '.git'
+      sh 'git init .'
+      sh 'git add -f *'
+      sh 'git commit -m "create new repo from snapshot"'
     end
   end
 end
