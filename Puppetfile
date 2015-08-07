@@ -40,8 +40,8 @@ mod 'puppetlabs/splunk', '3.1.1'
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
-mod 'opentable/iis', '1.3.0'
-mod 'opentable/windowsfeature', '1.0.0'
+mod 'puppet/iis', '1.4.1'
+mod 'puppet/windowsfeature', '1.1.0'
 mod 'seteam/tomcat', '0.1.0'
 mod 'seteam/profile', '0.4.6'
 mod 'seteam/role', '1.1.2'
