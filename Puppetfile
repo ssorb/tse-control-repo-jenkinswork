@@ -80,3 +80,4 @@ mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'razordemo',
   :git => 'git@github.com:puppetlabs/tse-module-razordemo.git'
+  :ref => 'c3a40353a4d29f16155a788f476f8e1ecc2c4beb'
