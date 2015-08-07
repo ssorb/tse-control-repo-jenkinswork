@@ -16,41 +16,40 @@ forge "https://forgeapi.puppetlabs.com"
 
 # PL Modules
 
-mod 'puppetlabs/java', '1.3.0'
-mod 'puppetlabs/git', '0.3.0'
+mod 'puppetlabs/java', '1.4.1'
+mod 'puppetlabs/git', '0.4.0'
 mod 'dism',
   :git => 'https://github.com/puppetlabs/puppetlabs-dism.git',
   :ref => '3fbca76c50efe62ed1db9231cecb787c6a52d096'
-mod 'puppetlabs/reboot', '0.1.9'
-mod 'puppetlabs/registry', '1.0.3'
-mod 'puppetlabs/acl', '1.1.0'
-mod 'puppetlabs/apache', '1.3.0'
-mod 'puppetlabs/pe_gem', '0.1.0'
-mod 'puppetlabs/vcsrepo', '1.2.0'
-mod 'puppetlabs/stdlib', '4.5.1'
-mod 'puppetlabs/powershell', '1.0.4'
-mod 'puppetlabs/ntp', '3.3.0'
-mod 'puppetlabs/concat', '1.2.0'
+mod 'puppetlabs/reboot', '1.1.0'
+mod 'puppetlabs/registry', '1.1.0'
+mod 'puppetlabs/acl', '1.1.1'
+mod 'puppetlabs/apache', '1.6.0'
+mod 'puppetlabs/pe_gem', '0.1.1'
+mod 'puppetlabs/vcsrepo', '1.3.1'
+mod 'puppetlabs/stdlib', '4.7.0'
+mod 'puppetlabs/powershell', '1.0.5'
+mod 'puppetlabs/ntp', '4.1.0'
+mod 'puppetlabs/concat', '1.2.4'
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git',
   :ref => '1.7.0'
-mod 'puppetlabs/inifile', '1.2.0'
-mod 'puppetlabs/mysql', '3.3.0'
+mod 'puppetlabs/inifile', '1.4.1'
+mod 'puppetlabs/mysql', '3.5.0'
 mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
-mod 'puppetlabs/aws', '1.0.0'
+mod 'puppetlabs/aws', '1.1.1'
 mod 'puppet/windows_firewall', '1.0.0'
-mod 'puppetlabs/splunk', '3.1.1'
+mod 'puppetlabs/splunk', '3.2.0'
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'seteam/tomcat', '0.1.0'
-mod 'seteam/profile', '0.4.6'
+mod 'seteam/profile', '0.5.0'
 mod 'seteam/role', '1.1.2'
 mod 'nanliu/staging', '1.0.3'
 mod 'hunner/wordpress', '1.0.0'
-mod 'zack/r10k', '2.8.2'
 mod 'lwf/remote_file', '1.0.1'
 
 # TSE modules - either maintained under seteam or by individual SE's
