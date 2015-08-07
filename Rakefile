@@ -13,7 +13,7 @@ ENV['platform_tar_flags'] ||= %x{uname} == 'Darwin' ? '--disable-copyfile' : ''
 # These tasks result in actions or artifacts
 #
 
-task :default => [:repos_tarball, :environment_tarball]
+task :default => [:repos_tarball]
 
 desc "Create a tarball containing a self-contained version of all repositories needed to run r10k"
 task :repos_tarball => "build/#{ENV['repos_name']}.tar.gz" do
