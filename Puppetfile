@@ -31,9 +31,7 @@ mod 'puppetlabs/stdlib', '4.7.0'
 mod 'puppetlabs/powershell', '1.0.5'
 mod 'puppetlabs/ntp', '4.1.0'
 mod 'puppetlabs/concat', '1.2.4'
-mod 'firewall',
-  :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git',
-  :ref => '1.7.0'
+mod 'puppetlabs/firewall', '1.7.0'
 mod 'puppetlabs/inifile', '1.4.1'
 mod 'puppetlabs/mysql', '3.5.0'
 mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
