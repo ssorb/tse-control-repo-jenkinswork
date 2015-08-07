@@ -18,7 +18,9 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'puppetlabs/java', '1.3.0'
 mod 'puppetlabs/git', '0.3.0'
-mod 'puppetlabs/dism', '1.1.0'
+mod 'dism',
+  :git => 'https://github.com/puppetlabs/puppetlabs-dism.git',
+  :ref => '3fbca76c50efe62ed1db9231cecb787c6a52d096'
 mod 'puppetlabs/reboot', '0.1.9'
 mod 'puppetlabs/registry', '1.0.3'
 mod 'puppetlabs/acl', '1.1.0'
@@ -30,7 +32,8 @@ mod 'puppetlabs/powershell', '1.0.4'
 mod 'puppetlabs/ntp', '3.3.0'
 mod 'puppetlabs/concat', '1.2.0'
 mod 'firewall',
-  :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git'
+  :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git',
+  :ref => '1.7.0'
 mod 'puppetlabs/inifile', '1.2.0'
 mod 'puppetlabs/mysql', '3.3.0'
 mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
