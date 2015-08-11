@@ -21,7 +21,23 @@ fi
 #puppet config set disable_warnings deprecations --section main
 #puppet config set environment_timeout 0 --section main
 
-puppet config set hiera_config $puppet_environmentpath/production/hiera.yaml --section main
+# create initial hiera.yaml
+echo "---
+:backends:
+  - yaml
+:hierarchy:
+  - "nodes/%{clientcert}"
+  - "environment/%{environment}"
+  - "datacenter/%{datacenter}"
+  - "virtual/%{virtual}"
+  - "common"
+
+:yaml:
+# datadir is empty here, so hiera uses its defaults:
+# - /etc/puppetlabs/code/environments/%{environment}/hieradata on *nix
+# - %CommonAppData%\PuppetLabs\code\environments\%{environment}\hieradata on Windows
+# When specifying a datadir, make sure the directory exists.
+  :datadir:" > /etc/puppetlabs/code/hiera.yaml
 
 puppet resource service pe-puppetserver ensure=stopped
 puppet resource service pe-puppetserver ensure=running
