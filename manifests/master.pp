@@ -64,4 +64,11 @@ class role::master {
   }
 
   include profile::pe_env
+
+  # We have to manage this file like this because of ROAD-706
+  $key = file('role/license.key')
+  exec { 'Create License':
+    command => "/bin/echo \"${key}\" > /etc/puppetlabs/license.key",
+    creates => '/etc/puppetlabs/license.key',
+  }
 }
