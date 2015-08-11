@@ -71,4 +71,12 @@ class role::master {
     command => "/bin/echo \"${key}\" > /etc/puppetlabs/license.key",
     creates => '/etc/puppetlabs/license.key',
   }
+
+  # SET-84 Turn off Dujour / telemetry for demo env for 2015.2
+   file { '/etc/puppetlabs/puppetserver/opt-out':
+    ensure => file,
+    mode   => '0644',
+    owner  => 'root',
+    group  => 'root',
+  }
 }
