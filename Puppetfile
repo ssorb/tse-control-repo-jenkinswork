@@ -51,6 +51,9 @@ mod 'lwf/remote_file', '1.0.1'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
+mod 'puppet_vim_env',
+  :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
+  :ref => '2.1.0'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
