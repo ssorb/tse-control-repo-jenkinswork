@@ -25,22 +25,18 @@ mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
-mod 'puppetlabs/pe_gem', '0.1.1'
 mod 'puppetlabs/vcsrepo', '1.3.1'
 mod 'puppetlabs/stdlib', '4.7.0'
 mod 'puppetlabs/powershell', '1.0.5'
 mod 'puppetlabs/ntp', '4.1.0'
 mod 'puppetlabs/concat', '1.2.4'
-mod 'firewall',
-  :git => 'https://github.com/puppetlabs/puppetlabs-firewall.git',
-  :ref => '1.7.0'
+mod 'puppetlabs/firewall', '1.7.0'
 mod 'puppetlabs/inifile', '1.4.1'
 mod 'puppetlabs/mysql', '3.5.0'
-mod 'puppetlabs/pe_puppetserver_gem', '0.0.1'
+mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/aws', '1.1.1'
 mod 'puppet/windows_firewall', '1.0.0'
 mod 'puppetlabs/splunk', '3.2.0'
-
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
@@ -55,6 +51,9 @@ mod 'lwf/remote_file', '1.0.1'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
+mod 'puppet_vim_env',
+  :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
+  :ref => '1.1.0'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
@@ -82,5 +81,5 @@ mod 'tse_windows',
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'razordemo',
-  :git => 'https://github.com/puppetlabs/tse-module-razordemo',
-  :ref => 'a90ecd9bf78f63586a228e60381a478cea3ab22b'
+  :git => 'git@github.com:puppetlabs/tse-module-razordemo.git',
+  :ref => 'c3a40353a4d29f16155a788f476f8e1ecc2c4beb'
