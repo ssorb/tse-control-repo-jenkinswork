@@ -29,13 +29,17 @@ class profile::vsphere (
     content => template('profile/vcenter.conf.erb'),
   }
 
-  #Example VM
-  #vsphere_vm { '/west1/vm/TSEs/${folder}/test1':
-  #  ensure => $status,
-  #  source => $template,
-  #  memory => 1024,
-  #  cpus   => 2,
-  #}
+  #Actual Vsphere VMs
+  $vms = [ "/west1/vm/TSEs/${folder}/test1",
+         "/west1/vm/TSEs/${folder}/test2",
+         "/west1/vm/TSEs/${folder}/test3" ]
+
+  vsphere_vm { $vms:
+    ensure => $status,
+    source => $template,
+    memory => 1024,
+    cpus   => 2,
+  }
 
   #Purging example:
   #resources { 'vsphere_vm':
@@ -51,24 +55,24 @@ class profile::vsphere (
     cpus   => 2,
   }
   vsphere_vm { "/west1/vm/TSEs/${folder}/mywebserver1":
-    ensure => running,
-    source => $template,
-    memory => 1024,
-    cpus => 1,
+    ensure  => running,
+    source  => $template,
+    memory  => 1024,
+    cpus    => 1,
     require => Vsphere_vm["/west1/vm/TSEs/${folder}/mydatabase"]
   }
   vsphere_vm { "/west1/vm/TSEs/${folder}/mywebserver2":
-    ensure => running,
-    source => $template,
-    memory => 1024,
-    cpus => 1,
+    ensure  => running,
+    source  => $template,
+    memory  => 1024,
+    cpus    => 1,
     require => Vsphere_vm["/west1/vm/TSEs/${folder}/mydatabase"]
   }
   vsphere_vm { "/west1/vm/TSEs/${folder}/myloadbalancer":
-    ensure => running,
-    source => $template,
-    memory => 512,
-    cpus => 1,
+    ensure  => running,
+    source  => $template,
+    memory  => 512,
+    cpus    => 1,
     require => Vsphere_vm["/west1/vm/TSEs/${folder}/mywebserver1","/west1/vm/TSEs/${folder}/mywebserver2"]
   }
 }
