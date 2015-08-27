@@ -29,17 +29,13 @@ class profile::vsphere (
     content => template('profile/vcenter.conf.erb'),
   }
 
-  #Actual Vsphere VMs
-  $vms = [ "/west1/vm/TSEs/${folder}/test1",
-         "/west1/vm/TSEs/${folder}/test2",
-         "/west1/vm/TSEs/${folder}/test3" ]
-
-  vsphere_vm { $vms:
-    ensure => $status,
-    source => $template,
-    memory => 1024,
-    cpus   => 2,
-  }
+  #Example VM
+  #vsphere_vm { '/west1/vm/TSEs/${folder}/test1':
+  #  ensure => $status,
+  #  source => $template,
+  #  memory => 1024,
+  #  cpus   => 2,
+  #}
 
   #Purging example:
   #resources { 'vsphere_vm':
