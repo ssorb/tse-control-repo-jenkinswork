@@ -4,6 +4,7 @@ class profile::vsphere (
   $vsphereusername = 'testuser@vsphere.local',
   $vspherepassword = 'puppetlabs',
   $status          = 'running',
+  $template        = '/west1/vm/Templates/centos-6-x86_64-noagent-ssd',
   #This is required, please check before clobbering someone else's vms
   $folder,
   ){
@@ -35,7 +36,7 @@ class profile::vsphere (
 
   vsphere_vm { $vms:
     ensure => $status,
-    source => '/west1/vm/Templates/centos-6-x86_64-noagent-ssd',
+    source => $template,
     memory => 1024,
     cpus   => 2,
   }
@@ -44,5 +45,34 @@ class profile::vsphere (
   #resources { 'vsphere_vm':
   #  purge => true,
   #  noop  => true,
+  #}
+
+  #Relationship example:
+  #vsphere_vm { "/west1/vm/TSEs/${folder}/mydatabase":
+  #  ensure => running,
+  #  source => $template,
+  #  memory => 2048,
+  #  cpus   => 2,
+  #}
+  #vsphere_vm { "/west1/vm/TSEs/${folder}/mywebserver1":
+  #  ensure => running,
+  #  source => $template,
+  #  memory => 1024,
+  #  cpus => 1,
+  #  require => Vsphere_vm["/west1/vm/TSEs/${folder}/mydatabase"]
+  #}
+  #vsphere_vm { "/west1/vm/TSEs/${folder}/mywebserver2":
+  #  ensure => running,
+  #  source => $template,
+  #  memory => 1024,
+  #  cpus => 1,
+  #  require => Vsphere_vm["/west1/vm/TSEs/${folder}/mydatabase"]
+  #}
+  #vsphere_vm { "/west1/vm/TSEs/${folder}/myloadbalancer":
+  #  ensure => running,
+  #  source => $template,
+  #  memory => 512,
+  #  cpus => 1,
+  #  require => Vsphere_vm["/west1/vm/TSEs/${folder}/mywebserver1","/west1/vm/TSEs/${folder}/mywebserver2"]
   #}
 }
