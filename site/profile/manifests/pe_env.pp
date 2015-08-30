@@ -9,7 +9,7 @@ class profile::pe_env {
 
   file_line { 'root_puppet_path':
     ensure  => present,
-    line    => 'PATH=$PATH:/opt/puppetlabs/bin; export $PATH',
+    line    => 'PATH=$PATH:/opt/puppetlabs/bin; export PATH',
     path    => '/root/.bashrc',
     require => File['/root/.bashrc'],
   }
