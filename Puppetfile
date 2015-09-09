@@ -8,9 +8,9 @@
 #
 #   mod 'puppetlabs/stdlib', '4.1.0'
 #
-# The default production environment for the SE Team is just going to pull in
-# the current version of our "profile" module from the Forge and whatever
-# dependencies it has.
+# In addition to the component modules listed here, the default production
+# environment for the TSE Team also includes a role and profile module in the
+# site directory.
 
 forge "https://forgeapi.puppetlabs.com"
 
@@ -18,9 +18,7 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'puppetlabs/java', '1.4.1'
 mod 'puppetlabs/git', '0.4.0'
-mod 'dism',
-  :git => 'https://github.com/puppetlabs/puppetlabs-dism.git',
-  :ref => '3fbca76c50efe62ed1db9231cecb787c6a52d096'
+mod 'puppetlabs/dism', '1.2.0'
 mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.0'
 mod 'puppetlabs/acl', '1.1.1'
@@ -37,6 +35,7 @@ mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/aws', '1.1.1'
 mod 'puppet/windows_firewall', '1.0.0'
 mod 'puppetlabs/splunk', '3.2.0'
+
 # Community Modules
 
 mod 'stahnma/epel', '1.0.2'
