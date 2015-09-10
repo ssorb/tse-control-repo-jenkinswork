@@ -45,6 +45,7 @@ mod 'seteam/tomcat', '0.1.0'
 mod 'nanliu/staging', '1.0.3'
 mod 'hunner/wordpress', '1.0.0'
 mod 'lwf/remote_file', '1.0.1'
+mod 'chocolatey/chocolatey', '1.1.0'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
@@ -58,8 +59,6 @@ mod 'nonpriv',
   :git => 'git@github.com:jpadams/nonpriv.git'
 mod 'dotnet',
   :git => 'https://github.com/mrzarquon/dotnet.git'
-mod 'chocolatey',
-  :git => 'https://github.com/mrzarquon/chocolatey.git'
 mod 'cmsapp',
   :git => 'https://github.com/mrzarquon/cmsapp.git'
 mod 'pe_windows_shortcuts',

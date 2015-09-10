@@ -11,7 +11,7 @@ class profile::windows::baseline {
   Package {
     ensure   => installed,
     provider => chocolatey,
-    require => Class['chocolatey'],
+    require  => Class['chocolatey'],
   }
 
   package { 'Firefox': }
