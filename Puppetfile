@@ -52,7 +52,7 @@ mod 'badgerious/windows_env', '2.2.2'
 
 mod 'puppet_vim_env',
   :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
-  :ref => '2.1.0'
+  :ref => '2.1.1'
 mod 'openssh',
   :git => 'git@github.com:reidmv/puppet-module-openssh.git',
   :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
