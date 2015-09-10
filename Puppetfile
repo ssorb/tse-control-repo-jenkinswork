@@ -54,8 +54,8 @@ mod 'puppet_vim_env',
   :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
   :ref => '2.1.1'
 mod 'openssh',
-  :git => 'git@github.com:reidmv/puppet-module-openssh.git',
-  :ref => '0e10c540f32ca2a803ca056b8da59bd33a505cee'
+  :git => 'git@github.com:puppetlabs/tse-module-openssh.git',
+  :ref => '0.1.0'
 mod 'nonpriv',
   :git => 'git@github.com:jpadams/nonpriv.git'
 mod 'dotnet',
