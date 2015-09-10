@@ -46,6 +46,7 @@ mod 'nanliu/staging', '1.0.3'
 mod 'hunner/wordpress', '1.0.0'
 mod 'lwf/remote_file', '1.0.1'
 mod 'chocolatey/chocolatey', '1.1.0'
+mod 'badgerious/windows_env', '2.2.2'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
