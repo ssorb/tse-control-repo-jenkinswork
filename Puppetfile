@@ -64,8 +64,9 @@ mod 'cmsapp',
 mod 'pe_windows_shortcuts',
   :git => 'https://github.com/sseebald/pe_windows_shortcuts.git',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
-mod 'tsefacts',
-  :git => 'git@github.com:mrzarquon/puppet-tse_facts.git'
+mod 'tse_facts',
+  :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
+  :ref => '0.1.0'
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
 mod 'tse_admins',
