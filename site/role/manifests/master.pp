@@ -3,39 +3,26 @@
 # capabilities.
 #
 class role::master {
+  include 'git'
+  include 'apache'
+  include 'profile::pe_env'
+  include 'profile::firewall'
 
   # Detect Vagrant
-  $srv_root = $::virtual ? {
-    'virtualbox' => '/var/seteam-files',
-      default    => '/opt/seteam-files',
-  }
-  $apache_user = $::virtual ? {
-    'virtualbox' => 'vagrant',
-    default      => 'root',
-  }
-  $apache_group = $::virtual ? {
-    'virtualbox' => 'vagrant',
-    default      => 'root',
+  case $::virtual {
+    'virtualbox': {
+      $srv_root     = '/var/seteam-files'
+      $apache_user  = 'vagrant'
+      $apache_group = 'vagrant'
+    }
+    default: {
+      $srv_root     = '/opt/seteam-files'
+      $apache_user  = 'root'
+      $apache_group = 'root'
+    }
   }
 
-  # Custom PE Console configuration
-  include git
-  include apache
-
-  # Puppet master firewall rules
-  include profile::firewall
-  Firewall {
-    require => Class['profile::firewall::pre'],
-    before  => Class['profile::firewall::post'],
-    chain   => 'INPUT',
-    proto   => 'tcp',
-    action  => 'accept',
-  }
-  firewall { '110 puppetmaster allow all': dport  => '8140';  }
-  firewall { '110 dashboard allow all':    dport  => '443';   }
-  firewall { '110 mcollective allow all':  dport  => '61613'; }
-  firewall { '110 apache allow all':       dport  => '80';    }
-
+  # Set up Apache to serve static files
   apache::vhost { 'seteam-files':
     vhost_name    => '*',
     port          => '80',
@@ -45,25 +32,35 @@ class role::master {
     docroot_group => $apache_group,
   }
 
-  #Configure r10k to use seteam-puppet-environments
-  file {'/root/.ssh':
-    ensure => directory,
-    mode   => '0700',
-    owner  => 'root',
-    group  => 'root',
-  }->
-  file { '/root/.ssh/known_hosts':
-    ensure => 'file',
-    group  => 'root',
-    mode   => '0644',
-    owner  => 'root',
-  }->
-  file_line { 'github_known_host':
-    path => '/root/.ssh/known_hosts',
-    line => 'github.com,192.30.252.130 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==',
+  # Puppet master firewall rules
+  Firewall {
+    require => Class['profile::firewall::pre'],
+    before  => Class['profile::firewall::post'],
+    chain   => 'INPUT',
+    proto   => 'tcp',
+    action  => 'accept',
   }
 
-  include profile::pe_env
+  firewall { '110 puppetmaster allow all': dport  => '8140';  }
+  firewall { '110 dashboard allow all':    dport  => '443';   }
+  firewall { '110 mcollective allow all':  dport  => '61613'; }
+  firewall { '110 apache allow all':       dport  => '80';    }
+
+  ##################
+  # Configure Puppet
+  ##################
+
+  class { 'hiera':
+    datadir_manage => false,
+    notify         => Service['pe-puppetserver'],
+    hierarchy      => [
+      'nodes/%{clientcert}',
+      'environment/%{environment}',
+      'datacenter/%{datacenter}',
+      'virtual/%{virtual}',
+      'common',
+    ],
+  }
 
   # We have to manage this file like this because of ROAD-706
   $key = file('role/license.key')

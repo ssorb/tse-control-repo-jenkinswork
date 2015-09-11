@@ -56,6 +56,16 @@ mod 'dotnet',
   :git => 'https://github.com/mrzarquon/dotnet.git'
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
+
+# This is a temporary fork pending decision/merge on:
+#   - https://github.com/hunner/puppet-hiera/pull/79
+#   - https://github.com/hunner/puppet-hiera/pull/80
+# Once those changes make it into a Forge release, we should switch this
+# module back to Forge.
+mod 'hiera',
+  :git => 'https://github.com/reidmv/puppet-hiera.git',
+  :ref => 'with_2015_style'
+
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
 mod 'nonpriv',

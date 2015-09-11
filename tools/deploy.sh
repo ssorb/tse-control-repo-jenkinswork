@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # this is the universal configuration script
-# untar the environments code, and this now 
+# untar the environments code, and this now
 # moves everything it needs into place
 # and configures the master
 PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
@@ -17,27 +17,6 @@ basename="${containing_dir}/${working_dir}"
 if [ $basename != "${puppet_environmentpath}/production/tools" ]; then
   /bin/cp -Rfu $basename/../* $puppet_environmentpath/production/
 fi
-
-#puppet config set disable_warnings deprecations --section main
-#puppet config set environment_timeout 0 --section main
-
-# create initial hiera.yaml
-echo "---
-:backends:
-  - yaml
-:hierarchy:
-  - "nodes/%{clientcert}"
-  - "environment/%{environment}"
-  - "datacenter/%{datacenter}"
-  - "virtual/%{virtual}"
-  - "common"
-
-:yaml:
-# datadir is empty here, so hiera uses its defaults:
-# - /etc/puppetlabs/code/environments/%{environment}/hieradata on *nix
-# - %CommonAppData%\PuppetLabs\code\environments\%{environment}\hieradata on Windows
-# When specifying a datadir, make sure the directory exists.
-  :datadir:" > /etc/puppetlabs/code/hiera.yaml
 
 puppet resource service pe-puppetserver ensure=stopped
 puppet resource service pe-puppetserver ensure=running
