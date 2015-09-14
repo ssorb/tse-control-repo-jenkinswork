@@ -40,6 +40,7 @@ mod 'puppetlabs/vcsrepo', '1.3.1'
 
 mod 'badgerious/windows_env', '2.2.2'
 mod 'chocolatey/chocolatey', '1.1.0'
+mod 'hunner/hiera', '1.3.2'
 mod 'hunner/wordpress', '1.0.0'
 mod 'lwf/remote_file', '1.0.1'
 mod 'nanliu/staging', '1.0.3'
@@ -56,16 +57,6 @@ mod 'dotnet',
   :git => 'https://github.com/mrzarquon/dotnet.git'
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
-
-# This is a temporary fork pending decision/merge on:
-#   - https://github.com/hunner/puppet-hiera/pull/79
-#   - https://github.com/hunner/puppet-hiera/pull/80
-# Once those changes make it into a Forge release, we should switch this
-# module back to Forge.
-mod 'hiera',
-  :git => 'https://github.com/reidmv/puppet-hiera.git',
-  :ref => 'with_2015_style'
-
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
 mod 'nonpriv',
