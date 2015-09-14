@@ -97,7 +97,8 @@ file 'build/puppet-control' => ['build/Puppetfile'] do
     sh "git clone ../../.git ."
     sh 'git branch -m production 2>/dev/null || git checkout -b production'
     cp '../Puppetfile', 'Puppetfile'
-    sh 'git add Puppetfile'
+    sh "echo #{ENV['version']} > VERSION"
+    sh 'git add Puppetfile VERSION'
     sh 'git commit -m "Lab environment control repo initialized"'
   end
 end
