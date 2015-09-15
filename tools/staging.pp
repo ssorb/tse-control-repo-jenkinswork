@@ -170,13 +170,29 @@ class tomcat_files (
     mode   => '0755',
   }
 
-  staging::file { 'apache-tomcat-6.0.35.tar.gz':
-    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-6.0.35.tar.gz',
-    target => "${srv_root}/tomcat/apache-tomcat-6.0.35.tar.gz",
+  staging::file { 'apache-tomcat-6.0.44.tar.gz':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-6.0.44.tar.gz',
+    target => "${srv_root}/tomcat/apache-tomcat-6.0.44.tar.gz",
   }
-  staging::file { 'apache-tomcat-7.0.25.tar.gz':
-    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-7.0.25.tar.gz',
-    target => "${srv_root}/tomcat/apache-tomcat-7.0.25.tar.gz",
+  staging::file { 'apache-tomcat-7.0.64.tar.gz':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-7.0.64.tar.gz',
+    target => "${srv_root}/tomcat/apache-tomcat-7.0.64.tar.gz",
+  }
+  staging::file { 'apache-tomcat-8.0.26.tar.gz':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-8.0.26.tar.gz',
+    target => "${srv_root}/tomcat/apache-tomcat-8.0.26.tar.gz",
+  }
+  staging::file { 'apache-tomcat-6.0.44.exe':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-6.0.44.exe',
+    target => "${srv_root}/tomcat/apache-tomcat-6.0.44.exe",
+  }
+  staging::file { 'apache-tomcat-7.0.64.exe':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-7.0.64.exe',
+    target => "${srv_root}/tomcat/apache-tomcat-7.0.64.exe",
+  }
+  staging::file { 'apache-tomcat-8.0.26.exe':
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-8.0.26.exe',
+    target => "${srv_root}/tomcat/apache-tomcat-8.0.26.exe",
   }
   staging::file { 'jenkins-1.400.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.400.war',
