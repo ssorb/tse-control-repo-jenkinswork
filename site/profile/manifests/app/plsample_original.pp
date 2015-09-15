@@ -2,7 +2,7 @@
 #
 #   This class installs the sample war in tomcat
 #
-class profile::app::plsample(
+class profile::app::plsample_original (
   $version = '1.0',
   $ensure = undef,
 ) {
