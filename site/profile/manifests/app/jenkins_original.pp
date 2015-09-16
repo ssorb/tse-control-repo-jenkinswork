@@ -1,4 +1,4 @@
-class profile::app::jenkins (
+class profile::app::jenkins_original (
   $version = 'latest',
   $ensure  = undef,
   $package = undef,
