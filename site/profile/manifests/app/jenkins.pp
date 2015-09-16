@@ -1,6 +1,6 @@
 class profile::app::jenkins (
-  $jenkins_version      = 'latest',
-  $tomcat_major_version = '7',
+  String $jenkins_version      = "latest",
+  String $tomcat_major_version = "7",
 ) {
   case $tomcat_major_version {
     '6': {

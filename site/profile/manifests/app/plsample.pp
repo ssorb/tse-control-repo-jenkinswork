@@ -1,6 +1,6 @@
 class profile::app::plsample (
-  $plsample_version     = '1.2',
-  $tomcat_major_version = '7',
+  String  $plsample_version     = "1.2",
+  String  $tomcat_major_version = "7",
 ) {
   case $tomcat_major_version {
     '6': { 
