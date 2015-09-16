@@ -71,7 +71,7 @@ mod 'pe_windows_shortcuts',
   :ref => '9c3350b6b7900a7be30221c4c75832eb730742f7'
 mod 'puppet_vim_env',
   :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
-  :ref => '2.1.1'
+  :ref => '2.1.2'
 mod 'razordemo',
   :git => 'git@github.com:puppetlabs/tse-module-razordemo.git',
   :ref => 'v2.1'
