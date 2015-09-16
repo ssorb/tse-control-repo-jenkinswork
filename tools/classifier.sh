@@ -20,6 +20,9 @@ read -r -d '' PE_MASTER_POST << MASTER_JSON
 "classes": {
 "ldap": { },
 "ntp": { },
+"profile::vim": {
+  "colorscheme": "elflord"
+},
 "pe_repo": { },
 "pe_repo::platform::el_6_x86_64": {},
 "pe_repo::platform::el_7_x86_64": {},
@@ -54,6 +57,9 @@ read -r -d '' PE_LINUX_GROUP << LINUX_JSON
       "profile::pe_env": {},
       "profile::repos": {
         "offline": "false"
+      },
+      "profile::vim": {
+        "colorscheme": "elflord"
       },
       "ntp": {}
     },

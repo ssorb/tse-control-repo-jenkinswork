@@ -1,15 +1,19 @@
-class profile::vim {
+class profile::vim ($colorscheme = 'elflord') {
 
-  package { 'git':
-    ensure => installed,
+  require git
+
+  case $osfamily {
+    'RedHat': { $vim_pkg = 'vim-enhanced' }
+    'Debian': { $vim_pkg = 'vim' }
+    default: { fail("unsupported operating system") }
   }
 
-  package { 'vim':
+  package { $vim_pkg:
     ensure => installed,
   }
 
   puppet_vim_env::install { 'default':
-    require => Package['git'],
+    colorscheme => $colorscheme,
   }
 
 }
