@@ -35,6 +35,7 @@ mod 'puppetlabs/registry', '1.1.0'
 mod 'puppetlabs/splunk', '3.2.0'
 mod 'puppetlabs/stdlib', '4.8.0'
 mod 'puppetlabs/vcsrepo', '1.3.1'
+mod 'puppetlabs/tomcat', '1.3.2'
 
 # Community Modules
 
@@ -46,8 +47,14 @@ mod 'lwf/remote_file', '1.0.1'
 mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
-mod 'seteam/tomcat', '0.1.0'
 mod 'stahnma/epel', '1.0.2'
+mod 'nanliu/staging', '1.0.3'
+mod 'hunner/wordpress', '1.0.0'
+mod 'lwf/remote_file', '1.0.1'
+mod 'chocolatey/chocolatey', '1.1.0'
+mod 'cyberious/windows_java', '1.0.2'
+mod 'badgerious/windows_env', '2.0.2'
+mod 'cyberious/pget', '1.0.2'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
