@@ -18,13 +18,15 @@ if [ $basename != "${puppet_environmentpath}/production/tools" ]; then
   /bin/cp -Rfu $basename/../* $puppet_environmentpath/production/
 fi
 
+# apply our master role
+puppet apply --exec 'include role::master'
+
+# make sure services are restarted, since role::master doesn't cleanly notify
+# pe-puppetserver when configuration is changed
 puppet resource service pe-puppetserver ensure=stopped
 puppet resource service pe-puppetserver ensure=running
 puppet resource service pe-nginx ensure=stopped
 puppet resource service pe-nginx ensure=running
-
-# apply our master role
-puppet apply --exec 'include role::master'
 
 puppet apply $tools_path/staging.pp
 

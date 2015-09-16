@@ -52,7 +52,6 @@ class role::master {
 
   class { 'hiera':
     datadir_manage => false,
-    notify         => Service['pe-puppetserver'],
     hierarchy      => [
       'nodes/%{clientcert}',
       'environment/%{environment}',
@@ -60,6 +59,14 @@ class role::master {
       'virtual/%{virtual}',
       'common',
     ],
+  }
+
+  # We cannot simply set notify => Service['pe-puppetserver'] on Class['hiera']
+  # because role::master is sometimes used by `puppet apply`, and other times
+  # used in combination with pe-provided roles. So instead we'll collect the
+  # service and add a subscribe relationship.
+  Service <| title == 'pe-puppetserver' |> {
+    subscribe +> Class['hiera'],
   }
 
   # We have to manage this file like this because of ROAD-706
