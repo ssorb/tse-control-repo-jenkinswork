@@ -54,13 +54,13 @@ mod 'stahnma/epel', '1.0.2'
 # TSE modules - either maintained under seteam or by individual SE's
 
 mod 'cmsapp',
-  :git => 'https://github.com/mrzarquon/cmsapp.git'
+  :git => 'git@github.com:puppetlabs/tse-module-cmsapp.git'
 mod 'dotnet',
   :git => 'https://github.com/mrzarquon/dotnet.git'
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'ldap',
-  :git => 'git@github.com:mrzarquon/puppet-ldap.git'
+  :git => 'git@github.com:puppetlabs/tse-module-ldapserver.git'
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
 mod 'openssh',
@@ -76,11 +76,11 @@ mod 'razordemo',
   :git => 'git@github.com:puppetlabs/tse-module-razordemo.git',
   :ref => 'v2.1'
 mod 'tse_admins',
-  :git => 'git@github.com:mrzarquon/puppet-tse_admins.git'
+  :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
 mod 'tse_awsnodes',
   :git => 'git@github.com:mrzarquon/puppet-tse_awsnodes.git'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
   :ref => '0.1.0'
 mod 'tse_windows',
-  :git => 'git@github.com:mrzarquon/puppet-tse_windows.git'
+  :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git'
