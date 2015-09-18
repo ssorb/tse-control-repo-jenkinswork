@@ -56,7 +56,7 @@ read -r -d '' PE_LINUX_GROUP << LINUX_JSON
     "classes": {
       "profile::pe_env": {},
       "profile::repos": {
-        "offline": "false"
+        "offline": false
       },
       "profile::vim": {
         "colorscheme": "elflord"

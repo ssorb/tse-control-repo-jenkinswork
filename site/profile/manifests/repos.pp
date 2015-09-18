@@ -1,7 +1,7 @@
 # this is the offline class, it gets applied to all agents
 # and ensures they are able to work with local on networks
 class profile::repos (
-  $offline = false,
+  Boolean $offline = false,
 ) {
   include stdlib::stages
 
