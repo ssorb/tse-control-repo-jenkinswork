@@ -62,7 +62,7 @@ mod 'ec2tags',
 mod 'ldap',
   :git => 'git@github.com:mrzarquon/puppet-ldap.git'
 mod 'nonpriv',
-  :git => 'git@github.com:jpadams/nonpriv.git'
+  :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
 mod 'openssh',
   :git => 'git@github.com:puppetlabs/tse-module-openssh.git',
   :ref => '0.1.0'
