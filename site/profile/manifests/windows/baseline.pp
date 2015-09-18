@@ -1,8 +1,6 @@
 class profile::windows::baseline {
 
-  require registry
   contain 'chocolatey'
-
 
   reboot { 'before install':
     when => pending,
