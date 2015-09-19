@@ -5,8 +5,8 @@ require 'fileutils'
 
 ENV['version']            ||= 'dev'
 ENV['offline_repos_path'] ||= '/opt/puppetlabs/repos'
-ENV['repos_name']         ||= "seteam-production-repos-#{ENV['version']}"
-ENV['environment_name']   ||= "seteam-production-#{ENV['version']}"
+ENV['repos_name']         ||= "pe-demo-code-repos-#{ENV['version']}"
+ENV['environment_name']   ||= "pe-demo-#{ENV['version']}"
 ENV['platform_tar_flags'] ||= %x{uname} == 'Darwin' ? '--disable-copyfile' : ''
 
 # TASKS
