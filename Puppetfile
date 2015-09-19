@@ -17,6 +17,8 @@ forge "https://forgeapi.puppetlabs.com"
 # PL Modules
 
 mod 'puppet/windows_firewall', '1.0.0'
+mod 'puppet/dotnet', '1.0.1'
+mod 'puppet/download_file', '1.2.1' # dep of puppet/dotnet
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.1.1'
@@ -45,6 +47,7 @@ mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'hunner/hiera', '1.3.2'
 mod 'hunner/wordpress', '1.0.0'
+mod 'liamjbennett/win_facts', '0.0.2' # dep of puppet/dotnet
 mod 'lwf/remote_file', '1.0.1'
 mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
@@ -55,8 +58,6 @@ mod 'stahnma/epel', '1.0.2'
 
 mod 'cmsapp',
   :git => 'git@github.com:puppetlabs/tse-module-cmsapp.git'
-mod 'dotnet',
-  :git => 'git@github.com:puppetlabs/tse-module-dotnet.git'
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'ldap',

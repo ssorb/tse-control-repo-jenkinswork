@@ -1,8 +1,7 @@
 class profile::windows::baseline {
+  include profile::windows::chocolatey
 
-  contain 'chocolatey'
-
-  reboot { 'before install':
+  reboot { 'baseline reboot for pending':
     when => pending,
   }
 

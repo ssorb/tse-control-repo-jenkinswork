@@ -1,10 +1,10 @@
 class profile::windows::iis {
-  include ::dotnet
+  require profile::windows::dotnet
 
   Dism {
     ensure => present,
   }
-  
+
   if $kernelmajversion == '6.1' {
 
     dism { "IIS-WebServerRole":            } ->
@@ -41,26 +41,26 @@ class profile::windows::iis {
     dism { "IIS-WebServerManagementTools": } ->
     dism { "IIS-ManagementConsole":        } ->
     dism { "IIS-ManagementScriptingTools": } ->
-    dism { "IIS-ManagementService":        
+    dism { "IIS-ManagementService":
       notify => Exec["register_net_with_iis"],
     }
 
   }
-  
+
   exec { 'register_net_with_iis':
     command     => 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\aspnet_regiis.exe -i',
     refreshonly => true,
     subscribe   => Package['Microsoft .NET Framework 4 Extended'],
   }
- 
+
   iis::manage_site { 'Default Web Site':
     ensure    => absent,
     site_path => 'C:\inetpub\wwwroot',
     app_pool  => 'Default Web Site',
   }
-  
+
   iis::manage_app_pool { 'Default Web Site':
-    ensure =>  absent,
+    ensure => absent,
   }
 
 }
