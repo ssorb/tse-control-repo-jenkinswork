@@ -52,6 +52,7 @@ class role::master {
 
   class { 'hiera':
     datadir_manage => false,
+    datadir        => '/etc/puppetlabs/code/environments/%{environment}/hieradata',
     hierarchy      => [
       'nodes/%{clientcert}',
       'environment/%{environment}',
