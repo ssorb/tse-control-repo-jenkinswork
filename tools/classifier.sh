@@ -96,7 +96,9 @@ LINUX_JSON
 read -r -d '' PE_WINDOWS_GROUP << WINDOWS_JSON
 {
     "classes": {
-    "chocolatey": {}
+      "chocolatey": {
+        "chocolatey_download_url": "https://s3-us-west-2.amazonaws.com/tse-builds/misc/chocolatey.0.9.9.9.nupkg"
+      }
     },
     "environment": "production",
     "environment_trumps": false,
