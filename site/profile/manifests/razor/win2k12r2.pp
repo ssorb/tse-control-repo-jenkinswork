@@ -32,4 +32,16 @@ class profile::razor::win2k12r2 {
     browsable => true,
   }
 
+  firewall { '100 Allow Samba TCP':
+    proto  => 'tcp',
+    port   => [139, 445],
+    action => 'accept',
+  }
+
+  firewall { '110 Allow Samba UDP':
+    proto  => 'udp',
+    port   => [137, 138],
+    action => 'accept',
+  }
+
 }
