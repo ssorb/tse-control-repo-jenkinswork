@@ -52,6 +52,7 @@ mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'stahnma/epel', '1.0.2'
+mod 'ajjahn/samba', '0.3.1'
 
 # TSE modules - either maintained under seteam or by individual SE's
 
