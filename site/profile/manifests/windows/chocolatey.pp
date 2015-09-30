@@ -2,7 +2,7 @@ class profile::windows::chocolatey (
   #$chocolatey_download_url = undef,
 ) {
 
-  case $::operatingsystemrelease {
+  case $::facts['os']['release']['full'] {
     '2008 R2': {
       $chocolatey_download_url = 'https://s3-us-west-2.amazonaws.com/tse-builds/misc/chocolatey.0.9.9.9.nupkg'
     }
