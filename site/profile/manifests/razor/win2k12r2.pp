@@ -44,4 +44,8 @@ class profile::razor::win2k12r2 {
     action => 'accept',
   }
 
+  package { 'unix2dos':
+    ensure => present,
+  }
+
 }
