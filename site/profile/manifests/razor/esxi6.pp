@@ -1,4 +1,4 @@
-class profile::razor::esx6 {
+class profile::razor::esxi6 {
   require razordemo
 
   razor_repo { 'esxi6_repo':
