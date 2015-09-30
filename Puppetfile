@@ -40,7 +40,7 @@ mod 'puppetlabs/tomcat', '1.3.2'
 # Community Modules
 
 mod 'badgerious/windows_env', '2.2.2'
-mod 'chocolatey/chocolatey'
+mod 'chocolatey'
   :git => 'https://github.com/chocolatey/puppet-chocolatey.git',
   :ref => 'f93e34b6537b0cd7c1180ecaa4bf5b4708cec70b'
 mod 'cyberious/pget', '1.1.0'
