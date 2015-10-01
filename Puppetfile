@@ -83,7 +83,7 @@ mod 'puppet_vim_env',
   :ref => '2.1.2'
 mod 'razordemo',
   :git => 'git@github.com:puppetlabs/tse-module-razordemo.git',
-  :ref => 'v2.1'
+  :ref => 'v3.0'
 mod 'tse_admins',
   :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
 mod 'tse_awsnodes',
