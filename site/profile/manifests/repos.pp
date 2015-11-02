@@ -7,7 +7,7 @@ class profile::repos (
 
   case "$::osfamily $::operatingsystemmajrelease" {
     "RedHat 6": {
-      class { '::profile::se_repo':
+      class { '::profile::tse_repo':
         stage => 'setup',
       }
       if $offline {

@@ -37,12 +37,11 @@ mod 'puppetlabs/stdlib', '4.8.0'
 mod 'puppetlabs/vcsrepo', '1.3.1'
 mod 'puppetlabs/tomcat', '1.3.2'
 
-# Community Modules
+# Forge Community Modules
 
+mod 'ajjahn/samba', '0.3.1'
 mod 'badgerious/windows_env', '2.2.2'
-mod 'chocolatey',
-  :git => 'https://github.com/chocolatey/puppet-chocolatey.git',
-  :ref => 'f93e34b6537b0cd7c1180ecaa4bf5b4708cec70b'
+mod 'chocolatey/chocolatey', '1.1.2'
 mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'hunner/hiera', '1.3.2'
@@ -52,9 +51,9 @@ mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'stahnma/epel', '1.0.2'
-mod 'ajjahn/samba', '0.3.1'
+mod 'tse/local_yum_repo', '0.1.0'
 
-# TSE modules - either maintained under seteam or by individual SE's
+# Git TSE modules - either maintained under seteam or by individual SE's
 
 mod 'cmsapp',
   :git => 'git@github.com:puppetlabs/tse-module-cmsapp.git'
