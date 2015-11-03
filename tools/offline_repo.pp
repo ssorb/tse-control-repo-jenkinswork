@@ -1,4 +1,5 @@
 class offline_repo {
+  include local_yum_repo::dependencies
 
   $mirror_dirs = [
     '/opt/tse-files',
