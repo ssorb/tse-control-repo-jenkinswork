@@ -51,7 +51,7 @@ mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'stahnma/epel', '1.0.2'
-mod 'tse/local_yum_repo', '0.1.0'
+mod 'tse/local_yum_repo', '0.2.0'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
