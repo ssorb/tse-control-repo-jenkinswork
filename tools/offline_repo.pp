@@ -1,40 +1,41 @@
 class offline_repo {
+  include local_yum_repo::dependencies
 
-  $sefiles = $virtual ? {
-    'virtualbox' => '/var/seteam-files',
-    default      => '/opt/seteam-files',
-  }
+  $mirror_dirs = [
+    '/opt/tse-files',
+    '/opt/tse-files/mirrors/',
+    '/opt/tse-files/mirrors/centos',
+    '/opt/tse-files/mirrors/centos/6',
+    '/opt/tse-files/mirrors/centos/6/x86_64',
+    '/opt/tse-files/mirrors/centos/7',
+    '/opt/tse-files/mirrors/centos/7/x86_64',
+  ]
 
-  file { $sefiles:
+  file { $mirror_dirs:
     ensure => directory,
   }
 
+  $centos6_x64_packages = [
+    'tomcat6-docs-webapp',
+    'tomcat6-webapps',
+    'tomcat6',
+    'fontconfig',
+    'dejavu-fonts-common',
+    'java',
+    'java-1.7.0-openjdk',
+    'java-1.7.0-openjdk-devel',
+    'tomcat6-admin-webapps',
+  ]
 
-  package { 'yum-plugin-downloadonly':
-    ensure => present,
-  }
-  package { 'createrepo':
-    ensure => present,
-  }
-
-  file { "${sefiles}/rpms":
-    ensure => directory,
+  $centos6_x64_packages.each |$package| {
+    local_yum_repo::package { "${package}.el6.x86_64":
+      directory    => '/opt/tse-files/mirrors/centos/6/x86_64',
+      package_name => $package,
+      releasever   => '6',
+      basearch     => 'x86_64',
+    }
   }
 
-  exec { 'yum_download':
-    command => "/usr/bin/yum -y install tomcat6-docs-webapp tomcat6-webapps tomcat6 fontconfig dejavu-fonts-common java java-1.7.0-openjdk java-1.7.0-openjdk-devel tomcat6-admin-webapps --downloadonly --downloaddir=${sefiles}/rpms",
-    require => [
-      Package['yum-plugin-downloadonly'],
-      Package['createrepo'],
-      File["${sefiles}/rpms"],
-    ],
-    returns => [ '0','1'],
-  }
-
-  exec { 'createrepo':
-    command => "/usr/bin/createrepo ${sefiles}/rpms",
-    require => Exec['yum_download'],
-  }
 }
 
 include offline_repo

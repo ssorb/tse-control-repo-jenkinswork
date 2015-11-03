@@ -1,8 +1,7 @@
 class splunk_files (
-  $srv_root = '/var/seteam-files',
+  $srv_root = '/var/tse-files',
 ) {
 
-  
   $dir_root   = "${srv_root}/demo_offline_splunk"
   $version    = '6.0'
   $build      = '182037'
@@ -111,9 +110,9 @@ class splunk_files (
 
 
 class dotnetcms_files (
-  $srv_root = '/var/seteam-files',
+  $srv_root = '/var/tse-files',
 ) {
-  
+
   $directories = [
     "${srv_root}/dotnetcms",
     "${srv_root}/7zip",
@@ -129,7 +128,7 @@ class dotnetcms_files (
   }
 
   # dotnetcms
-  
+
   staging::file { 'dotNetFx40_Full_x86_x64.exe':
     source => 'https://s3.amazonaws.com/saleseng/files/dotnetcms/dotNetFx40_Full_x86_x64.exe',
     target => "${srv_root}/dotnetcms/dotNetFx40_Full_x86_x64.exe",
@@ -149,9 +148,9 @@ class dotnetcms_files (
 }
 
 class tomcat_files (
-  $srv_root = '/var/seteam-files',
+  $srv_root = '/var/tse-files',
 ) {
-  
+
   $directories = [
     "${srv_root}/tomcat",
     "${srv_root}/war",
@@ -220,13 +219,12 @@ class tomcat_files (
   }
 }
 
-$sefiles = $virtual ? {
-  'virtualbox' => '/var/seteam-files',
-  default      => '/opt/seteam-files',
+$tse_files = '/opt/tse-files'
+
+file { $tse_files:
+  ensure => directory,
 }
-file { $sefiles:
-  ensure  => directory,
-}
-class { 'splunk_files': srv_root    => $sefiles, }
-class { 'dotnetcms_files': srv_root => $sefiles, }
-class { 'tomcat_files': srv_root    => $sefiles, }
+
+class { 'splunk_files':    srv_root => $tse_files }
+class { 'dotnetcms_files': srv_root => $tse_files }
+class { 'tomcat_files':    srv_root => $tse_files }

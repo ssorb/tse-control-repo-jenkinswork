@@ -11,12 +11,10 @@ class role::master {
   # Detect Vagrant
   case $::virtual {
     'virtualbox': {
-      $srv_root     = '/var/seteam-files'
       $apache_user  = 'vagrant'
       $apache_group = 'vagrant'
     }
     default: {
-      $srv_root     = '/opt/seteam-files'
       $apache_user  = 'root'
       $apache_group = 'root'
     }
@@ -26,7 +24,7 @@ class role::master {
   apache::vhost { 'seteam-files':
     vhost_name    => '*',
     port          => '80',
-    docroot       => $srv_root,
+    docroot       => '/opt/tse-files',
     priority      => '10',
     docroot_owner => $apache_user,
     docroot_group => $apache_group,
