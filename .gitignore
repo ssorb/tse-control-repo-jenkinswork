@@ -4,3 +4,5 @@
 /.librarian
 *.swp
 .DS_Store
+/.bundle
+/.vagrant
