@@ -22,7 +22,16 @@ mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.1.1'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
-mod 'puppetlabs/firewall', '1.7.0'
+
+# MODULES-1341 describes a situation in which firewall purging on CentOS 7
+# results in erroneous errors being thrown because rules Puppet tries to delete
+# are already gone. Until this is fixed in the published module, use this
+# patched version.
+#mod 'puppetlabs/firewall', '1.7.0'
+mod 'firewall',
+  :git => 'git://github.com/reidmv/puppetlabs-firewall.git',
+  :ref => '8794c096102d41ada603450ec6e1e13e3c956506'
+
 mod 'puppetlabs/git', '0.4.0'
 mod 'puppetlabs/inifile', '1.4.1'
 mod 'puppetlabs/java', '1.4.1'
