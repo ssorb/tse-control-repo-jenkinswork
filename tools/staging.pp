@@ -1,5 +1,5 @@
 class splunk_files (
-  $srv_root = '/var/tse-files',
+  $srv_root = '/opt/tse-files',
 ) {
 
   $dir_root   = "${srv_root}/demo_offline_splunk"
@@ -7,110 +7,88 @@ class splunk_files (
   $build      = '182037'
   $src_root   = "http://download.splunk.com/releases/${version}"
 
-  $windows    = "${version}-${build}-x64-release.msi"
-  $rpm_x86_64 = "${version}-${build}-linux-2.6-x86_64.rpm"
-  $rpm_x86    = "${version}-${build}.i386.rpm"
-  $deb_x86_64 = "${version}-${build}-linux-2.6-amd64.deb"
-  $deb_x86    = "${version}-${build}-linux-2.6-intel.deb"
-  $solaris_64 = "${version}-${build}-solaris-10-intel.pkg"
-
-  Staging::File {
+  Remote_file {
     require => File[$dir_root],
   }
 
-  $directories = [
-    $dir_root,
-    "${dir_root}/splunk",
-    "${dir_root}/splunk/linux",
-    "${dir_root}/splunk/solaris",
-    "${dir_root}/splunk/windows",
-    "${dir_root}/universalforwarder",
-    "${dir_root}/universalforwarder/linux",
-    "${dir_root}/universalforwarder/solaris",
-    "${dir_root}/universalforwarder/windows",
-  ]
+  # There are a bunch of packages that need to be retrieved, but luckily the
+  # naming is algorithmic. This hash is a list of all platforms we need
+  # installers for, and what architectures.
+  $platforms = {
+    'windows' => {
+      'x64' => "${version}-${build}-x64-release.msi",
+    },
+    'linux'   => {
+      'rpm_x86_64' => "${version}-${build}-linux-2.6-x86_64.rpm",
+      'rpm_x86'    => "${version}-${build}.i386.rpm",
+      'deb_x86_64' => "${version}-${build}-linux-2.6-amd64.deb",
+      'deb_x86'    => "${version}-${build}-linux-2.6-intel.deb",
+    },
+    'solaris' => {
+      'solaris_64' => "${version}-${build}-solaris-10-intel.pkg.Z",
+    },
+  }
 
-  file { $directories:
+  # Splunk places each kind of installer in a dir (hash key below) and prefixes
+  # the filename with a potentially different string (hash value below).
+  $kinds = {
+    'splunk'             => 'splunk',
+    'universalforwarder' => 'splunkforwarder',
+  }
+
+  file { $dir_root:
     ensure => directory,
     mode   => '0755',
   }
 
-  staging::file { "splunk-${windows}":
-    source => "${src_root}/splunk/windows/splunk-${windows}",
-    target => "${dir_root}/splunk/windows/splunk-${windows}",
-  }
-  staging::file { "splunkforwarder-${windows}":
-    source => "${src_root}/universalforwarder/windows/splunkforwarder-${windows}",
-    target => "${dir_root}/universalforwarder/windows/splunkforwarder-${windows}",
+  $kinds.each |$dir,$prefix| {
+    file { "${dir_root}/${dir}":
+      ensure => directory,
+      mode   => '0755',
+    }
   }
 
-  staging::file { "splunk-${rpm_x86}":
-    source => "${src_root}/splunk/linux/splunk-${rpm_x86}",
-    target => "${dir_root}/splunk/linux/splunk-${rpm_x86}",
-  }
-  staging::file { "splunkforwarder-${rpm_x86}":
-    source => "${src_root}/universalforwarder/linux/splunkforwarder-${rpm_x86}",
-    target => "${dir_root}/universalforwarder/linux/splunkforwarder-${rpm_x86}",
+  $platforms.each |$platform,$architecture| {
+    # Make sure directories exist for the platform's splunk installers and
+    # universalforwarders
+    $kinds.each |$dir,$prefix| {
+      file { "${dir_root}/${dir}/${platform}":
+        ensure => directory,
+        mode   => '0755',
+      }
+    }
+
+    $architecture.each |$arch,$file| {
+      # Ensure splunk and universalforwarder packages are present for each listed
+      # architecture and file
+      $kinds.each |$dir,$prefix| {
+        remote_file { "${prefix}-${file}":
+          source => "${src_root}/${dir}/${platform}/${prefix}-${file}",
+          path   => "${dir_root}/${dir}/${platform}/${prefix}-${file}",
+        }
+      }
+    }
   }
 
-  staging::file { "splunk-${rpm_x86_64}":
-    source => "${src_root}/splunk/linux/splunk-${rpm_x86_64}",
-    target => "${dir_root}/splunk/linux/splunk-${rpm_x86_64}",
-  }
-  staging::file { "splunkforwarder-${rpm_x86_64}":
-    source => "${src_root}/universalforwarder/linux/splunkforwarder-${rpm_x86_64}",
-    target => "${dir_root}/universalforwarder/linux/splunkforwarder-${rpm_x86_64}",
-  }
-
-  staging::file { "splunk-${deb_x86}":
-    source => "${src_root}/splunk/linux/splunk-${deb_x86}",
-    target => "${dir_root}/splunk/linux/splunk-${deb_x86}",
-  }
-  staging::file { "splunkforwarder-${deb_x86}":
-    source => "${src_root}/universalforwarder/linux/splunkforwarder-${deb_x86}",
-    target => "${dir_root}/universalforwarder/linux/splunkforwarder-${deb_x86}",
-  }
-
-  staging::file { "splunk-${deb_x86_64}":
-    source => "${src_root}/splunk/linux/splunk-${deb_x86_64}",
-    target => "${dir_root}/splunk/linux/splunk-${deb_x86_64}",
-  }
-  staging::file { "splunkforwarder-${deb_x86_64}":
-    source => "${src_root}/universalforwarder/linux/splunkforwarder-${deb_x86_64}",
-    target => "${dir_root}/universalforwarder/linux/splunkforwarder-${deb_x86_64}",
-  }
-
-  staging::file { "splunk-${solaris_64}.Z":
-    source => "${src_root}/splunk/solaris/splunk-${solaris_64}.Z",
-    target => "${dir_root}/splunk/solaris/splunk-${solaris_64}.Z",
-  }
-  exec { "extract splunk-${solaris_64}.Z":
-    path     => '/usr/bin:/bin',
-    cwd      => "${dir_root}/splunk/solaris",
-    provider => shell,
-    command  => "gzip -dc splunk-${solaris_64}.Z > splunk-${solaris_64}",
-    creates  => "${dir_root}/splunk/solaris/splunk-${solaris_64}",
-    require  => Staging::File["splunk-${solaris_64}.Z"],
-  }
-
-  staging::file { "splunkforwarder-${solaris_64}.Z":
-    source => "${src_root}/universalforwarder/solaris/splunkforwarder-${solaris_64}.Z",
-    target => "${dir_root}/universalforwarder/solaris/splunkforwarder-${solaris_64}.Z",
-  }
-  exec { "extract splunkforwarder-${solaris_64}.Z":
-    path     => '/usr/bin:/bin',
-    cwd      => "${dir_root}/universalforwarder/solaris",
-    provider => shell,
-    command  => "gzip -dc splunkforwarder-${solaris_64}.Z > splunkforwarder-${solaris_64}",
-    creates  => "${dir_root}/universalforwarder/solaris/splunkforwarder-${solaris_64}",
-    require  => Staging::File["splunkforwarder-${solaris_64}.Z"],
+  # Solaris is special and needs the package to be decompressed
+  $platforms['solaris'].each |$arch,$file| {
+    $kinds.each |$dir,$prefix| {
+      exec { "extract ${prefix}-${file}":
+        path     => '/usr/bin:/bin',
+        cwd      => "${dir_root}/${dir}/solaris",
+        provider => shell,
+        command  => "gzip -dc ${prefix}-${file} > ${prefix}-${file[0,-3]}",
+        creates  => "${dir_root}/${dir}/solaris/${prefix}-${file[0,-3]}",
+        require  => Remote_file["${prefix}-${file}"],
+      }
+    }
   }
 
 }
 
 
 class dotnetcms_files (
-  $srv_root = '/var/tse-files',
+  $srv_root = '/opt/tse-files',
 ) {
 
   $directories = [
@@ -118,7 +96,7 @@ class dotnetcms_files (
     "${srv_root}/7zip",
   ]
 
-  Staging::File {
+  Remote_file {
     require => File[$directories],
   }
 
@@ -128,27 +106,25 @@ class dotnetcms_files (
   }
 
   # dotnetcms
-
-  staging::file { 'dotNetFx40_Full_x86_x64.exe':
+  remote_file { 'dotNetFx40_Full_x86_x64.exe':
     source => 'https://s3.amazonaws.com/saleseng/files/dotnetcms/dotNetFx40_Full_x86_x64.exe',
-    target => "${srv_root}/dotnetcms/dotNetFx40_Full_x86_x64.exe",
+    path   => "${srv_root}/dotnetcms/dotNetFx40_Full_x86_x64.exe",
   }
-  staging::file { 'CMS4.06.zip':
+  remote_file { 'CMS4.06.zip':
     source => 'https://s3.amazonaws.com/saleseng/files/dotnetcms/CMS4.06.zip',
-    target => "${srv_root}/dotnetcms/CMS4.06.zip",
+    path   => "${srv_root}/dotnetcms/CMS4.06.zip",
   }
 
   # 7zip
-
-  staging::file { '7z920-x64.msi':
+  remote_file { '7z920-x64.msi':
     source => 'https://s3.amazonaws.com/saleseng/files/7zip/7z920-x64.msi',
-    target => "${srv_root}/7zip/7z920-x64.msi",
+    path   => "${srv_root}/7zip/7z920-x64.msi",
   }
 
 }
 
 class tomcat_files (
-  $srv_root = '/var/tse-files',
+  $srv_root = '/opt/tse-files',
 ) {
 
   $directories = [
@@ -160,7 +136,7 @@ class tomcat_files (
     "${srv_root}/war/latest",
   ]
 
-  Staging::File {
+  Remote_file {
     require => File[$directories],
   }
 
@@ -169,53 +145,53 @@ class tomcat_files (
     mode   => '0755',
   }
 
-  staging::file { 'apache-tomcat-6.0.44.tar.gz':
+  remote_file { 'apache-tomcat-6.0.44.tar.gz':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-6.0.44.tar.gz',
-    target => "${srv_root}/tomcat/apache-tomcat-6.0.44.tar.gz",
+    path   => "${srv_root}/tomcat/apache-tomcat-6.0.44.tar.gz",
   }
-  staging::file { 'apache-tomcat-7.0.64.tar.gz':
+  remote_file { 'apache-tomcat-7.0.64.tar.gz':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-7.0.64.tar.gz',
-    target => "${srv_root}/tomcat/apache-tomcat-7.0.64.tar.gz",
+    path   => "${srv_root}/tomcat/apache-tomcat-7.0.64.tar.gz",
   }
-  staging::file { 'apache-tomcat-8.0.26.tar.gz':
+  remote_file { 'apache-tomcat-8.0.26.tar.gz':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-8.0.26.tar.gz',
-    target => "${srv_root}/tomcat/apache-tomcat-8.0.26.tar.gz",
+    path   => "${srv_root}/tomcat/apache-tomcat-8.0.26.tar.gz",
   }
-  staging::file { 'apache-tomcat-6.0.44.exe':
+  remote_file { 'apache-tomcat-6.0.44.exe':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-6.0.44.exe',
-    target => "${srv_root}/tomcat/apache-tomcat-6.0.44.exe",
+    path   => "${srv_root}/tomcat/apache-tomcat-6.0.44.exe",
   }
-  staging::file { 'apache-tomcat-7.0.64.exe':
+  remote_file { 'apache-tomcat-7.0.64.exe':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-7.0.64.exe',
-    target => "${srv_root}/tomcat/apache-tomcat-7.0.64.exe",
+    path   => "${srv_root}/tomcat/apache-tomcat-7.0.64.exe",
   }
-  staging::file { 'apache-tomcat-8.0.26.exe':
+  remote_file { 'apache-tomcat-8.0.26.exe':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/apache-tomcat-8.0.26.exe',
-    target => "${srv_root}/tomcat/apache-tomcat-8.0.26.exe",
+    path   => "${srv_root}/tomcat/apache-tomcat-8.0.26.exe",
   }
-  staging::file { 'jenkins-1.400.war':
+  remote_file { 'jenkins-1.400.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.400.war',
-    target => "${srv_root}/war/1.400/jenkins.war",
+    path   => "${srv_root}/war/1.400/jenkins.war",
   }
-  staging::file { 'jenkins-1.449.war':
+  remote_file { 'jenkins-1.449.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.449.war',
-    target => "${srv_root}/war/1.449/jenkins.war",
+    path   => "${srv_root}/war/1.449/jenkins.war",
   }
-  staging::file { 'jenkins-1.525.war':
+  remote_file { 'jenkins-1.525.war':
     source => 'http://mirrors.jenkins-ci.org/war/1.525/jenkins.war',
-    target => "${srv_root}/war/1.525/jenkins.war",
+    path   => "${srv_root}/war/1.525/jenkins.war",
   }
-  staging::file { 'jenkins-latest.war':
+  remote_file { 'jenkins-latest.war':
     source => 'http://mirrors.jenkins-ci.org/war/latest/jenkins.war',
-    target => "${srv_root}/war/latest/jenkins.war",
+    path   => "${srv_root}/war/latest/jenkins.war",
   }
-  staging::file { 'sample-1.0.war':
+  remote_file { 'sample-1.0.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.0.war',
-    target => "${srv_root}/tomcat/plsample-1.0.war",
+    path   => "${srv_root}/tomcat/plsample-1.0.war",
   }
-  staging::file { 'sample-1.2.war':
+  remote_file { 'sample-1.2.war':
     source => 'https://s3.amazonaws.com/saleseng/files/tomcat/sample-1.2.war',
-    target => "${srv_root}/tomcat/plsample-1.2.war",
+    path   => "${srv_root}/tomcat/plsample-1.2.war",
   }
 }
 
