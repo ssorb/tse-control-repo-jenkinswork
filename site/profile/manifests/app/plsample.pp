@@ -2,23 +2,25 @@ class profile::app::plsample (
   String  $plsample_version     = "1.2",
   String  $tomcat_major_version = "7",
 ) {
+  include profile::firewall
+
   case $tomcat_major_version {
-    '6': { 
+    '6': {
            $tomcat_version = '6.0.44'
            $catalina_dir = "/opt/apache-tomcat6"
            $tomcat_other_versions = [ '7', '8']
          }
-    '7': { 
+    '7': {
            $tomcat_version = '7.0.64' 
            $catalina_dir = "/opt/apache-tomcat7"
            $tomcat_other_versions = [ '6', '8']
          }
-    '8': { 
+    '8': {
            $tomcat_version = '8.0.26' 
            $catalina_dir = "/opt/apache-tomcat8"
            $tomcat_other_versions = [ '6', '7']
          }
-  }         
+  }
 
   if $::kernel == 'Linux' {
 
@@ -31,7 +33,7 @@ class profile::app::plsample (
     }
 
     firewall { '100 allow tomcat access':
-      port   => [8080],
+      dport  => [8080],
       proto  => tcp,
       action => accept,
     }

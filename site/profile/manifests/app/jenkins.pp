@@ -2,6 +2,8 @@ class profile::app::jenkins (
   String $jenkins_version      = "latest",
   String $tomcat_major_version = "7",
 ) {
+  include profile::firewall
+
   case $tomcat_major_version {
     '6': {
            $tomcat_version = '6.0.44'
@@ -31,7 +33,7 @@ class profile::app::jenkins (
     }
 
     firewall { '100 allow tomcat access':
-      port   => [8080],
+      dport  => [8080],
       proto  => tcp,
       action => accept,
     }
