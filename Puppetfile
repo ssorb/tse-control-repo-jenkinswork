@@ -55,7 +55,18 @@ mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'hunner/hiera', '1.3.2'
 mod 'hunner/wordpress', '1.0.0'
-mod 'lwf/remote_file', '1.0.1'
+
+# In the staging.pp file, evaluated using puppet apply as part of master
+# initialization, we need to set file mode such that clients can download it.
+# remote_file uses a restrictive mode by default. a PR has been filed to update
+# the released module but until it is merged, we are using a fork that adds the
+# mode= parameter to the type.
+# See https://github.com/lwf/puppet-remote_file/pull/23
+#mod 'lwf/remote_file', '1.0.1'
+mod 'remote_file',
+  :git => 'git://github.com/reidmv/puppet-remote_file.git',
+  :ref => 'e336c1580a5324c07cf2773d5fa135703fbe1238'
+
 mod 'nanliu/staging', '1.0.3'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'

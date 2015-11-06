@@ -9,6 +9,7 @@ class splunk_files (
 
   Remote_file {
     require => File[$dir_root],
+    mode    => '0644',
   }
 
   # There are a bunch of packages that need to be retrieved, but luckily the
@@ -98,6 +99,7 @@ class dotnetcms_files (
 
   Remote_file {
     require => File[$directories],
+    mode    => '0644',
   }
 
   file { $directories:
@@ -138,6 +140,7 @@ class tomcat_files (
 
   Remote_file {
     require => File[$directories],
+    mode    => '0644',
   }
 
   file { $directories:
