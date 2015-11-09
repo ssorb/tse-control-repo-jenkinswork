@@ -54,7 +54,7 @@ MASTER_JSON
 read -r -d '' PE_LINUX_GROUP << LINUX_JSON
 {
     "classes": {
-      "profile::pe_env": {},
+      "profile::puppet::rootenv": {},
       "profile::repos": {
         "offline": false
       },

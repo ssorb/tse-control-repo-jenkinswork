@@ -1,4 +1,4 @@
-class profile::pe_env {
+class profile::puppet::rootenv {
 
   file { '/root/.bashrc':
     ensure => 'file',

@@ -19,7 +19,7 @@ if [ $basename != "${puppet_environmentpath}/production/tools" ]; then
 fi
 
 # apply our master role
-puppet apply --exec 'include role::master'
+puppet apply --exec 'include role::puppet::master'
 
 # make sure services are restarted, since role::master doesn't cleanly notify
 # pe-puppetserver when configuration is changed

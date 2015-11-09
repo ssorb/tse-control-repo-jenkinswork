@@ -1,11 +1,10 @@
-# The `puppetmaster` role sets up a master system, synchronizes files from
+# The `puppetmaster` profile sets up a master system, synchronizes files from
 # Amazon, and generally enables SE Team specific patterns dependent on master
 # capabilities.
 #
-class role::master {
+class profile::puppet::master {
   include 'git'
   include 'apache'
-  include 'profile::pe_env'
   include 'profile::firewall'
 
   # Detect Vagrant
@@ -61,7 +60,7 @@ class role::master {
   }
 
   # We cannot simply set notify => Service['pe-puppetserver'] on Class['hiera']
-  # because role::master is sometimes used by `puppet apply`, and other times
+  # because this profile is sometimes used by `puppet apply`, and other times
   # used in combination with pe-provided roles. So instead we'll collect the
   # service and add a subscribe relationship.
   Service <| title == 'pe-puppetserver' |> {
@@ -69,7 +68,7 @@ class role::master {
   }
 
   # We have to manage this file like this because of ROAD-706
-  $key = file('role/license.key')
+  $key = file('profile/license.key')
   exec { 'Create License':
     command => "/bin/echo \"${key}\" > /etc/puppetlabs/license.key",
     creates => '/etc/puppetlabs/license.key',
