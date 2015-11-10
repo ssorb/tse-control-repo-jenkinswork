@@ -10,11 +10,11 @@ puppet_environmentpath=$(puppet config print environmentpath)
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
 puppet_environmentpath=$(puppet config print environmentpath)
-tools_path="${puppet_environmentpath}/production/tools"
+tools_path="${puppet_environmentpath}/production/scripts"
 basename="${containing_dir}/${working_dir}"
 
 # see if we are already in our working directory
-if [ $basename != "${puppet_environmentpath}/production/tools" ]; then
+if [ $basename != "${puppet_environmentpath}/production/scripts" ]; then
   /bin/cp -Rfu $basename/../* $puppet_environmentpath/production/
 fi
 
