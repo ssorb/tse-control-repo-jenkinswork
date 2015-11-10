@@ -20,19 +20,10 @@
 # Define filebucket 'main':
 filebucket { 'main':
   path   => false,
-  #server => $::puppet_server,
 }
 
 # Make filebucket 'main' the default backup location for all File resources:
 File { backup => 'main' }
-
-Package { allow_virtual => 'false' }
-
-if $::osfamily == 'windows' {
-  File {
-    source_permissions => ignore,
-  }
-}
 
 # DEFAULT NODE
 # Node definitions in this file are merged with node data from the console. See
