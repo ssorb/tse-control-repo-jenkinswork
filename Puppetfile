@@ -84,7 +84,7 @@ mod 'cmsapp',
 # relase of puppet/dotnet is created we should be able to switch to that.
 mod 'dotnet',
   :git => 'https://github.com/reidmv/puppet-dotnet.git',
-  :ref => '8c74dc236b44b5222c9df0ca4308d6e27f12c3b9'
+  :ref => 'c841b36081c22de7876d85af4debf0375731d1a5'
 
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
