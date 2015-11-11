@@ -2,46 +2,19 @@
 # Amazon, and generally enables SE Team specific patterns dependent on master
 # capabilities.
 #
-class profile::puppet::master {
+class profile::master::puppetserver {
   include 'git'
-  include 'apache'
-  include 'profile::firewall'
-
-  # Detect Vagrant
-  case $::virtual {
-    'virtualbox': {
-      $apache_user  = 'vagrant'
-      $apache_group = 'vagrant'
-    }
-    default: {
-      $apache_user  = 'root'
-      $apache_group = 'root'
-    }
-  }
-
-  # Set up Apache to serve static files
-  apache::vhost { 'seteam-files':
-    vhost_name    => '*',
-    port          => '80',
-    docroot       => '/opt/tse-files',
-    priority      => '10',
-    docroot_owner => $apache_user,
-    docroot_group => $apache_group,
-  }
 
   # Puppet master firewall rules
   Firewall {
-    require => Class['profile::firewall::pre'],
-    before  => Class['profile::firewall::post'],
-    chain   => 'INPUT',
-    proto   => 'tcp',
-    action  => 'accept',
+    chain  => 'INPUT',
+    proto  => 'tcp',
+    action => 'accept',
   }
 
   firewall { '110 puppetmaster allow all': dport  => '8140';  }
   firewall { '110 dashboard allow all':    dport  => '443';   }
   firewall { '110 mcollective allow all':  dport  => '61613'; }
-  firewall { '110 apache allow all':       dport  => '80';    }
 
   ##################
   # Configure Puppet

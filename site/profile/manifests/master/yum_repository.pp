@@ -1,4 +1,4 @@
-class offline_repo {
+class profile::master::yum_repository {
   include local_yum_repo::dependencies
 
   $mirror_dirs = [
@@ -37,5 +37,3 @@ class offline_repo {
   }
 
 }
-
-include offline_repo

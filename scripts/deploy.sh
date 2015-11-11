@@ -5,7 +5,6 @@
 # moves everything it needs into place
 # and configures the master
 PATH="/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/opt/puppet/bin:$PATH"
-puppet_environmentpath=$(puppet config print environmentpath)
 
 working_dir=$(basename $(cd $(dirname $0) && pwd))
 containing_dir=$(cd $(dirname $0)/.. && pwd)
@@ -18,28 +17,21 @@ if [ $basename != "${puppet_environmentpath}/production/scripts" ]; then
   /bin/cp -Rfu $basename/../* $puppet_environmentpath/production/
 fi
 
-# apply our master role
-puppet apply --exec 'include role::puppet::master'
-
-# make sure services are restarted, since role::master doesn't cleanly notify
-# pe-puppetserver when configuration is changed
-puppet resource service pe-puppetserver ensure=stopped
-puppet resource service pe-puppetserver ensure=running
-puppet resource service pe-nginx ensure=stopped
-puppet resource service pe-nginx ensure=running
-
-puppet apply $tools_path/staging.pp
-
-puppet apply $tools_path/offline_repo.pp
-
+# Bootstrap classification by using puppet-apply to configure the node manager.
+# Specify the classifier node_terminus to puppet-apply in order to include not
+# just role::master, but also default Puppet Enterprise classification in the
+# run.
 /bin/bash $tools_path/refresh_classes.sh
+puppet apply \
+  --node_terminus classifier \
+  --exec 'include role::master'
 
-puppet apply $tools_path/classifier.pp
-
+# We don't yet have the RBAC Directory Service puppetized so we have to
+# configure it separately. Sadness.
 /bin/bash $tools_path/connect_ds.sh
 
-puppet agent --onetime --no-daemonize --color=false --verbose
-
+# We aren't sure it's a good idea to enforce puppetlabs/aws resources during
+# regular runs. For now, just do it as a one-time deploy action.
 if [ ! -z "$(facter -p ec2_iam_info_0)" ]; then
   echo "on a properly setup AWS node, deploy the herd"
   gem install aws-sdk-core retries
