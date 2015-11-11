@@ -42,10 +42,10 @@ class profile::master::node_manager {
       ['=', ['fact', 'kernel'], 'Linux'],
     ],
     classes              => {
-      'ntp'             => {},
-      'profile::pe_env' => {},
-      'profile::repos'  => { 'offline' => false },
-      'profile::vim'    => { 'colorscheme' => 'elflord' },
+      'ntp'                      => {},
+      'profile::puppet::rootenv' => {},
+      'profile::repos'           => { 'offline' => false },
+      'profile::vim'             => { 'colorscheme' => 'elflord' },
     },
   }
 

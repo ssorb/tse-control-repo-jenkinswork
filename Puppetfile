@@ -95,7 +95,7 @@ mod 'ldap',
 # Forge.
 mod 'node_manager',
   :git => 'git://github.com/reidmv/prosvcs-node_manager.git',
-  :ref => 'd63b5da6849062bbd6d4617374839e142a37c7fb'
+  :ref => '48f473dd1708f1eac18f02059307632ce759b3a3'
 
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
