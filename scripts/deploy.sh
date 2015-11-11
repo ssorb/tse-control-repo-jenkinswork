@@ -33,7 +33,8 @@ puppet apply $tools_path/staging.pp
 puppet apply $tools_path/offline_repo.pp
 
 /bin/bash $tools_path/refresh_classes.sh
-/bin/bash $tools_path/classifier.sh
+
+puppet apply $tools_path/classifier.pp
 
 /bin/bash $tools_path/connect_ds.sh
 

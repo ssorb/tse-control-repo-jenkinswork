@@ -90,6 +90,13 @@ mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'ldap',
   :git => 'git@github.com:puppetlabs/tse-module-ldapserver.git'
+
+# Sourcing this from git until Ranjit publishes an updated version to the
+# Forge.
+mod 'node_manager',
+  :git => 'git://github.com/reidmv/prosvcs-node_manager.git',
+  :ref => 'd63b5da6849062bbd6d4617374839e142a37c7fb'
+
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
 mod 'openssh',
