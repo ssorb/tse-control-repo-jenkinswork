@@ -42,7 +42,15 @@ mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.2'
 mod 'puppetlabs/splunk', '3.2.0'
-mod 'puppetlabs/stdlib', '4.9.0'
+
+# We need https://github.com/puppetlabs/puppetlabs-stdlib/pull/539. That means
+# we need stdlib 4.9.1 or newer. Since that hasn't been released yet,
+# temporarily pulling directly from git.
+#mod 'puppetlabs/stdlib', '4.9.0'
+mod 'stdlib',
+  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git',
+  :ref => '61333cfc48026af204483d681bd8b10cb44d6fc6'
+
 mod 'puppetlabs/vcsrepo', '1.3.1'
 mod 'puppetlabs/tomcat', '1.3.2'
 
