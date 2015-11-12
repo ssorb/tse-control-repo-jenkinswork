@@ -102,8 +102,8 @@ mod 'ldap',
 # Sourcing this from git until Ranjit publishes an updated version to the
 # Forge.
 mod 'node_manager',
-  :git => 'git://github.com/reidmv/prosvcs-node_manager.git',
-  :ref => '48f473dd1708f1eac18f02059307632ce759b3a3'
+  :git => 'git://github.com/puppetlabs/prosvcs-node_manager.git',
+  :ref => '2eaa3e535024fc5a2910d0e0025d64b641106cbc'
 
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
