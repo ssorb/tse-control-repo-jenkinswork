@@ -58,11 +58,12 @@ mod 'puppetlabs/tomcat', '1.3.2'
 
 mod 'ajjahn/samba', '0.3.1'
 mod 'badgerious/windows_env', '2.2.2'
-mod 'chocolatey/chocolatey', '1.1.2'
+mod 'chocolatey/chocolatey', '1.2.0'
 mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'hunner/hiera', '1.3.2'
 mod 'hunner/wordpress', '1.0.0'
+mod 'WhatsARanjit/node_manager', '0.2.0'
 
 # In the staging.pp file, evaluated using puppet apply as part of master
 # initialization, we need to set file mode such that clients can download it.
@@ -98,13 +99,6 @@ mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
 mod 'ldap',
   :git => 'git@github.com:puppetlabs/tse-module-ldapserver.git'
-
-# Sourcing this from git until Ranjit publishes an updated version to the
-# Forge.
-mod 'node_manager',
-  :git => 'git://github.com/puppetlabs/prosvcs-node_manager.git',
-  :ref => '2eaa3e535024fc5a2910d0e0025d64b641106cbc'
-
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
 mod 'openssh',
