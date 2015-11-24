@@ -1,6 +1,6 @@
 class profile::cassandra (
   $seednodes = $::ipaddress,
-
+  $cluster_name = 'CassandraTestCluster',
 ) {
 
   #As this sits, it should only be applied to a single node since the seeds would have to be manually specified.
@@ -16,7 +16,7 @@ class profile::cassandra (
   }
 
   class { 'cassandra':
-    cluster_name    => 'MyCassandraCluster',
+    cluster_name    => $cluster_name,
     endpoint_snitch => 'GossipingPropertyFileSnitch',
     listen_address  => $::ipaddress,
     num_tokens      => 256,
