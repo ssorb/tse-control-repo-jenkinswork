@@ -6,7 +6,6 @@ class role::master {
   include profile::puppet::rootenv
   include profile::master::puppetserver
   include profile::master::yum_repository
-  include profile::master::node_manager
   include profile::master::fileserver
   include profile::master::files::splunk
   include profile::master::files::tomcat
