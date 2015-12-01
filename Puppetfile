@@ -29,8 +29,8 @@ mod 'puppetlabs/dism', '1.2.0'
 # patched version.
 #mod 'puppetlabs/firewall', '1.7.0'
 mod 'firewall',
-  :git => 'git://github.com/reidmv/puppetlabs-firewall.git',
-  :ref => '8794c096102d41ada603450ec6e1e13e3c956506'
+  :git => 'git://github.com/puppetlabs/puppetlabs-firewall.git',
+  :ref => 'd33d0eb66d0b36ad9feecd2ade42f76a581612a1'
 
 mod 'puppetlabs/git', '0.4.0'
 mod 'puppetlabs/inifile', '1.4.1'
