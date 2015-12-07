@@ -5,6 +5,14 @@
 Improvements:
 
   - Updated lwf/remote\_file to newest release, 1.1.0
+  - Do not continuously enforce node\_groups. Only apply node\_groups once,
+    during provisioning. This de-couples the Console from the code, so that
+    changes users make in the console are not overriden when Puppet runs.
+  - Add locp/cassandra module from the Forge and parameterize the cluster\_name
+    of the cassandra profile.
+  - Move the git source of the puppetlabs/firewall module back to the Puppet
+    Labs github repo. (We are able to do this now that a necessary patch has
+    been merged).
 
 ## 2015.2.3-1 (2015-11-13)
 
