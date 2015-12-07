@@ -41,6 +41,7 @@ mod 'firewall',
   :ref => 'd33d0eb66d0b36ad9feecd2ade42f76a581612a1'
 
 mod 'puppetlabs/git', '0.4.0'
+mod 'puppetlabs/haproxy', '1.3.0'
 mod 'puppetlabs/inifile', '1.4.1'
 mod 'puppetlabs/java', '1.4.1'
 mod 'puppetlabs/mysql', '3.5.0'
@@ -72,13 +73,14 @@ mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'hunner/hiera', '1.3.2'
 mod 'hunner/wordpress', '1.0.0'
-mod 'WhatsARanjit/node_manager', '0.2.0'
 mod 'lwf/remote_file', '1.1.0'
 mod 'nanliu/staging', '1.0.3'
+mod 'pltraining/rbac', '0.0.4'
 mod 'puppet/iis', '1.4.1'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'stahnma/epel', '1.0.2'
 mod 'tse/local_yum_repo', '0.2.0'
+mod 'WhatsARanjit/node_manager', '0.2.0'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 

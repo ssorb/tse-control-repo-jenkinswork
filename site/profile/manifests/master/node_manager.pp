@@ -9,6 +9,10 @@ class profile::master::node_manager {
     require => Package['puppetclassify'],
   }
 
+  # GENERAL PURPOSE
+  # Node Groups ready to go out of the box. Not tied to any specific demo, but
+  # potentially useful for demonstrating the Node Manager in general.
+
   node_group { 'PE Master':
     ensure               => present,
     environment          => 'production',
@@ -71,6 +75,66 @@ class profile::master::node_manager {
     ],
     classes              => {
       'puppet_enterprise::profile::mcollective::agent' => {},
+    },
+  }
+
+  # RGBANK DEMO
+  # Node groups and rbac users specific to the rgbank demo.
+
+  rbac_user { 'joe':
+    ensure       => 'present',
+    name         => 'joe',
+    display_name => 'Joe Black',
+    email        => 'joe@puppetlabs.com',
+    password     => 'puppetlabs',
+  }
+
+  node_group { 'rgbank / Load Balancers':
+    ensure      => 'present',
+    environment => 'production',
+    parent      => 'All Nodes',
+    rule        => ['or',
+      ['~', 'name', '^rgbank-loadbalancer-.*'],
+      ['~', 'name', '^rgbank-dev.*'],
+    ],
+    classes     => {
+      'haproxy'           => {},
+      'profile::firewall' => {},
+    }
+  }
+
+  node_group { 'rgbank / App Servers':
+    ensure      => 'present',
+    environment => 'production',
+    parent      => 'All Nodes',
+    rule        => ['or',
+      ['~', 'name', '^rgbank-appserver-.*'],
+      ['~', 'name', '^rgbank-dev.*'],
+    ],
+    classes     => {
+      'mysql::bindings::php' => {},
+      'mysql::client'        => {},
+      'apache'               => { 'default_vhost' => false },
+      'apache::mod::php'     => {},
+      'git'                  => {},
+      'profile::firewall'    => {},
+    },
+  }
+
+  node_group { 'rgbank / Database Servers':
+    ensure      => 'present',
+    environment => 'production',
+    parent      => 'All Nodes',
+    rule        => ['or',
+      ['~', 'name', '^rgbank-database-.*'],
+      ['~', 'name', '^rgbank-dev.*'],
+    ],
+    classes     => {
+      'mysql::server' => {
+        'override_options' => { 'mysqld' => { 'bind-address' => '0.0.0.0' } },
+      },
+      'git'               => {},
+      'profile::firewall' => {},
     },
   }
 
