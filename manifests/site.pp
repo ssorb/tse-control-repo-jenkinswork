@@ -1,4 +1,3 @@
-
 ## site.pp ##
 
 # This file (/etc/puppetlabs/puppet/manifests/site.pp) is the main entry point
@@ -12,18 +11,43 @@
 
 ## Active Configurations ##
 
-# PRIMARY FILEBUCKET
-# This configures puppet agent and puppet inspect to back up file contents when
-# they run. The Puppet Enterprise console needs this to display file contents
-# and differences.
+# Disable filebucket by default for all File resources:
+File { backup => false }
 
-# Define filebucket 'main':
-filebucket { 'main':
-  path   => false,
+# APP ORCHESTRATOR
+# Applications managed by App Orchestrator are defined in the site block.
+
+site {
+
+  # rgbank { 'staging':
+  #   web_count => 2,
+  #   nodes     => {
+  #     Node['rgbank-appserver-01.pdx.puppetlabs.demo']    => [
+  #       Rgbank::Web['staging-0'],
+  #     ],
+  #     Node['rgbank-appserver-02.pdx.puppetlabs.demo']    => [
+  #       Rgbank::Web['staging-1'],
+  #     ],
+  #     Node['rgbank-loadbalancer-01.pdx.puppetlabs.demo'] => [
+  #       Rgbank::Load['staging'],
+  #     ],
+  #     Node['rgbank-database-01.pdx.puppetlabs.demo']     => [
+  #       Rgbank::Db['staging'],
+  #     ],
+  #   },
+  # }
+
+  # rgbank { 'dev':
+  #   nodes => {
+  #     Node['rgbank-dev.pdx.puppetlabs.demo'] => [
+  #       Rgbank::Web['dev-0'],
+  #       Rgbank::Load['dev'],
+  #       Rgbank::Db['dev'],
+  #     ],
+  #   },
+  # }
+
 }
-
-# Make filebucket 'main' the default backup location for all File resources:
-File { backup => 'main' }
 
 # DEFAULT NODE
 # Node definitions in this file are merged with node data from the console. See
@@ -39,5 +63,4 @@ node default {
   # This is where you can declare classes for all nodes.
   # Example:
   #   class { 'my_class': }
-  #hiera_include('classes')
 }
