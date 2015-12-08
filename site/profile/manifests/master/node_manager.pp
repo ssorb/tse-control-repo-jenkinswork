@@ -98,8 +98,9 @@ class profile::master::node_manager {
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'haproxy'           => {},
-      'profile::firewall' => {},
+      'haproxy'                      => {},
+      'profile::firewall'            => {},
+      'profile::orchestrator_client' => {},
     }
   }
 
@@ -112,12 +113,13 @@ class profile::master::node_manager {
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'mysql::bindings::php' => {},
-      'mysql::client'        => {},
-      'apache'               => { 'default_vhost' => false },
-      'apache::mod::php'     => {},
-      'git'                  => {},
-      'profile::firewall'    => {},
+      'mysql::bindings::php'         => {},
+      'mysql::client'                => {},
+      'apache'                       => { 'default_vhost' => false },
+      'apache::mod::php'             => {},
+      'git'                          => {},
+      'profile::firewall'            => {},
+      'profile::orchestrator_client' => {},
     },
   }
 
@@ -133,8 +135,9 @@ class profile::master::node_manager {
       'mysql::server' => {
         'override_options' => { 'mysqld' => { 'bind-address' => '0.0.0.0' } },
       },
-      'git'               => {},
-      'profile::firewall' => {},
+      'git'                          => {},
+      'profile::firewall'            => {},
+      'profile::orchestrator_client' => {},
     },
   }
 

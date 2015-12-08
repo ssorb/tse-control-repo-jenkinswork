@@ -6,6 +6,11 @@ Improvements:
 
   - Rakefile is less verbose, more useful when building artifacts
 
+Bugfixes:
+
+  - RG Bank Orchestrator application instances are no longer commented out in the site.pp file
+  - RG Bank Orchestrator node groups now configure clients to disable pluginsync and use cached catalogs
+
 ## 2015.3.0-1 (2015-12-08)
 
 Features:
