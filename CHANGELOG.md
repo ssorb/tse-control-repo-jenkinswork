@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+Improvements:
+
+  - Rakefile is less verbose, more useful when building artifacts
+
 ## 2015.3.0-1 (2015-12-08)
 
 Features:

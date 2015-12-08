@@ -47,10 +47,25 @@ def tar_transform_flags(from, to)
   end
 end
 
+def tarczf(file, target, transform_to)
+  Dir.chdir('build') do
+    flags = [
+      ENV['platform_tar_flags'],
+      tar_transform_flags(target, transform_to),
+      "-czf #{file}",
+      target
+    ]
+    sh "tar #{flags.join(' ')}"
+  end
+end
+
 def git_clone_bare(from, to)
-  sh "git clone --bare --no-hardlinks '#{from}' '#{to}'"
-  sh "GIT_DIR='#{to}' git repack -a"
-  rm_f(File.join(to, 'objects', 'info', 'alternates'))
+  puts "git cloning and repacking from #{from} to #{to}"
+  verbose(false) do
+    sh "git clone --quiet --bare --no-hardlinks '#{from}' '#{to}'"
+    sh "GIT_DIR='#{to}' git repack -a --quiet"
+    rm_f(File.join(to, 'objects', 'info', 'alternates'))
+  end
 end
 
 # FILES
@@ -99,7 +114,7 @@ file 'build/puppet-control' => ['build/Puppetfile'] do
     cp '../Puppetfile', 'Puppetfile'
     sh "echo #{ENV['version']} > VERSION"
     sh 'git add Puppetfile VERSION'
-    sh 'git commit -m "Lab environment control repo initialized"'
+    sh 'git commit -m "Lab environment control repo initialized" --quiet'
   end
 end
 
@@ -118,43 +133,28 @@ file 'build/environment' => all_files_in_git do
 
   Dir.entries('build/environment/modules').reject{|e| e =~ /^\./}.each do |mod|
     Dir.chdir("build/environment/modules/#{mod}") do
-      rm_rf '.git'
-      sh 'git init .'
-      sh 'git add -f *'
-      sh 'git commit -m "create new repo from snapshot"'
+      puts "Creating a new repo from snapshot for module #{mod}"
+      verbose(false) do
+        rm_rf '.git'
+        sh 'git init --quiet .'
+        sh 'git add -f *'
+        sh 'git commit -m "create new repo from snapshot" --quiet'
+      end
     end
   end
 end
 
 file "build/#{ENV['environment_name']}.tar.gz" => ['build/environment'] do
-  environment_dir_name = File.basename('build/environment')
-
-  Dir.chdir('build') do
-    tarflags = [
-      ENV['platform_tar_flags'],
-      tar_transform_flags(environment_dir_name, ENV['environment_name']),
-      '--exclude .git',
-      '--exclude .gitignore',
-      "-cvzf #{ENV['environment_name']}.tar.gz",
-      environment_dir_name
-    ]
-
-    sh "tar #{tarflags.join(' ')}"
-  end
+  file         = "#{ENV['environment_name']}.tar.gz"
+  target       = File.basename('build/environment')
+  transform_to = ENV['environment_name']
+  tarczf(file, target, transform_to)
 end
 
 file "build/#{ENV['repos_name']}.tar.gz" => ['build/puppet-control', 'build/repos'] do
-  repos_dir_name = File.basename('build/repos')
-
-  Dir.chdir('build') do
-    tarflags = [
-      ENV['platform_tar_flags'],
-      tar_transform_flags(repos_dir_name, ENV['repos_name']),
-      "-cvzf #{ENV['repos_name']}.tar.gz",
-      repos_dir_name
-    ]
-
-    sh "tar #{tarflags.join(' ')}"
-  end
+  file         = "#{ENV['repos_name']}.tar.gz"
+  target       = File.basename('build/repos')
+  transform_to = ENV['repos_name']
+  tarczf(file, target, transform_to)
 end
 
