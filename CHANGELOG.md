@@ -1,6 +1,11 @@
 # Change Log
 
-## Unreleased
+## 2015.3.0-1 (2015-12-08)
+
+Features:
+
+  - Environment now ready for Puppet Enterprise 2015.3.0!
+  - RG Bank App Orchestration Demo
 
 Improvements:
 
