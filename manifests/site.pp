@@ -19,33 +19,33 @@ File { backup => false }
 
 site {
 
-  rgbank { 'staging':
-    web_count => 2,
-    nodes     => {
-      Node['rgbank-appserver-01.pdx.puppetlabs.demo']    => [
-        Rgbank::Web['staging-0'],
-      ],
-      Node['rgbank-appserver-02.pdx.puppetlabs.demo']    => [
-        Rgbank::Web['staging-1'],
-      ],
-      Node['rgbank-loadbalancer-01.pdx.puppetlabs.demo'] => [
-        Rgbank::Load['staging'],
-      ],
-      Node['rgbank-database-01.pdx.puppetlabs.demo']     => [
-        Rgbank::Db['staging'],
-      ],
-    },
-  }
+  # rgbank { 'staging':
+  #   web_count => 2,
+  #   nodes     => {
+  #     Node['rgbank-appserver-01.pdx.puppetlabs.demo']    => [
+  #       Rgbank::Web['staging-0'],
+  #     ],
+  #     Node['rgbank-appserver-02.pdx.puppetlabs.demo']    => [
+  #       Rgbank::Web['staging-1'],
+  #     ],
+  #     Node['rgbank-loadbalancer-01.pdx.puppetlabs.demo'] => [
+  #       Rgbank::Load['staging'],
+  #     ],
+  #     Node['rgbank-database-01.pdx.puppetlabs.demo']     => [
+  #       Rgbank::Db['staging'],
+  #     ],
+  #   },
+  # }
 
-  rgbank { 'dev':
-    nodes => {
-      Node['rgbank-dev.pdx.puppetlabs.demo'] => [
-        Rgbank::Web['dev-0'],
-        Rgbank::Load['dev'],
-        Rgbank::Db['dev'],
-      ],
-    },
-  }
+  # rgbank { 'dev':
+  #   nodes => {
+  #     Node['rgbank-dev.pdx.puppetlabs.demo'] => [
+  #       Rgbank::Web['dev-0'],
+  #       Rgbank::Load['dev'],
+  #       Rgbank::Db['dev'],
+  #     ],
+  #   },
+  # }
 
 }
 
