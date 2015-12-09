@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 2015.3.0-2 (2015-12-08)
 
 Improvements:
 
