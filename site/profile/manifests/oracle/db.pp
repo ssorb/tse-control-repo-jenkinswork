@@ -82,7 +82,7 @@ class profile::oracle::db {
       path   => "${download_dir}/${f}",
     }
 
-    file { "${download_dir}/${f}":..
+    file { "${download_dir}/${f}":
       owner   => $ora_user,
       group   => $ora_gid,
       mode    => '0644',
