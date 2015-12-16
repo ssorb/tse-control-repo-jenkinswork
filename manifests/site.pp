@@ -47,6 +47,35 @@ site {
   #   },
   # }
 
+#zabbix_app { 'single':
+#    zabbix_server_fqdn => 'centos6a.pdx.puppetlabs.demo',
+#    zabbix_web_fqdn    => 'centos6a.pdx.puppetlabs.demo',
+#    database_name      => 'zbx',
+#    database_user      => 'zabbix',
+#    database_password  => 'zabbix1',
+#    nodes              => {
+#      Node['centos6a.pdx.puppetlabs.demo'] =>
+#        [
+#          Zabbix_app::Db['single'],
+#          Zabbix_app::Web['single'],
+#          Zabbix_app::Server['single']
+#        ]
+#    }
+#  }
+#
+#zabbix_app { 'multi':
+#    zabbix_server_fqdn => 'centos6c.pdx.puppetlabs.demo',
+#    zabbix_web_fqdn    => 'centos6b.pdx.puppetlabs.demo',
+#    database_name      => 'zbx',
+#    database_user      => 'zabbix',
+#    database_password  => 'zabbix1',
+#    nodes              => {
+#      Node['centos6b.pdx.puppetlabs.demo'] => Zabbix_app::Web['multi'],
+#      Node['centos6c.pdx.puppetlabs.demo'] => Zabbix_app::Server['multi'],
+#      Node['centos6d.pdx.puppetlabs.demo'] => Zabbix_app::Db['multi'],
+#    }
+#  }
+
 }
 
 # DEFAULT NODE

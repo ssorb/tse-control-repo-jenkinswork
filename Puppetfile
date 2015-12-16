@@ -30,6 +30,8 @@ mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.1.1'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
+mod 'puppetlabs/limits', '0.1.0'
+
 
 # MODULES-1341 describes a situation in which firewall purging on CentOS 7
 # results in erroneous errors being thrown because rules Puppet tries to delete
@@ -81,6 +83,8 @@ mod 'puppet/windowsfeature', '1.1.0'
 mod 'stahnma/epel', '1.0.2'
 mod 'tse/local_yum_repo', '0.2.0'
 mod 'WhatsARanjit/node_manager', '0.2.0'
+mod 'biemond/oradb', '2.0.2'
+mod 'fiddyspence/sysctl', '1.1.0'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
@@ -121,3 +125,7 @@ mod 'tse_facts',
   :ref => '0.1.0'
 mod 'tse_windows',
   :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git'
+mod 'zabbix_app',
+  :git => 'git@github.com:ipcrm/appmgmt-module-zabbix_app.git'
+mod 'zabbix',
+  :git => 'git@github.com:ipcrm/puppet-zabbix.git'
