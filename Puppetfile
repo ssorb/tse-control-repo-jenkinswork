@@ -125,4 +125,7 @@ mod 'tse_facts',
   :ref => '0.1.0'
 mod 'tse_windows',
   :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git'
-
+mod 'zabbix_app',
+  :git => 'git@github.com:ipcrm/appmgmt-module-zabbix_app.git'
+mod 'zabbix',
+  :git => 'git@github.com:ipcrm/puppet-zabbix.git'
