@@ -91,7 +91,11 @@ class profile::app::jenkins (
   }
   elsif $kernel == 'windows' {
 
-    include windows_java
+    windows_java::jdk { '8u45':
+      ensure  => present,
+      version => '8u45',
+      source  => 'https://master.inf.puppetlabs.demo/jdk/jdk-8u45-windows-x64.exe',
+    }
 
     windows_firewall::exception { 'Tomcat':
       ensure       => present,
@@ -102,7 +106,7 @@ class profile::app::jenkins (
       local_port   => '8080',
       display_name => 'Apache Tomcat Port',
       description  => 'Inbound rule for Tomcat',
-    } 
+    }
 
     remote_file { "C:/apache-tomcat-${tomcat_version}.exe":
       ensure => present,
@@ -123,7 +127,7 @@ class profile::app::jenkins (
       ensure          => present,
       source          => "C:/apache-tomcat-${tomcat_version}.exe",
       install_options => ['/S'],
-      require         => Class['windows_java'],
+      require         => Windows_java::Jdk['8u45'],
     }
  
     service { "tomcat${tomcat_major_version}":
