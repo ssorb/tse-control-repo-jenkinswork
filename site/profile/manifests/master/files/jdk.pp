@@ -13,6 +13,7 @@ class profile::master::files::jdk (
       'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
       'Cookie'     => 'oraclelicense=accept-securebackup-cookie;gpw_e24=http://edelivery.oracle.com'
     }, # Oracle makes you accept the license agreement -_-
+    mode    => '0644',
     require => File["${srv_root}/jdk"],
   }
 }
