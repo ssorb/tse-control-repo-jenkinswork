@@ -132,6 +132,9 @@ mod 'zabbix',
   :git => 'git@github.com:ipcrm/puppet-zabbix.git'
 mod 'wordpress_app',
   :git => 'git@github.com:ipcrm/apporchestration-wordpress.git'
+
+mod 'joshbeard-websphere', '0.1.1'
+mod 'joshbeard-ibm_installation_manager', '0.1.1'
 mod 'cloudshop',
   :git => 'https://github.com/velocity303/puppet-cloudshop.git',
   :ref => '1.0.0'
