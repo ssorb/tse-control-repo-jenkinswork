@@ -85,6 +85,7 @@ mod 'tse/local_yum_repo', '0.2.0'
 mod 'WhatsARanjit/node_manager', '0.2.0'
 mod 'biemond/oradb', '2.0.2'
 mod 'fiddyspence/sysctl', '1.1.0'
+mod 'reidmv/unzip', '0.1.2'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
@@ -129,3 +130,14 @@ mod 'zabbix_app',
   :git => 'git@github.com:ipcrm/appmgmt-module-zabbix_app.git'
 mod 'zabbix',
   :git => 'git@github.com:ipcrm/puppet-zabbix.git'
+mod 'cloudshop',
+  :git => 'https://github.com/velocity303/puppet-cloudshop.git',
+  :ref => '1.0.0'
+mod 'tse_sqlserver',
+  :git => 'https://github.com/velocity303/tse-module-tse_sqlserver.git',
+  :ref => '1.0.0'
+mod 'sqlwebapp',
+  :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
+  :ref => '1.0.0'
+mod 'mount_iso'
+  :git => 'https://github.com/puppetlabs/puppetlabs-mount_iso.git'
