@@ -139,5 +139,5 @@ mod 'tse_sqlserver',
 mod 'sqlwebapp',
   :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
   :ref => '1.0.0'
-mod 'mount_iso'
+mod 'mount_iso',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_iso.git'
