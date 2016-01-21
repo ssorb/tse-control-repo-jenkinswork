@@ -1,5 +1,34 @@
 # Change Log
 
+## 2015.3.1-2 (2016-01-21)
+
+Features:
+
+  - Added IIS/Deploying .NET App Demo
+
+Improvements:
+
+  - Added WebSphere content (not yet documented)
+
+Workarounds:
+
+  - `profile::example::registry` has been modified not to throw errors by
+    commenting out the registry\_value resource which caused problems. This
+    should be investigated and fixed for real in the future.
+
+## 2015.3.1-1 (2015-12-15)
+
+Features:
+
+  - Update to PE 2015.3.1. Resolves major security vulnerability found in 2015.3.0.
+  - Added `profile::example::generic\_website`
+  - Added `profile::example::wordpress`
+
+Improvements:
+
+  - Added Zabbix content (not yet documented)
+  - Added Oracle 12c EE content (not yet documented)
+
 ## 2015.3.0-2 (2015-12-08)
 
 Improvements:
