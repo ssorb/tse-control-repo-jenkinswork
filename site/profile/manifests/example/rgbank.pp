@@ -3,14 +3,23 @@ class profile::example::rgbank(
   $db_name     = 'wordpress',
   $db_user     = 'wordpress',
   $db_pass     = 'wordpress',
-  $docroot     = '/var/www/html',
-  $install_app = true,
+  $docroot     = '/var/www/rgbank',
 ) {
-  include apache
-  include apache::mod::php
-  include mysql::server
-  include mysql::bindings
-  include mysql::bindings::php
+  class {'::apache':
+    mpm_module    => 'prefork',
+    default_vhost => false,
+  }
+  include ::apache::mod::php
+  include ::mysql::server
+  include ::mysql::bindings
+  include ::mysql::bindings::php
+
+  file {$docroot:
+    ensure => directory,
+    owner  => $::apache::user,
+    group  => $::apahce::group,
+    before => File["/var/tmp/${db_name}"],
+  }
 
   file {"/var/tmp/${db_name}":
     ensure => directory,
@@ -20,7 +29,7 @@ class profile::example::rgbank(
   staging::deploy { 'rgbank.tgz':
     source  => 'http://master.inf.puppetlabs.demo/rgbank/rgbank.tgz',
     target  => "/var/tmp/${db_name}",
-    before   => Mysql::Db[$db_name],
+    before  => Mysql::Db[$db_name],
     creates => "/var/tmp/${db_name}/rgbank.sql",
   }
 
@@ -37,14 +46,14 @@ class profile::example::rgbank(
   } ->
 
   apache::vhost { $::fqdn:
-    priority   => '10',
-    vhost_name => $::fqdn,
-    port       => '80',
-    docroot      => $docroot,
+    priority      => '10',
+    vhost_name    => $::fqdn,
+    port          => '80',
+    docroot       => $docroot,
     default_vhost => false,
   } ->
 
-  wordpress::instance::app { "rgbank":
+  wordpress::instance::app { 'rgbank':
     install_dir          => $docroot,
     install_url          => 'http://wordpress.org',
     version              => '4.3.1',
@@ -71,26 +80,26 @@ class profile::example::rgbank(
 
   file { "${docroot}/wp-content/uploads":
     ensure  => directory,
-    owner   => apache,
-    group   => apache,
+    owner   => $::apache::user,
+    group   => $::apache::user,
     recurse => true,
-    require => Wordpress::Instance::App["rgbank"],
+    require => Wordpress::Instance::App['rgbank'],
   }
 
   file {"${docroot}/wp-content/themes/rgbank":
-    ensure => directory,
-    owner   => apache,
-    group   => apache,
-    require  => Wordpress::Instance::App["rgbank"],
-    before => Staging::Deploy['theme_rgbank.tgz'],
+    ensure  => directory,
+    owner   => $::apache::user,
+    group   => $::apache::user,
+    require => Wordpress::Instance::App['rgbank'],
+    before  => Staging::Deploy['theme_rgbank.tgz'],
   }
 
   staging::deploy { 'theme_rgbank.tgz':
     source  => 'http://master.inf.puppetlabs.demo/rgbank/rgbank.tgz',
     target  => "${docroot}/wp-content/themes/rgbank",
     creates => "${docroot}/wp-content/themes/rgbank/index.php",
-    require  => Wordpress::Instance::App["rgbank"],
-    notify   => Service['httpd'],
+    require => Wordpress::Instance::App['rgbank'],
+    notify  => Service['httpd'],
   }
 
   firewall { '80 allow apache access':
