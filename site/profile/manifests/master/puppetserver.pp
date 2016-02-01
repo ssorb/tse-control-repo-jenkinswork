@@ -30,6 +30,7 @@ class profile::master::puppetserver {
       'virtual/%{virtual}',
       'common',
     ],
+    eyaml          => true,
   }
 
   # We cannot simply set notify => Service['pe-puppetserver'] on Class['hiera']
