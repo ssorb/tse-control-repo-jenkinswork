@@ -19,13 +19,10 @@ class profile::master::files::oradb (
 
   $rmt_files.each |$r| {
     remote_file { $r:
-      source => "${download_src}/${r}",
-      path   => "${srv_root}/oracle_db_install/${r}",
-    }
-
-    file { "${srv_root}/${r}":
+      source  => "${download_src}/${r}",
+      path    => "${srv_root}/oracle_db_install/${r}",
       mode    => '0644',
-      require => [ File[$directories], Remote_file[$r] ]
+      require => File[$directories],
     }
   }
 

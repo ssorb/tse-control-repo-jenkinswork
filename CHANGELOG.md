@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+Bugfixes:
+
+  - Files downloaded to the master for the OraDB demo now have correct permissions
+
 ## 2015.3.1-2 (2016-01-21)
 
 Features:
