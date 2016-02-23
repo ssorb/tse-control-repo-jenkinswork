@@ -27,7 +27,7 @@ mod 'database', :local => true
 mod 'puppet/windows_firewall', '1.0.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
-mod 'puppetlabs/aws', '1.1.1'
+mod 'puppetlabs/aws', '1.3.0'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
 mod 'puppetlabs/limits', '0.1.0'
@@ -119,8 +119,8 @@ mod 'razordemo',
   :ref => '3.1.1'
 mod 'tse_admins',
   :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
-mod 'tse_awsnodes',
-  :git => 'git@github.com:mrzarquon/puppet-tse_awsnodes.git'
+mod 'awsenv',
+  :git => 'git@github.com:puppetlabs/tse-module-awsenv.git'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
   :ref => '0.1.0'

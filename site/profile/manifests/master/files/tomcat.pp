@@ -54,11 +54,11 @@ class profile::master::files::tomcat (
     path   => "${srv_root}/war/1.449/jenkins.war",
   }
   remote_file { 'jenkins-1.525.war':
-    source => 'http://mirrors.jenkins-ci.org/war/1.525/jenkins.war',
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-1.525.war',
     path   => "${srv_root}/war/1.525/jenkins.war",
   }
   remote_file { 'jenkins-latest.war':
-    source => 'http://mirrors.jenkins-ci.org/war/latest/jenkins.war',
+    source => 'https://s3.amazonaws.com/saleseng/files/tomcat/jenkins-latest.war',
     path   => "${srv_root}/war/latest/jenkins.war",
   }
   remote_file { 'sample-1.0.war':
