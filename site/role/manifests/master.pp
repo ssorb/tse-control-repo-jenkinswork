@@ -11,4 +11,5 @@ class role::master {
   include profile::master::files::tomcat
   include profile::master::files::dotnetcms
   include profile::master::files::jdk
+  include profile::master::files::basic_iis
 }
