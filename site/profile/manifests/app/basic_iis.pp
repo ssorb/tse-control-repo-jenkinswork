@@ -6,7 +6,7 @@ class profile::app::basic_iis (
   remote_file { 'app_files':
     ensure  => present,
     path    => "${iis_app}\\${version}.zip",
-    source  => "http://master/${version}.zip",
+    source  => "http://master/app/${version}.zip",
     require => [ Iis::Manage_site[$::fqdn] ],
   }
   unzip { $version:
