@@ -48,7 +48,6 @@ class profile::master::node_manager {
     classes              => {
       'ntp'                      => {},
       'profile::puppet::rootenv' => {},
-      'profile::patch::pup_5595' => {},
       'profile::repos'           => { 'offline' => false },
       'profile::vim'             => { 'colorscheme' => 'elflord' },
     },
@@ -62,7 +61,6 @@ class profile::master::node_manager {
     rule                 => ['and', ['=', ['fact', 'kernel'], 'windows']],
     classes              => {
       'profile::windows::chocolatey' => {},
-      'profile::patch::pup_5595' => {},
     },
   }
 

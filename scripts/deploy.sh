@@ -18,7 +18,7 @@ main()
   # Bootstrap classification by using puppet-apply to configure the node
   # manager, then running puppet-agent to enforce all configured state.
   /bin/bash $tools_path/refresh_classes.sh
-  puppet apply --exec 'include profile::master::node_manager,profile::patch::pup_5595'
+  puppet apply --exec 'include profile::master::node_manager'
   puppet agent --onetime --no-daemonize --color=false --verbose
 
   # We don't yet have the RBAC Directory Service puppetized so we have to
