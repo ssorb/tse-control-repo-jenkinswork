@@ -106,6 +106,7 @@ mod 'ldap',
   :git => 'git@github.com:puppetlabs/tse-module-ldapserver.git'
 mod 'nonpriv',
   :git => 'git@github.com:puppetlabs/tse-module-nonpriv.git'
+  :ref => '0.1.0'
 mod 'openssh',
   :git => 'git@github.com:puppetlabs/tse-module-openssh.git',
   :ref => '0.1.0'
