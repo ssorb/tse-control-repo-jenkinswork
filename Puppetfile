@@ -86,6 +86,8 @@ mod 'WhatsARanjit/node_manager', '0.2.0'
 mod 'biemond/oradb', '2.0.2'
 mod 'fiddyspence/sysctl', '1.1.0'
 mod 'reidmv/unzip', '0.1.2'
+#Adding biemond's Wildfly module for Wildfly / JBoss demo
+mod 'biemond/wildfly', '0.5.2'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
@@ -151,3 +153,4 @@ mod 'sqlwebapp',
 mod 'mount_iso',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_iso.git'
 mod 'ipcrm/echo', '0.1.3'
+
