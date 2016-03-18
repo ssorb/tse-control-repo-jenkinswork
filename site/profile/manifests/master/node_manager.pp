@@ -36,6 +36,17 @@ class profile::master::node_manager {
     },
   }
 
+  node_group { 'Gitlab Server':
+    ensure               => present,
+    environment          => 'production',
+    override_environment => false,
+    parent               => 'All Nodes',
+    rule                 => ['or', ['=', 'name', 'gitlab.inf.puppetlabs.demo']],
+    classes              => {
+      'profile::gitlab' => {},
+    },
+  }
+  
   node_group { 'Linux Servers':
     ensure               => present,
     environment          => 'production',

@@ -31,6 +31,7 @@ mod 'puppetlabs/aws', '1.3.0'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
 mod 'puppetlabs/limits', '0.1.0'
+mod 'vshn/gitlab', '1.8.0'
 
 
 # MODULES-1341 describes a situation in which firewall purging on CentOS 7
