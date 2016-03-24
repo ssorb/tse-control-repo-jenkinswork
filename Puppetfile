@@ -128,6 +128,9 @@ mod 'awsenv',
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
   :ref => '0.1.0'
+mod 'vsphere_provision',
+  :git => 'git@github.com:puppetlabs/tse-module-vsphere_provision.git',
+  :ref => '1.0.0'
 mod 'tse_windows',
   :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git'
 mod 'zabbix_app',
