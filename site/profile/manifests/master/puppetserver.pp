@@ -29,7 +29,6 @@ class profile::master::puppetserver {
       'datacenter/%{datacenter}',
       'virtual/%{virtual}',
       'common',
-      'vsphere',
     ],
     eyaml          => true,
   }
