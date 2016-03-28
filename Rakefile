@@ -72,7 +72,7 @@ end
 # These define the files Rake tracks and builds
 #
 
-file 'build/repos' => ['build/environment', 'build/puppet-control'] do
+file 'build/repos' => ['build/environment', 'build/control-repo'] do
   rm_rf 'build/repos'
   mkdir_p 'build/repos'
 
@@ -84,8 +84,8 @@ file 'build/repos' => ['build/environment', 'build/puppet-control'] do
     git_clone_bare(dotgit_dir, repo_dir)
   end
 
-  control_dotgit_dir = 'build/puppet-control/.git'
-  control_repo_dir   = 'build/repos/puppet-control.git'
+  control_dotgit_dir = 'build/control-repo/.git'
+  control_repo_dir   = 'build/repos/control-repo.git'
   git_clone_bare(control_dotgit_dir, control_repo_dir)
 end
 
@@ -105,10 +105,10 @@ file 'build/Puppetfile' => ['build/environment'] do
   end
 end
 
-file 'build/puppet-control' => ['build/Puppetfile'] do
-  rm_rf 'build/puppet-control'
-  mkdir 'build/puppet-control'
-  Dir.chdir('build/puppet-control') do
+file 'build/control-repo' => ['build/Puppetfile'] do
+  rm_rf 'build/control-repo'
+  mkdir 'build/control-repo'
+  Dir.chdir('build/control-repo') do
     sh "git clone ../../.git ."
     sh 'git branch -m production 2>/dev/null || git checkout -b production'
     cp '../Puppetfile', 'Puppetfile'
@@ -151,7 +151,7 @@ file "build/#{ENV['environment_name']}.tar.gz" => ['build/environment'] do
   tarczf(file, target, transform_to)
 end
 
-file "build/#{ENV['repos_name']}.tar.gz" => ['build/puppet-control', 'build/repos'] do
+file "build/#{ENV['repos_name']}.tar.gz" => ['build/control-repo', 'build/repos'] do
   file         = "#{ENV['repos_name']}.tar.gz"
   target       = File.basename('build/repos')
   transform_to = ENV['repos_name']
