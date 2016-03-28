@@ -69,6 +69,7 @@ mod 'puppetlabs/tomcat', '1.3.2'
 
 # Forge Community Modules
 
+mod 'abrader/gms', '1.0.2'
 mod 'ajjahn/samba', '0.3.1'
 mod 'badgerious/windows_env', '2.2.2'
 mod 'chocolatey/chocolatey', '1.2.0'
