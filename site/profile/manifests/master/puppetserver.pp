@@ -3,6 +3,9 @@
 # capabilities.
 #
 class profile::master::puppetserver {
+  $key_dir = '/etc/puppetlabs/puppetserver/ssh'
+  $key_file = "${key_dir}/id-control_repo.rsa"
+
   include 'git'
 
   # Puppet master firewall rules
@@ -54,5 +57,19 @@ class profile::master::puppetserver {
     mode   => '0644',
     owner  => 'root',
     group  => 'root',
+  }
+
+  # generate keys for code manager
+  file { '/etc/puppetlabs/puppetserver/ssh':
+    ensure => directory,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0700',
+  }
+
+  exec { 'create code_mgr_api_user ssh key' :
+    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C 'code_mgr_api_user' -f ${key_file} -q -N ''",
+    creates => $key_file,
+    require => File['/etc/puppetlabs/puppetserver/ssh'],
   }
 }
