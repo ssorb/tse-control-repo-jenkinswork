@@ -49,7 +49,7 @@ class profile::gitlab {
     mode    => '0700',
     owner   => root,
     group   => root,
-    source  => 'puppet:///modules/profile/gitlab-init.sh',
+    content => epp('profile/gitlab-init.sh.epp'),
     require => Class['gitlab'],
   }
   exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':

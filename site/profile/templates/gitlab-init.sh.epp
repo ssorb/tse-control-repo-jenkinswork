@@ -1,0 +1,47 @@
+<%
+  $code_mgr_api_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub'
+  $cm_api_user_ssh_key = file("${code_mgr_api_user_ssh_key_file}")
+  #$cm_api_user_rbac_token = file($token_file_loc)
+  $cm_api_user_rbac_token = 'ttttttttttttttttttttttttttttttt'
+-%>
+#!/bin/bash
+#Setup admin user and initialize
+gitlab-rails console production <<EOF
+user = User.find_by(username: 'root')
+user.reset_password_token=nil
+user.reset_password_sent_at=nil
+user.password_automatically_set=false
+user.projects_limit = 1000
+user.password = 'puppetlabs'
+user.password_confirmation = 'puppetlabs'
+user.save!
+quit
+EOF
+ROOT_TOKEN=$(echo "User.find_by(username: 'root').authentication_token" | gitlab-rails console production | sed -n 4s/\"//pg)
+#Create code_mgr_api_user so a less priviledged user can create webhooks, etc
+curl -k -X POST \
+-H "PRIVATE-TOKEN: $ROOT_TOKEN" \
+-H "Content-type: application/json" \
+-d '{
+  "email": "code_mgr_api_user@gitlab.inf.puppetlabs.demo",
+  "name": "code manager api user",
+  "username": "code_mgr_api_user",
+  "password": "puppetlabs",
+  "confirm": "False"
+}' \
+https://gitlab.inf.puppetlabs.demo/api/v3/users
+CM_API_USER_TOKEN=$(echo "User.find_by(username: 'code_mgr_api_user').authentication_token" | gitlab-rails console production | sed -n 4s/\"//pg)
+CM_API_USER_ID=$(echo "User.find_by(username: 'code_mgr_api_user').id" | gitlab-rails console production | sed -n 4p)
+curl -k -X POST \
+-H "PRIVATE-TOKEN: $ROOT_TOKEN" \
+-H "Content-type: application/json" \
+-d '{
+  "id": "'$CM_API_USER_ID'",
+  "title": "SSH Key for Code Mgr Api User",
+  "key": "<%= $cm_api_user_ssh_key -%>"
+}' \
+https://gitlab.inf.puppetlabs.demo/api/v3/users/$CM_API_USER_ID/keys
+mkdir -p /var/opt/gitlab/git-data/repositories/puppet
+tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/repositories/puppet --strip 1
+chown -R git:git /var/opt/gitlab/git-data/repositories/puppet/
+gitlab-rake gitlab:import:repos
