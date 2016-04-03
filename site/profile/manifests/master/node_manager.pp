@@ -28,11 +28,14 @@ class profile::master::node_manager {
       'pe_repo::platform::ubuntu_1204_amd64'             => {},
       'pe_repo::platform::ubuntu_1404_amd64'             => {},
       'pe_repo::platform::windows_x86_64'                => {},
-      'puppet_enterprise::profile::master'               => {},
+      'puppet_enterprise::profile::master'               => {
+        'code_manager_auto_configure' => true,
+        'r10k_remote'                 => 'git@gitlab.inf.puppetlabs.demo:puppet/control-repo.git',
+        'r10k_private_key'            => '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa' },
       'puppet_enterprise::profile::master::mcollective'  => {},
       'puppet_enterprise::profile::mcollective::peadmin' => {},
       'role::master'                                     => {},
-      'profile::vim'                                     => { 'colorscheme' =>'elflord' },
+      'profile::vim'                                     => { 'colorscheme' => 'elflord' },
     },
   }
 
@@ -46,7 +49,7 @@ class profile::master::node_manager {
       'profile::gitlab' => {},
     },
   }
-  
+
   node_group { 'Linux Servers':
     ensure               => present,
     environment          => 'production',

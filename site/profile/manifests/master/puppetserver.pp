@@ -5,6 +5,10 @@
 class profile::master::puppetserver {
   $key_dir = '/etc/puppetlabs/puppetserver/ssh'
   $key_file = "${key_dir}/id-control_repo.rsa"
+  $token_dir = '/etc/puppetlabs/puppetserver/.puppetlabs'
+  $token_file = "${token_dir}/token"
+  $deploy_username = 'code_mgr_deploy_user'
+  $deploy_password = 'puppetlabs'
 
   include 'git'
 
@@ -52,24 +56,76 @@ class profile::master::puppetserver {
   }
 
   # SET-84 Turn off Dujour / telemetry for demo env for 2015.2
-   file { '/etc/puppetlabs/puppetserver/opt-out':
+  file { '/etc/puppetlabs/puppetserver/opt-out':
     ensure => file,
     mode   => '0644',
     owner  => 'root',
     group  => 'root',
   }
 
-  # generate keys for code manager
-  file { '/etc/puppetlabs/puppetserver/ssh':
+  # generate keys and token for code manager deploys
+
+  # The ssh-keygen command will fail if the destination dir does not exist, so must
+  # manage it first. Opposite situation with puppet-access below.
+  file { $key_dir:
     ensure => directory,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0700',
   }
 
-  exec { 'create code_mgr_api_user ssh key' :
-    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C 'code_mgr_api_user' -f ${key_file} -q -N ''",
+  exec { "create ${deploy_username} ssh key" :
+    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C '${deploy_username}' -f ${key_file} -q -N ''",
     creates => $key_file,
-    require => File['/etc/puppetlabs/puppetserver/ssh'],
+    require => File[$key_dir],
   }
+
+  # private key
+  file { $key_file:
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0600',
+    require => Exec["create ${deploy_username} ssh key"],
+  }
+
+  # public key
+  file { "${key_file}.pub":
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0644',
+    require => Exec["create ${deploy_username} ssh key"],
+  }
+
+  # generate rbac role and user for code manager deploys
+  exec { 'create code mgr deploy group and user' :
+    command     => '/opt/puppetlabs/puppet/bin/ruby /etc/puppetlabs/code/environments/production/scripts/create_code_mgr_deploy_user.rb',
+    refreshonly => true,
+    subscribe   => Exec["create ${deploy_username} ssh key"],
+  }
+
+  # The puppet-access command will create any needed directories and make root their owner. So we have to run the command
+  # first and then manage the ownership later so pe-puppet can read during template file() function evaluation.
+  exec { "create ${deploy_username} rbac token" :
+    command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file /etc/puppetlabs/puppetserver/.puppetlabs/token",
+    creates => $token_file,
+  }
+
+  file { $token_dir:
+    ensure  => directory,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0700',
+    require => Exec["create ${deploy_username} rbac token"],
+  }
+
+  file { $token_file:
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0600',
+    require => Exec["create ${deploy_username} rbac token"],
+  }
+
 }

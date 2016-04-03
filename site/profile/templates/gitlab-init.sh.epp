@@ -1,47 +1,71 @@
 <%
-  $code_mgr_api_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub'
-  $cm_api_user_ssh_key = file("${code_mgr_api_user_ssh_key_file}")
-  #$cm_api_user_rbac_token = file($token_file_loc)
-  $cm_api_user_rbac_token = 'ttttttttttttttttttttttttttttttt'
+  $code_mgr_deploy_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub'
+  $ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}"))
+  $code_mgr_deploy_user_rbac_token_file = '/etc/puppetlabs/puppetserver/.puppetlabs/token'
+  $token = chomp(file($code_mgr_deploy_user_rbac_token_file))
+  $group_name = 'puppet'
+  $deploy_user = 'code_mgr_deploy_user'
+  $root_pw = 'puppetlabs'
+  $deploy_pw = 'puppetlabs'
+  $webhook_url = "https://master.inf.puppetlabs.demo:8170/code-manager/v1/webhook?type=gitlab&token=${token}"
 -%>
 #!/bin/bash
-#Setup admin user and initialize
+
+mkdir -p /var/opt/gitlab/git-data/repositories/<%= $group_name %>
+tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/repositories/<%= $group_name %> --strip 1
+chown -R git:git /var/opt/gitlab/git-data/repositories/<%= $group_name -%>/
+gitlab-rake gitlab:import:repos
+
+#Setup admin and code mgr api users and group membership
 gitlab-rails console production <<EOF
-user = User.find_by(username: 'root')
-user.reset_password_token=nil
-user.reset_password_sent_at=nil
-user.password_automatically_set=false
-user.projects_limit = 1000
-user.password = 'puppetlabs'
-user.password_confirmation = 'puppetlabs'
-user.save!
+root = User.find_by(username: 'root')
+root.reset_password_token=nil
+root.reset_password_sent_at=nil
+root.password_automatically_set=false
+root.projects_limit = 1000
+root.password = '<%= $root_pw -%>'
+root.password_confirmation = '<%= $root_pw -%>'
+root.save!
+deploy = User.create(
+  {
+    :email => "<%= $deploy_user -%>@gitlab.inf.puppetlabs.demo",
+    :name => "<%= $deploy_user -%>",
+    :username => "<%= $deploy_user -%>",
+    :password => "<%= $deploy_pw -%>",
+    :password_confirmation => "<%= $deploy_pw -%>",
+    :created_at => Time.now,
+    :confirmed_at => Time.now,
+    :confirmation_token => nil
+  })
+deploy.save!
+
+group = Group.find_by(name: '<%= $group_name -%>')
+group.add_guest(root)
+group.add_master(deploy)
+group.save!
+
+sshkey = Key.create(
+  {
+    :title => "SSH Key for Code Mgr Deploy User",
+    :user_id => deploy.id,
+    :created_at => Time.now,
+    :key => "<%= $ssh_key -%>"
+  })
+sshkey.save!
+
 quit
 EOF
-ROOT_TOKEN=$(echo "User.find_by(username: 'root').authentication_token" | gitlab-rails console production | sed -n 4s/\"//pg)
-#Create code_mgr_api_user so a less priviledged user can create webhooks, etc
+
+DEPLOY_TOKEN=$(echo "User.find_by(username: '<%= $deploy_user -%>').authentication_token" | gitlab-rails console production | sed -n 4s/\"//pg)
+CR_ID=$(echo "Project.find_by(name: 'control-repo').id" | gitlab-rails console production | sed -n 4p)
+
 curl -k -X POST \
--H "PRIVATE-TOKEN: $ROOT_TOKEN" \
+-H "PRIVATE-TOKEN: $DEPLOY_TOKEN" \
 -H "Content-type: application/json" \
 -d '{
-  "email": "code_mgr_api_user@gitlab.inf.puppetlabs.demo",
-  "name": "code manager api user",
-  "username": "code_mgr_api_user",
-  "password": "puppetlabs",
-  "confirm": "False"
+  "url": "<%= $webhook_url -%>",
+  "id": "$CR_ID",
+  "push_events": "true",
+  "enable_ssl_verification": "false"
 }' \
-https://gitlab.inf.puppetlabs.demo/api/v3/users
-CM_API_USER_TOKEN=$(echo "User.find_by(username: 'code_mgr_api_user').authentication_token" | gitlab-rails console production | sed -n 4s/\"//pg)
-CM_API_USER_ID=$(echo "User.find_by(username: 'code_mgr_api_user').id" | gitlab-rails console production | sed -n 4p)
-curl -k -X POST \
--H "PRIVATE-TOKEN: $ROOT_TOKEN" \
--H "Content-type: application/json" \
--d '{
-  "id": "'$CM_API_USER_ID'",
-  "title": "SSH Key for Code Mgr Api User",
-  "key": "<%= $cm_api_user_ssh_key -%>"
-}' \
-https://gitlab.inf.puppetlabs.demo/api/v3/users/$CM_API_USER_ID/keys
-mkdir -p /var/opt/gitlab/git-data/repositories/puppet
-tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/repositories/puppet --strip 1
-chown -R git:git /var/opt/gitlab/git-data/repositories/puppet/
-gitlab-rake gitlab:import:repos
+https://gitlab.inf.puppetlabs.demo/api/v3/projects/$CR_ID/hooks
