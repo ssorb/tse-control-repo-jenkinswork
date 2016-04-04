@@ -40,6 +40,7 @@ pre_config()
   if [ $basename != "${puppet_environmentpath}/production/scripts" ]; then
     echo "Syncing environment contents from $containing_dir to $puppet_environmentpath/production/"
     /bin/cp -Rfu "$containing_dir/"* "$puppet_environmentpath/production/"
+    chown -R pe-puppet:pe-puppet "$puppet_environmentpath/production/"
   fi
 }
 
