@@ -21,6 +21,9 @@ main()
   puppet apply --exec 'include profile::master::node_manager'
   puppet agent --onetime --no-daemonize --color=false --verbose
 
+  # In order to work around PE-14937, we need to clean out the code-dir
+  find /etc/puppetlabs/code -name '.git*' | xargs rm -rf
+
   # We don't yet have the RBAC Directory Service puppetized so we have to
   # configure it separately. Sadness.
   /bin/bash $tools_path/connect_ds.sh
