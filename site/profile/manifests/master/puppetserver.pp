@@ -2,13 +2,18 @@
 # Amazon, and generally enables SE Team specific patterns dependent on master
 # capabilities.
 #
-class profile::master::puppetserver {
-  $key_dir = '/etc/puppetlabs/puppetserver/ssh'
-  $key_file = "${key_dir}/id-control_repo.rsa"
-  $token_dir = '/etc/puppetlabs/puppetserver/.puppetlabs'
-  $token_file = "${token_dir}/token"
-  $deploy_username = 'code_mgr_deploy_user'
-  $deploy_password = 'puppetlabs'
+class profile::master::puppetserver (
+  String $key_dir = '/etc/puppetlabs/puppetserver/ssh',
+  String $key_file = "${key_dir}/id-control_repo.rsa",
+  String $deploy_token_dir = '/etc/puppetlabs/puppetserver/.puppetlabs',
+  String $deploy_token_file = "${deploy_token_dir}/token",
+  String $demo_token_dir = '/root/.puppetlabs',
+  String $demo_token_file = "${demo_token_dir}/token",
+  String $deploy_username = 'code_mgr_deploy_user',
+  String $deploy_password = 'puppetlabs',
+  String $demo_username = 'demo',
+  String $demo_password = 'puppetlabs',
+){
 
   include 'git'
 
@@ -20,8 +25,9 @@ class profile::master::puppetserver {
   }
 
   firewall { '110 puppetmaster allow all': dport  => '8140';  }
-  firewall { '110 dashboard allow all':    dport  => '443';   }
+  firewall { '110 console allow all':    dport  => '443';   }
   firewall { '110 mcollective allow all':  dport  => '61613'; }
+  firewall { '110 pxp orch allow all':  dport  => '8142'; }
 
   ##################
   # Configure Puppet
@@ -45,7 +51,7 @@ class profile::master::puppetserver {
   # used in combination with pe-provided roles. So instead we'll collect the
   # service and add a subscribe relationship.
   Service <| title == 'pe-puppetserver' |> {
-    subscribe +> Class['hiera'],
+    subscribe => Class['hiera'],
   }
 
   # We have to manage this file like this because of ROAD-706
@@ -98,21 +104,41 @@ class profile::master::puppetserver {
     require => Exec["create ${deploy_username} ssh key"],
   }
 
-  # generate rbac role and user for code manager deploys
-  exec { 'create code mgr deploy group and user' :
+  # generate rbac roles and users for code manager deploys and demo user with ruby script
+  $epp_params = {
+    'deploy_username' => $deploy_username,
+    'deploy_password' => $deploy_password,
+    'demo_username'   => $demo_username,
+    'demo_password'   => $demo_password
+  }
+
+  file {'/etc/puppetlabs/code/environments/production/scripts/create_demo_deploy_users.rb':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0744',
+    content => epp('profile/create_demo_deploy_users.rb.epp', $epp_params),
+  }
+
+  exec { 'create code mgr deploy & demo group and user' :
     command     => '/opt/puppetlabs/puppet/bin/ruby /etc/puppetlabs/code/environments/production/scripts/create_code_mgr_deploy_user.rb',
     refreshonly => true,
     subscribe   => Exec["create ${deploy_username} ssh key"],
   }
 
-  # The puppet-access command will create any needed directories and make root their owner. So we have to run the command
+  # The puppet-access command will create any needed directories and make root their owner. So for the deploy user we have to run the command
   # first and then manage the ownership later so pe-puppet can read during template file() function evaluation.
-  exec { "create ${deploy_username} rbac token" :
-    command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file /etc/puppetlabs/puppetserver/.puppetlabs/token",
-    creates => $token_file,
+  exec { "create ${demo_username} rbac token" :
+    command => "/bin/echo \"${demo_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${demo_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${demo_token_file}",
+    creates => $demo_token_file,
   }
 
-  file { $token_dir:
+  exec { "create ${deploy_username} rbac token" :
+    command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${deploy_token_file}",
+    creates => $deploy_token_file,
+  }
+
+  file { $deploy_token_dir:
     ensure  => directory,
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
@@ -120,7 +146,7 @@ class profile::master::puppetserver {
     require => Exec["create ${deploy_username} rbac token"],
   }
 
-  file { $token_file:
+  file { $deploy_token_file:
     ensure  => file,
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
