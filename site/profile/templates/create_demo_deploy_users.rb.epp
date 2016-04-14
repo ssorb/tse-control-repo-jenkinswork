@@ -49,7 +49,7 @@ user = {
   'role_ids' => []
 }
 rbac_rest_call('POST', 'users', credentials, JSON.generate(user).to_s)
-id = JSON.parse(rbac_rest_call('GET', 'users', credentials)).find {|j| j['login']=='code_mgr_deploy_user'}['id']
+id = JSON.parse(rbac_rest_call('GET', 'users', credentials)).find {|j| j['login']=="#{deploy_username}"}['id']
 
 role = {
   'display_name' => '<%= $deploy_role_name -%>',
@@ -68,7 +68,7 @@ user = {
   'role_ids' => []
 }
 rbac_rest_call('POST', 'users', credentials, JSON.generate(user).to_s)
-id = JSON.parse(rbac_rest_call('GET', 'users', credentials)).find {|j| j['login']=='code_mgr_deploy_user'}['id']
+id = JSON.parse(rbac_rest_call('GET', 'users', credentials)).find {|j| j['login']=="#{demo_username}"}['id']
 
 role = {
   'display_name' => '<%= $demo_role_name -%>',

@@ -121,9 +121,9 @@ class profile::master::puppetserver (
   }
 
   exec { 'create code mgr deploy & demo group and user' :
-    command     => '/opt/puppetlabs/puppet/bin/ruby /etc/puppetlabs/code/environments/production/scripts/create_code_mgr_deploy_user.rb',
+    command     => '/opt/puppetlabs/puppet/bin/ruby /etc/puppetlabs/code/environments/production/scripts/create_demo_deploy_users.rb',
     refreshonly => true,
-    subscribe   => Exec["create ${deploy_username} ssh key"],
+    subscribe   => File['/etc/puppetlabs/code/environments/production/scripts/create_demo_deploy_users.rb'],
   }
 
   # The puppet-access command will create any needed directories and make root their owner. So for the deploy user we have to run the command
@@ -131,11 +131,13 @@ class profile::master::puppetserver (
   exec { "create ${demo_username} rbac token" :
     command => "/bin/echo \"${demo_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${demo_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${demo_token_file}",
     creates => $demo_token_file,
+    require => Exec['create code mgr deploy & demo group and user'],
   }
 
   exec { "create ${deploy_username} rbac token" :
     command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${deploy_token_file}",
     creates => $deploy_token_file,
+    require => Exec['create code mgr deploy & demo group and user'],
   }
 
   file { $deploy_token_dir:
