@@ -12,7 +12,7 @@
 #!/bin/bash
 
 mkdir -p /var/opt/gitlab/git-data/repositories/<%= $group_name %>
-tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/repositories/<%= $group_name %> --strip 1
+tar -xzvf /etc/gitlab/pe-demo-repos.tar.gz -C /var/opt/gitlab/git-data/repositories/<%= $group_name %> --strip 1
 chown -R git:git /var/opt/gitlab/git-data/repositories/<%= $group_name -%>/
 gitlab-rake gitlab:import:repos
 
