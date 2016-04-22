@@ -1,20 +1,6 @@
 class profile::gitlab {
-
-  #Configure iptables
-  service { 'firewalld':
-    ensure => stopped,
-    enable => false,
-  }
-
-  package { 'iptables-services':
-    ensure => installed,
-  }
-
-  service { ['iptables', 'ip6tables']:
-    ensure => running,
-    enable => true,
-  }
-
+  include profile::firewall
+  
   firewall { '100 allow https':
     proto  => 'tcp',
     dport  => '443',
