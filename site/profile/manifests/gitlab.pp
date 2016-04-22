@@ -52,9 +52,17 @@ class profile::gitlab {
     content => epp('profile/gitlab-init.sh.epp'),
     require => Class['gitlab'],
   }
-  exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
-    creates => '/etc/gitlab/init',
-    require => File['/etc/gitlab/init.sh'],
+  
+  remote_file { '/etc/gitlab/pe-demo-repos.tar.gz':
+    ensure => present,
+    source => 'http://master.inf.puppetlabs.demo/pe-demo-repos.tar.gz',
   }
 
+  exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
+    creates => '/etc/gitlab/init',
+    require => [
+      Remote_file['/etc/gitlab/pe-demo-repos.tar.gz'],
+      File['/etc/gitlab/init.sh'],
+    ],
+  }
 }
