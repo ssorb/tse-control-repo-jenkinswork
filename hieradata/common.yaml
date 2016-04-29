@@ -1,7 +1,7 @@
 ---
 splunk::params::version:  "6.0"
 splunk::params::build:    "182037"
-splunk::params::src_root: "http://master.inf.puppetlabs.demo/demo_offline_splunk"
+splunk::params::src_root: "http://master.inf.puppet.vm/demo_offline_splunk"
 
 preserved_users:
   - 'pe-puppet'

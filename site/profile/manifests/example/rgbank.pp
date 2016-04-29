@@ -27,7 +27,7 @@ class profile::example::rgbank(
   }
 
   staging::deploy { 'rgbank.tgz':
-    source  => 'http://master.inf.puppetlabs.demo/rgbank/rgbank.tgz',
+    source  => 'http://master.inf.puppet.vm/rgbank/rgbank.tgz',
     target  => "/var/tmp/${db_name}",
     before  => Mysql::Db[$db_name],
     creates => "/var/tmp/${db_name}/rgbank.sql",
@@ -95,7 +95,7 @@ class profile::example::rgbank(
   }
 
   staging::deploy { 'theme_rgbank.tgz':
-    source  => 'http://master.inf.puppetlabs.demo/rgbank/rgbank.tgz',
+    source  => 'http://master.inf.puppet.vm/rgbank/rgbank.tgz',
     target  => "${docroot}/wp-content/themes/rgbank",
     creates => "${docroot}/wp-content/themes/rgbank/index.php",
     require => Wordpress::Instance::App['rgbank'],
