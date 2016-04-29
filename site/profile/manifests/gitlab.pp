@@ -49,7 +49,7 @@ class profile::gitlab {
     mode    => '0700',
     owner   => root,
     group   => root,
-    content => epp('profile/gitlab-init.sh.epp'),
+    content => epp('profile/gitlab-init.sh.epp', { 'gitlab_server' => $clientcert } ),
     require => Class['gitlab'],
   }
   exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':

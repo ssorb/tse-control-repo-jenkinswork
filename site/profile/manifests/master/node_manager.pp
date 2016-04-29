@@ -1,5 +1,7 @@
 class profile::master::node_manager {
 
+  $gitlab_server = 'gitlab.inf.puppet.vm'
+
   package { 'puppetclassify':
     ensure   => present,
     provider => puppet_gem,
@@ -30,7 +32,7 @@ class profile::master::node_manager {
       'pe_repo::platform::windows_x86_64'                => {},
       'puppet_enterprise::profile::master'               => {
         'code_manager_auto_configure' => true,
-        'r10k_remote'                 => 'git@gitlab.inf.puppetlabs.demo:puppet/control-repo.git',
+        'r10k_remote'                 => "git@${gitlab_server}:puppet/control-repo.git",
         'r10k_private_key'            => '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa' },
       'puppet_enterprise::profile::master::mcollective'  => {},
       'puppet_enterprise::profile::mcollective::peadmin' => {},
@@ -44,7 +46,7 @@ class profile::master::node_manager {
     environment          => 'production',
     override_environment => false,
     parent               => 'All Nodes',
-    rule                 => ['or', ['=', 'name', 'gitlab.inf.puppetlabs.demo']],
+    rule                 => ['or', ['=', 'name', "${gitlab_server}"]],
     classes              => {
       'profile::gitlab' => {},
     },

@@ -1,14 +1,15 @@
-<%
-  $code_mgr_deploy_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub'
-  $ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}"))
-  $code_mgr_deploy_user_rbac_token_file = '/etc/puppetlabs/puppetserver/.puppetlabs/token'
-  $token = chomp(file($code_mgr_deploy_user_rbac_token_file))
-  $group_name = 'puppet'
-  $deploy_user = 'code_mgr_deploy_user'
-  $root_pw = 'puppetlabs'
-  $deploy_pw = 'puppetlabs'
-  $webhook_url = "https://master.inf.puppetlabs.demo:8170/code-manager/v1/webhook?type=gitlab&token=${token}"
--%>
+<%- |
+  String $code_mgr_deploy_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub',
+  String $ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}")),
+  String $code_mgr_deploy_user_rbac_token_file = '/etc/puppetlabs/puppetserver/.puppetlabs/token',
+  String $token = chomp(file($code_mgr_deploy_user_rbac_token_file)),
+  String $group_name = 'puppet',
+  String $deploy_user = 'code_mgr_deploy_user',
+  String $root_pw = 'puppetlabs',
+  String $deploy_pw = 'puppetlabs',
+  String $webhook_url = "https://master.inf.puppet.vm:8170/code-manager/v1/webhook?type=gitlab&token=${token}",
+  String $gitlab_server = 'gitlab.inf.puppet.vm'
+| -%>
 #!/bin/bash
 
 mkdir -p /var/opt/gitlab/git-data/repositories/<%= $group_name %>
@@ -28,7 +29,7 @@ root.password_confirmation = '<%= $root_pw -%>'
 root.save!
 deploy = User.create(
   {
-    :email => "<%= $deploy_user -%>@gitlab.inf.puppetlabs.demo",
+    :email => "<%= $deploy_user -%>@<%= $gitlab_server -%>",
     :name => "<%= $deploy_user -%>",
     :username => "<%= $deploy_user -%>",
     :password => "<%= $deploy_pw -%>",
@@ -68,4 +69,4 @@ curl -k -X POST \
   "push_events": "true",
   "enable_ssl_verification": "false"
 }' \
-https://gitlab.inf.puppetlabs.demo/api/v3/projects/$CR_ID/hooks
+https://<%= $gitlab_server -%>/api/v3/projects/$CR_ID/hooks
