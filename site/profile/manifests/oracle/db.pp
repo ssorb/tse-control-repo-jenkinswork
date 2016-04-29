@@ -11,7 +11,7 @@ class profile::oracle::db {
                           'linuxamd64_12102_database')
   $download_dir        = hiera('oracle_download_dir', '/install')
   $download_src        = hiera('oracle_download_src',
-                          'http://master.inf.puppetlabs.demo/oracle_db_install')
+                          'http://master.inf.puppet.vm/oracle_db_install')
   $ora_groups          = hiera('oracle_groups', ['oinstall','dba' ,'oper'])
   $ora_gid             = hiera('oracle_gid', 'oinstall')
   $ora_user            = hiera('oracle_user', 'oracle')

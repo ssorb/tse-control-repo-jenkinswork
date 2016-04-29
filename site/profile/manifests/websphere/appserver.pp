@@ -1,5 +1,5 @@
 class profile::websphere::appserver(
-  $dmgr_host     = 'centos6a.pdx.puppetlabs.demo',
+  $dmgr_host     = 'centos6a.pdx.puppet.vm',
   $dmgr_profile  = 'PROFILE_DMGR_01',
   $app_profile   = 'PROFILE_APP_001',
   $cell_name     = 'CELL_01',

@@ -12,7 +12,7 @@ curl -X POST -H 'Content-Type: application/json' \
             "trusted",
             "certname"
         ],
-        "master.inf.puppetlabs.demo"
+        "master.inf.puppet.vm"
     ],
     "classes": {
         "ntp": {}

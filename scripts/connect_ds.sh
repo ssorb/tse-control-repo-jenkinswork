@@ -16,7 +16,7 @@ curl -X PUT -H 'Content-Type: application/json' \
     "group_object_class": "*",
     "group_rdn": "ou=groups",
     "help_link": "",
-    "hostname": "master.inf.puppetlabs.demo",
+    "hostname": "master.inf.puppet.vm",
     "login": "uid=admin,ou=system",
     "password": "secret",
     "port": 10389,
