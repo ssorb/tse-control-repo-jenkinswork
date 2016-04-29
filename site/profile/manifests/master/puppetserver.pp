@@ -3,16 +3,19 @@
 # capabilities.
 #
 class profile::master::puppetserver (
+  String $demo_username = 'demo',
+  String $demo_password = 'puppetlabs',
+  String $deploy_username = 'code_mgr_deploy_user',
+  String $deploy_password = 'puppetlabs',
   String $key_dir = '/etc/puppetlabs/puppetserver/ssh',
   String $key_file = "${key_dir}/id-control_repo.rsa",
   String $deploy_token_dir = '/etc/puppetlabs/puppetserver/.puppetlabs',
   String $deploy_token_file = "${deploy_token_dir}/token",
-  String $demo_token_dir = '/root/.puppetlabs',
+  String $demo_home_dir = "/home/${demo_username}",
+  String $demo_token_dir = "${demo_home_dir}/.puppetlabs",
   String $demo_token_file = "${demo_token_dir}/token",
-  String $deploy_username = 'code_mgr_deploy_user',
-  String $deploy_password = 'puppetlabs',
-  String $demo_username = 'demo',
-  String $demo_password = 'puppetlabs',
+  String $root_token_dir = '/root/.puppetlabs',
+  String $root_token_file = "${root_token_dir}/token",
 ){
 
   include 'git'
@@ -129,13 +132,48 @@ class profile::master::puppetserver (
   # The puppet-access command will create any needed directories and make root their owner. So for the deploy user we have to run the command
   # first and then manage the ownership later so pe-puppet can read during template file() function evaluation.
   exec { "create ${demo_username} rbac token" :
-    command => "/bin/echo \"${demo_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${demo_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${demo_token_file}",
+    command => "/bin/echo \"${demo_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${demo_username} --service-url https://${clientcert}:4433/rbac-api --lifetime 1y --token-file ${demo_token_file}",
     creates => $demo_token_file,
     require => Exec['create code mgr deploy & demo group and user'],
   }
 
+  user { $demo_username:
+    ensure     => present,
+    managehome => true,
+    home       => $demo_home_dir,
+    shell      => '/bin/bash',
+    require    => Exec["create ${demo_username} rbac token"],
+  }
+
+  file { $demo_token_dir:
+    ensure  => directory,
+    owner   => $demo_username,
+    group   => $demo_username,
+    require => User[$demo_username],
+  }
+
+  file { $demo_token_file:
+    ensure  => file,
+    owner   => $demo_username,
+    group   => $demo_username,
+    mode    => '0600',
+    require => Exec["create ${demo_username} rbac token"],
+  }
+
+  file { $root_token_dir:
+    ensure  => directory,
+    owner   => root,
+    group   => root,
+    require => Exec["create ${demo_username} rbac token"],
+  }
+
+  file { $root_token_file:
+    ensure => link,
+    target => $demo_token_file,
+  }
+
   exec { "create ${deploy_username} rbac token" :
-    command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://master.inf.puppetlabs.demo:4433/rbac-api --lifetime 1y --token-file ${deploy_token_file}",
+    command => "/bin/echo \"${deploy_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${deploy_username} --service-url https://${clientcert}:4433/rbac-api --lifetime 1y --token-file ${deploy_token_file}",
     creates => $deploy_token_file,
     require => Exec['create code mgr deploy & demo group and user'],
   }
