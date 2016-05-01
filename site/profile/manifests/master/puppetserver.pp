@@ -5,6 +5,7 @@
 class profile::master::puppetserver (
   String $demo_username = 'demo',
   String $demo_password = 'puppetlabs',
+  String $demo_password_hash = '$1$Fq9vkV1h$4oMRtIjjjAhi6XQVSH6.Y.', #puppetlabs
   String $deploy_username = 'code_mgr_deploy_user',
   String $deploy_password = 'puppetlabs',
   String $key_dir = '/etc/puppetlabs/puppetserver/ssh',
@@ -138,18 +139,33 @@ class profile::master::puppetserver (
   }
 
   user { $demo_username:
-    ensure     => present,
-    managehome => true,
-    home       => $demo_home_dir,
-    shell      => '/bin/bash',
-    require    => Exec["create ${demo_username} rbac token"],
+    ensure   => present,
+    home     => $demo_home_dir,
+    shell    => '/bin/bash',
+    password => $demo_password_hash,
+    require  => Exec["create ${demo_username} rbac token"],
+  }
+
+  file { $demo_home_dir:
+    ensure  => directory,
+    owner   => $demo_username,
+    group   => $demo_username,
+    require => User[$demo_username],
+  }
+
+  file { "${demo_home_dir}/.profile":
+    ensure  => file,
+    owner   => $demo_username,
+    group   => $demo_username,
+    content => 'PS1=\'[\u@\h \W]\$ \'',
+    require => File[$demo_home_dir],
   }
 
   file { $demo_token_dir:
     ensure  => directory,
     owner   => $demo_username,
     group   => $demo_username,
-    require => User[$demo_username],
+    require => File[$demo_home_dir],
   }
 
   file { $demo_token_file:
