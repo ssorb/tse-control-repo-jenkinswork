@@ -3,7 +3,7 @@
   String $deploy_ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}")),
   String $demo_user = 'demo',
   String $demo_pw = 'puppetlabs',
-  String $demo_user_ssh_key_file = '/home/demo/.ssh/id.rsa.pub',
+  String $demo_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/demo_id.rsa.pub',
   String $demo_ssh_key = chomp(file("${demo_user_ssh_key_file}")),
   String $code_mgr_deploy_user_rbac_token_file = '/etc/puppetlabs/puppetserver/.puppetlabs/token',
   String $token = chomp(file($code_mgr_deploy_user_rbac_token_file)),

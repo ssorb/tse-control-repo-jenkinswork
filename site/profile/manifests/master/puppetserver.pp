@@ -8,11 +8,13 @@ class profile::master::puppetserver (
   String $demo_password_hash = '$1$Fq9vkV1h$4oMRtIjjjAhi6XQVSH6.Y.', #puppetlabs
   String $deploy_username = 'code_mgr_deploy_user',
   String $deploy_password = 'puppetlabs',
-  String $key_dir = '/etc/puppetlabs/puppetserver/ssh',
-  String $key_file = "${key_dir}/id-control_repo.rsa",
+  String $deploy_key_dir = '/etc/puppetlabs/puppetserver/ssh',
+  String $deploy_key_file = "${deploy_key_dir}/id-control_repo.rsa",
   String $deploy_token_dir = '/etc/puppetlabs/puppetserver/.puppetlabs',
   String $deploy_token_file = "${deploy_token_dir}/token",
   String $demo_home_dir = "/home/${demo_username}",
+  String $demo_key_dir = "${demo_home_dir}/.ssh",
+  String $demo_key_file = "${demo_key_dir}/id.rsa",
   String $demo_token_dir = "${demo_home_dir}/.puppetlabs",
   String $demo_token_file = "${demo_token_dir}/token",
   String $root_token_dir = '/root/.puppetlabs',
@@ -73,11 +75,13 @@ class profile::master::puppetserver (
     group  => 'root',
   }
 
-  # generate keys and token for code manager deploys
+  # generate keys and token for code manager deploys and demo user
 
   # The ssh-keygen command will fail if the destination dir does not exist, so must
   # manage it first. Opposite situation with puppet-access below.
-  file { $key_dir:
+
+  # deploy user's ssh keys
+  file { $deploy_key_dir:
     ensure => directory,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
@@ -85,13 +89,13 @@ class profile::master::puppetserver (
   }
 
   exec { "create ${deploy_username} ssh key" :
-    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C '${deploy_username}' -f ${key_file} -q -N ''",
-    creates => $key_file,
-    require => File[$key_dir],
+    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C '${deploy_username}' -f ${deploy_key_file} -q -N ''",
+    creates => $deploy_key_file,
+    require => File[$deploy_key_dir],
   }
 
   # private key
-  file { $key_file:
+  file { $deploy_key_file:
     ensure  => file,
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
@@ -100,12 +104,55 @@ class profile::master::puppetserver (
   }
 
   # public key
-  file { "${key_file}.pub":
+  file { "${deploy_key_file}.pub":
     ensure  => file,
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
     mode    => '0644',
     require => Exec["create ${deploy_username} ssh key"],
+  }
+
+  # demo user's ssh keys
+  file { $demo_key_dir:
+    ensure => directory,
+    owner  => $demo_username,
+    group  => $demo_username,
+    mode   => '0700',
+    require => File[$demo_home_dir],
+  }
+
+  exec { "create ${demo_username} ssh key" :
+    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C '${demo_username}' -f ${demo_key_file} -q -N ''",
+    creates => $demo_key_file,
+    require => File[$demo_key_dir],
+  }
+
+  # private key
+  file { $demo_key_file:
+    ensure  => file,
+    owner   => $demo_username,
+    group   => $demo_username,
+    mode    => '0600',
+    require => Exec["create ${demo_username} ssh key"],
+  }
+
+  # public key
+  file { "${demo_key_file}.pub":
+    ensure  => file,
+    owner   => $demo_username,
+    group   => $demo_username,
+    mode    => '0644',
+    require => Exec["create ${demo_username} ssh key"],
+  }
+
+  # copy of public key where profile::gitlab can grab it with file function
+  file { "${deploy_key_dir}/demo_id.rsa.pub":
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0644',
+    source  => "${demo_key_file}.pub",
+    require => File["${demo_key_file}.pub"],
   }
 
   # generate rbac roles and users for code manager deploys and demo user with ruby script
@@ -130,7 +177,7 @@ class profile::master::puppetserver (
     subscribe   => File['/etc/puppetlabs/code/environments/production/scripts/create_demo_deploy_users.rb'],
   }
 
-  # The puppet-access command will create any needed directories and make root their owner. So for the deploy user we have to run the command
+  # The puppet-access command will create any needed directories and make root their owner. So for the demo and deploy users we have to run the command
   # first and then manage the ownership later so pe-puppet can read during template file() function evaluation.
   exec { "create ${demo_username} rbac token" :
     command => "/bin/echo \"${demo_password}\" | /opt/puppetlabs/bin/puppet-access login --username ${demo_username} --service-url https://${clientcert}:4433/rbac-api --lifetime 1y --token-file ${demo_token_file}",
@@ -153,11 +200,29 @@ class profile::master::puppetserver (
     require => User[$demo_username],
   }
 
+  $profile = @("EOF")
+    PS1='[\u@\h \W]\$ '
+    echo "ensuring that ssh-agent is running to hold key for gitlab..."
+    ssh-add -l &>/dev/null
+    if [ "$?" == 2 ]; then
+      test -r ~/.ssh-agent && \
+        eval "$(<~/.ssh-agent)" >/dev/null
+
+      ssh-add -l &>/dev/null
+      if [ "$?" == 2 ]; then
+        (umask 066; ssh-agent > ~/.ssh-agent)
+        eval "$(<~/.ssh-agent)" >/dev/null
+        echo "attempting to add private ssh key for gitlab..."
+        ssh-add $demo_key_file
+      fi
+    fi
+    | EOF
+
   file { "${demo_home_dir}/.profile":
     ensure  => file,
     owner   => $demo_username,
     group   => $demo_username,
-    content => 'PS1=\'[\u@\h \W]\$ \'',
+    content => $profile,
     require => File[$demo_home_dir],
   }
 
