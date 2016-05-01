@@ -1,6 +1,10 @@
 <%- |
   String $code_mgr_deploy_user_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa.pub',
-  String $ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}")),
+  String $deploy_ssh_key = chomp(file("${code_mgr_deploy_user_ssh_key_file}")),
+  String $demo_user = 'demo',
+  String $demo_pw = 'puppetlabs',
+  String $demo_user_ssh_key_file = '/home/demo/.ssh/id.rsa.pub',
+  String $demo_ssh_key = chomp(file("${demo_user_ssh_key_file}")),
   String $code_mgr_deploy_user_rbac_token_file = '/etc/puppetlabs/puppetserver/.puppetlabs/token',
   String $token = chomp(file($code_mgr_deploy_user_rbac_token_file)),
   String $group_name = 'puppet',
@@ -8,7 +12,8 @@
   String $root_pw = 'puppetlabs',
   String $deploy_pw = 'puppetlabs',
   String $webhook_url = "https://master.inf.puppet.vm:8170/code-manager/v1/webhook?type=gitlab&token=${token}",
-  String $gitlab_server = 'gitlab.inf.puppet.vm'
+  String $gitlab_server = 'gitlab.inf.puppet.vm',
+  String $master_server = 'master.inf.puppet.vm'
 | -%>
 #!/bin/bash
 
@@ -53,19 +58,42 @@ deploy = User.create(
   })
 deploy.save!
 
+demo = User.create(
+  {
+    :email => "<%= $demo_user -%>@<%= $master_server -%>",
+    :name => "<%= $demo_user -%>",
+    :username => "<%= $demo_user -%>",
+    :password => "<%= $demo_pw -%>",
+    :password_confirmation => "<%= $demo_pw -%>",
+    :created_at => Time.now,
+    :confirmed_at => Time.now,
+    :confirmation_token => nil
+  })
+demo.save!
+
 group = Group.find_by(name: '<%= $group_name -%>')
 group.add_guest(root)
 group.add_master(deploy)
+group.add_master(demo)
 group.save!
 
-sshkey = Key.create(
+deploy_sshkey = Key.create(
   {
     :title => "SSH Key for Code Mgr Deploy User",
     :user_id => deploy.id,
     :created_at => Time.now,
-    :key => "<%= $ssh_key -%>"
+    :key => "<%= $deploy_ssh_key -%>"
   })
-sshkey.save!
+deploy_sshkey.save!
+
+demo_sshkey = Key.create(
+  {
+    :title => "SSH Key for Demo User",
+    :user_id => demo.id,
+    :created_at => Time.now,
+    :key => "<%= $demo_ssh_key -%>"
+  })
+demo_sshkey.save!
 
 quit
 EOF
