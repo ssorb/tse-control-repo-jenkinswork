@@ -21,11 +21,11 @@ mkdir -p /var/opt/gitlab/git-data/repositories/<%= $group_name %>
 tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/repositories/<%= $group_name %> --strip 1
 
 # Replace local references with gitlab references on Puppetfile
-git config --global user.name "Bryan Wood"
-git config --global user.email bryan.wood@puppet.com
 git clone /var/opt/gitlab/git-data/repositories/puppet/control-repo.git
 sed -i 's|/opt/puppetlabs/repos|https://gitlab.inf.puppet.vm/puppet|g' control-repo/Puppetfile
 cd control-repo/
+git config user.name "Bryan Wood"
+git config user.email bryan.wood@puppet.com
 git add Puppetfile
 git commit -m 'Update Puppetfile references to use gitlab'
 git push origin production
