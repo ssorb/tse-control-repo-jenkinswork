@@ -22,7 +22,7 @@ tar -xzvf /vagrant/code/pe-demo-code-repos-*.tar.gz -C /var/opt/gitlab/git-data/
 
 # Replace local references with gitlab references on Puppetfile
 git clone /var/opt/gitlab/git-data/repositories/puppet/control-repo.git
-sed -i 's|/opt/puppetlabs/repos|https://gitlab.inf.puppet.vm/puppet|g' control-repo/Puppetfile
+sed -i 's|/opt/puppetlabs/repos|git@<%= $gitlab_server -%>:puppet|g' control-repo/Puppetfile
 cd control-repo/
 git config user.name "Bryan Wood"
 git config user.email bryan.wood@puppet.com
