@@ -52,6 +52,17 @@ class profile::master::node_manager {
     },
   }
 
+  node_group { 'Jenkins Server':
+    ensure               => present,
+    environment          => 'production',
+    override_environment => false,
+    parent               => 'All Nodes',
+    rule                 => ['or', ['=', 'name', "${gitlab_server}"]],
+    classes              => {
+      'profile::jenkins::jenkins_jobs' => {},
+    },
+  }
+
   node_group { 'Linux Servers':
     ensure               => present,
     environment          => 'production',
