@@ -12,4 +12,5 @@ class role::master {
   include profile::master::files::dotnetcms
   include profile::master::files::jdk
   include profile::master::files::basic_iis
+  include profile::master::files::pe_demo_repos
 }

@@ -20,7 +20,6 @@ class profile::master::puppetserver (
   String $root_token_dir = '/root/.puppetlabs',
   String $root_token_file = "${root_token_dir}/token",
 ){
-
   include 'git'
 
   # Puppet master firewall rules
@@ -259,14 +258,6 @@ class profile::master::puppetserver (
     require => Exec['create code mgr deploy & demo group and user'],
   }
  
-
-  #Moves the tarball onto the master from the control repo
-  exec { "repos tarball" :
-    cwd      => "/opt/puppetlabs",
-    command  => "/bin/tar -czf /opt/tse-files/pe-demo-repos.tar.gz repos",
-    creates  => "/opt/tse-files/pe-demo-repos.tar.gz",
-  }
-  
   file { $deploy_token_dir:
     ensure  => directory,
     owner   => 'pe-puppet',
