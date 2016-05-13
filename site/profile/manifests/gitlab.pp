@@ -38,10 +38,10 @@ class profile::gitlab {
     content => epp('profile/gitlab-init.sh.epp', { 'gitlab_server' => $clientcert } ),
     require => Class['gitlab'],
   }
-  
+
   remote_file { '/etc/gitlab/pe-demo-repos.tar.gz':
     ensure => present,
-    source => 'http://master.inf.puppetlabs.demo/pe-demo-repos.tar.gz',
+    source => "http://${::settings::server}/pe-demo-repos.tar.gz",
   }
 
   exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
