@@ -258,7 +258,15 @@ class profile::master::puppetserver (
     creates => $deploy_token_file,
     require => Exec['create code mgr deploy & demo group and user'],
   }
+ 
 
+  #Moves the tarball onto the master from the control repo
+  exec { "repos tarball" :
+    cwd      => "/opt/puppetlabs",
+    command  => "/bin/tar -czf /opt/tse-files/pe-demo-repos.tar.gz repos",
+    creates  => "/opt/tse-files/pe-demo-repos.tar.gz",
+  }
+  
   file { $deploy_token_dir:
     ensure  => directory,
     owner   => 'pe-puppet',

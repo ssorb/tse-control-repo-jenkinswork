@@ -1,20 +1,6 @@
 class profile::gitlab {
-
-  #Configure iptables
-  service { 'firewalld':
-    ensure => stopped,
-    enable => false,
-  }
-
-  package { 'iptables-services':
-    ensure => installed,
-  }
-
-  service { ['iptables', 'ip6tables']:
-    ensure => running,
-    enable => true,
-  }
-
+  include profile::firewall
+  
   firewall { '100 allow https':
     proto  => 'tcp',
     dport  => '443',
@@ -52,9 +38,17 @@ class profile::gitlab {
     content => epp('profile/gitlab-init.sh.epp', { 'gitlab_server' => $clientcert } ),
     require => Class['gitlab'],
   }
-  exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
-    creates => '/etc/gitlab/init',
-    require => File['/etc/gitlab/init.sh'],
+  
+  remote_file { '/etc/gitlab/pe-demo-repos.tar.gz':
+    ensure => present,
+    source => 'http://master.inf.puppetlabs.demo/pe-demo-repos.tar.gz',
   }
 
+  exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
+    creates => '/etc/gitlab/init',
+    require => [
+      Remote_file['/etc/gitlab/pe-demo-repos.tar.gz'],
+      File['/etc/gitlab/init.sh'],
+    ],
+  }
 }
