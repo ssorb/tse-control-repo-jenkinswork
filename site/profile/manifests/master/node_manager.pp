@@ -1,6 +1,7 @@
 class profile::master::node_manager {
 
   $gitlab_server = 'gitlab.inf.puppet.vm'
+  $jenkins_server = 'jenkins.inf.puppet.vm'
 
   package { 'puppetclassify':
     ensure   => present,
@@ -57,7 +58,7 @@ class profile::master::node_manager {
     environment          => 'production',
     override_environment => false,
     parent               => 'All Nodes',
-    rule                 => ['or', ['=', 'name', "${gitlab_server}"]],
+    rule                 => ['or', ['=', 'name', "${jenkins_server}"]],
     classes              => {
       'role::jenkins' => {},
     },
