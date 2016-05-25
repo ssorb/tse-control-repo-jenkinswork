@@ -59,7 +59,7 @@ class profile::master::node_manager {
     parent               => 'All Nodes',
     rule                 => ['or', ['=', 'name', "${gitlab_server}"]],
     classes              => {
-      'profile::jenkins::jenkins_jobs' => {},
+      'role::jenkins' => {},
     },
   }
 
