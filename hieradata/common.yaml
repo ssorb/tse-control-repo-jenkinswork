@@ -1,4 +1,6 @@
 ---
+puppet_enterprise::profile::master::check_for_updates: false
+
 splunk::params::version:  "6.0"
 splunk::params::build:    "182037"
 splunk::params::src_root: "http://master.inf.puppet.vm/demo_offline_splunk"
