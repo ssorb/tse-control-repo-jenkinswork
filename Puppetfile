@@ -130,7 +130,7 @@ mod 'awsenv',
   :git => 'git@github.com:puppetlabs/tse-module-awsenv.git'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
-  :ref => '0.1.0'
+  :ref => '0.2.0'
 mod 'vsphere_provision',
   :git => 'git@github.com:puppetlabs/tse-module-vsphere_provision.git',
   :ref => '1.0.0'
