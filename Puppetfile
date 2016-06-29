@@ -30,6 +30,7 @@ mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.3.0'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
+mod 'puppetlabs/dsc', '1.0.1'
 mod 'puppetlabs/limits', '0.1.0'
 mod 'vshn/gitlab', '1.8.0'
 
