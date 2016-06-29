@@ -12,7 +12,7 @@ class profile::razor::win2k12r2 {
     repo          => 'win2012r2_repo',
     task          => 'windows/2012r2',
     broker        => 'puppet-enterprise',
-    hostname      => 'win2012r2-razor${id}',
+    hostname      => 'win2012r2-${id}',
     root_password => 'puppet',
     max_count     => 20,
     node_metadata => {},
