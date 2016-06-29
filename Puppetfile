@@ -55,6 +55,7 @@ mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.2'
 mod 'puppetlabs/splunk', '3.2.0'
+mod 'puppetlabs/sqlserver', '1.1.2'
 mod 'locp/cassandra', '1.9.2'
 
 # We need https://github.com/puppetlabs/puppetlabs-stdlib/pull/539. That means
