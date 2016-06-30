@@ -14,8 +14,9 @@ define rgbank::web (
   }
 
   vcsrepo { "${install_dir_real}/wp-content/themes/rgbank":
-    ensure   => latest,
+    ensure   => present,
     source   => 'https://github.com/puppetlabs-pmmteam/rgbank.git',
+    revision => 'b6c0c2c8597d549c66aa320216ea667e94f7ec9d',
     provider => git,
     require  => Wordpress::Instance::App["rgbank_${name}"],
     notify   => Service['httpd'],
