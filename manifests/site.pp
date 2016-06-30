@@ -19,6 +19,16 @@ File { backup => false }
 
 site {
 
+  # rgbank { 'dev':
+  #   nodes => {
+  #     Node['rgbank-dev.pdx.puppet.vm'] => [
+  #       Rgbank::Web['dev-0'],
+  #       Rgbank::Load['dev'],
+  #       Rgbank::Db['dev'],
+  #     ],
+  #   },
+  # }
+
   # rgbank { 'staging':
   #   web_count => 2,
   #   nodes     => {
@@ -37,44 +47,34 @@ site {
   #   },
   # }
 
-  # rgbank { 'dev':
-  #   nodes => {
-  #     Node['rgbank-dev.pdx.puppet.vm'] => [
-  #       Rgbank::Web['dev-0'],
-  #       Rgbank::Load['dev'],
-  #       Rgbank::Db['dev'],
+
+  # zabbix_app { 'single':
+  #   zabbix_server_fqdn => 'centos6a.pdx.puppet.vm',
+  #   zabbix_web_fqdn    => 'centos6a.pdx.puppet.vm',
+  #   database_name      => 'zbx',
+  #   database_user      => 'zabbix',
+  #   database_password  => 'zabbix1',
+  #   nodes              => {
+  #     Node['centos6a.pdx.puppet.vm'] => [
+  #       Zabbix_app::Db['single'],
+  #       Zabbix_app::Web['single'],
+  #       Zabbix_app::Server['single']
   #     ],
   #   },
   # }
 
-#zabbix_app { 'single':
-#    zabbix_server_fqdn => 'centos6a.pdx.puppet.vm',
-#    zabbix_web_fqdn    => 'centos6a.pdx.puppet.vm',
-#    database_name      => 'zbx',
-#    database_user      => 'zabbix',
-#    database_password  => 'zabbix1',
-#    nodes              => {
-#      Node['centos6a.pdx.puppet.vm'] =>
-#        [
-#          Zabbix_app::Db['single'],
-#          Zabbix_app::Web['single'],
-#          Zabbix_app::Server['single']
-#        ]
-#    }
-#  }
-#
-#zabbix_app { 'multi':
-#    zabbix_server_fqdn => 'centos6c.pdx.puppet.vm',
-#    zabbix_web_fqdn    => 'centos6b.pdx.puppet.vm',
-#    database_name      => 'zbx',
-#    database_user      => 'zabbix',
-#    database_password  => 'zabbix1',
-#    nodes              => {
-#      Node['centos6b.pdx.puppet.vm'] => Zabbix_app::Web['multi'],
-#      Node['centos6c.pdx.puppet.vm'] => Zabbix_app::Server['multi'],
-#      Node['centos6d.pdx.puppet.vm'] => Zabbix_app::Db['multi'],
-#    }
-#  }
+  # zabbix_app { 'multi':
+  #   zabbix_server_fqdn => 'centos6c.pdx.puppet.vm',
+  #   zabbix_web_fqdn    => 'centos6b.pdx.puppet.vm',
+  #   database_name      => 'zbx',
+  #   database_user      => 'zabbix',
+  #   database_password  => 'zabbix1',
+  #   nodes              => {
+  #     Node['centos6b.pdx.puppet.vm'] => Zabbix_app::Web['multi'],
+  #     Node['centos6c.pdx.puppet.vm'] => Zabbix_app::Server['multi'],
+  #     Node['centos6d.pdx.puppet.vm'] => Zabbix_app::Db['multi'],
+  #   },
+  # }
 
 }
 
@@ -92,7 +92,7 @@ node default {
   # This is where you can declare classes for all nodes.
   # Example:
   #   class { 'my_class': }
-  
+
   # Uncomment this to enable static catalog workflow:
   # ini_setting { 'use_cached_catalog':
   #   ensure  => present,
