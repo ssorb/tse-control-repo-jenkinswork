@@ -91,7 +91,6 @@ mod 'WhatsARanjit/node_manager', '0.2.0'
 mod 'biemond/oradb', '2.0.2'
 mod 'fiddyspence/sysctl', '1.1.0'
 mod 'reidmv/unzip', '0.1.2'
-mod 'puppetlabs/sqlserver', '1.1.2'
 #Adding biemond's Wildfly module for Wildfly / JBoss demo
 mod 'biemond/wildfly', '0.5.2'
 
