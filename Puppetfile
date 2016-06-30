@@ -150,3 +150,6 @@ mod 'tse_sqlserver',
 mod 'sqlwebapp',
   :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
   :ref => '1.0.0'
+mod 'sqlserver',
+  :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
+  :ref => '1.1.2'
