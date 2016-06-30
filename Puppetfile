@@ -35,17 +35,7 @@ mod 'puppetlabs-docker_platform', '2.1.0'
 mod 'puppetlabs/dsc', '1.0.1'
 mod 'puppetlabs/limits', '0.1.0'
 mod 'vshn/gitlab', '1.8.0'
-
-
-# MODULES-1341 describes a situation in which firewall purging on CentOS 7
-# results in erroneous errors being thrown because rules Puppet tries to delete
-# are already gone. Until this is fixed in the published module, use this
-# patched version.
-#mod 'puppetlabs/firewall', '1.7.0'
-mod 'firewall',
-  :git => 'git://github.com/puppetlabs/puppetlabs-firewall.git',
-  :ref => 'd33d0eb66d0b36ad9feecd2ade42f76a581612a1'
-
+mod 'puppetlabs/firewall', '1.8.1'
 mod 'puppetlabs/git', '0.4.0'
 mod 'puppetlabs/haproxy', '1.3.0'
 mod 'puppetlabs/inifile', '1.4.1'
@@ -58,15 +48,7 @@ mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.2'
 mod 'puppetlabs/splunk', '3.2.0'
 mod 'locp/cassandra', '1.9.2'
-
-# We need https://github.com/puppetlabs/puppetlabs-stdlib/pull/539. That means
-# we need stdlib 4.9.1 or newer. Since that hasn't been released yet,
-# temporarily pulling directly from git.
-#mod 'puppetlabs/stdlib', '4.9.0'
-mod 'stdlib',
-  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git',
-  :ref => '61333cfc48026af204483d681bd8b10cb44d6fc6'
-
+mod 'puppetlabs/stdlib', '4.12.0'
 mod 'puppetlabs/vcsrepo', '1.3.1'
 
 # link vSphere as Git resource as it is Enterprise only module
