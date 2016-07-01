@@ -55,7 +55,7 @@ define rgbank::web (
     require => Wordpress::Instance::App["rgbank_${name}"],
   }
 
-  firewall { '000 accept rgbank web connections':
+  firewall { "000 accept rgbank web connections on ${listen_port}":
     dport  => $listen_port,
     proto  => tcp,
     action => accept,
