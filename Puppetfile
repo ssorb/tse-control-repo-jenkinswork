@@ -68,7 +68,12 @@ mod 'stdlib',
   :ref => '61333cfc48026af204483d681bd8b10cb44d6fc6'
 
 mod 'puppetlabs/vcsrepo', '1.3.1'
-mod 'puppetlabs/vsphere', '1.2.2'
+
+# link vSphere as Git resource as it is Enterprise only module
+mod 'vsphere',
+   :git => 'git@github.com:puppetlabs/puppetlabs-vsphere.git',
+   :ref => '1.2.2'
+
 mod 'puppetlabs/tomcat', '1.3.2'
 
 # Forge Community Modules
