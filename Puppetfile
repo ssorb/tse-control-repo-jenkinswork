@@ -28,8 +28,10 @@ mod 'puppet/windows_firewall', '1.0.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.3.0'
+mod 'puppetlabs/azure', '1.0.2'
 mod 'puppetlabs/concat', '1.2.4'
 mod 'puppetlabs/dism', '1.2.0'
+mod 'puppetlabs-docker_platform', '2.1.0'
 mod 'puppetlabs/dsc', '1.0.1'
 mod 'puppetlabs/limits', '0.1.0'
 mod 'vshn/gitlab', '1.8.0'
@@ -66,17 +68,26 @@ mod 'stdlib',
   :ref => '61333cfc48026af204483d681bd8b10cb44d6fc6'
 
 mod 'puppetlabs/vcsrepo', '1.3.1'
+
+# link vSphere as Git resource as it is Enterprise only module
+mod 'vsphere',
+   :git => 'git@github.com:puppetlabs/puppetlabs-vsphere.git',
+   :ref => '1.2.2'
+
 mod 'puppetlabs/tomcat', '1.3.2'
 
 # Forge Community Modules
 
 mod 'abrader/gms', '1.0.2'
 mod 'ajjahn/samba', '0.3.1'
+mod 'andulla/dsc_collection', '0.2.2'
+mod 'andulla/vsphere_conf', '0.0.9'
 mod 'badgerious/windows_env', '2.2.2'
 mod 'camptocamp/archive', '0.8.1'
 mod 'chocolatey/chocolatey', '1.2.5'
 mod 'cyberious/pget', '1.1.0'
 mod 'cyberious/windows_java', '1.0.2'
+mod 'garethr-docker', '5.2.0'
 mod 'hunner/hiera', '2.0.1'
 mod 'hunner/wordpress', '1.0.0'
 mod 'lwf/remote_file', '1.1.0'
