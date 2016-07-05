@@ -141,13 +141,7 @@ class profile::master::node_manager {
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'mysql::bindings::php'         => {},
-      'mysql::client'                => {},
-      'apache'                       => { 'default_vhost' => false },
-      'apache::mod::php'             => {},
-      'git'                          => {},
-      'profile::firewall'            => {},
-      'profile::orchestrator_client' => {},
+      'role::rgbank::appserver' => {},
     },
   }
 

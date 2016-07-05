@@ -14,8 +14,9 @@ define rgbank::web (
   }
 
   vcsrepo { "${install_dir_real}/wp-content/themes/rgbank":
-    ensure   => latest,
+    ensure   => present,
     source   => 'https://github.com/puppetlabs-pmmteam/rgbank.git',
+    revision => 'b6c0c2c8597d549c66aa320216ea667e94f7ec9d',
     provider => git,
     require  => Wordpress::Instance::App["rgbank_${name}"],
     notify   => Service['httpd'],
@@ -54,7 +55,7 @@ define rgbank::web (
     require => Wordpress::Instance::App["rgbank_${name}"],
   }
 
-  firewall { '000 accept rgbank web connections':
+  firewall { "000 accept rgbank web connections on ${listen_port}":
     dport  => $listen_port,
     proto  => tcp,
     action => accept,

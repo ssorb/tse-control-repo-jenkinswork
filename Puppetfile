@@ -24,30 +24,21 @@ mod 'database', :local => true
 
 # PL Modules
 
-mod 'puppet/windows_firewall', '1.0.0'
+mod 'puppetlabs-docker_platform', '2.1.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.3.0'
-mod 'puppetlabs/concat', '1.2.4'
+mod 'puppetlabs/azure', '1.0.2'
+mod 'puppetlabs/concat', '2.2.0'
 mod 'puppetlabs/dism', '1.2.0'
 mod 'puppetlabs/dsc', '1.0.1'
-mod 'puppetlabs/limits', '0.1.0'
-mod 'vshn/gitlab', '1.8.0'
-
-
-# MODULES-1341 describes a situation in which firewall purging on CentOS 7
-# results in erroneous errors being thrown because rules Puppet tries to delete
-# are already gone. Until this is fixed in the published module, use this
-# patched version.
-#mod 'puppetlabs/firewall', '1.7.0'
-mod 'firewall',
-  :git => 'git://github.com/puppetlabs/puppetlabs-firewall.git',
-  :ref => 'd33d0eb66d0b36ad9feecd2ade42f76a581612a1'
-
+mod 'puppetlabs/firewall', '1.8.1'
 mod 'puppetlabs/git', '0.4.0'
 mod 'puppetlabs/haproxy', '1.3.0'
 mod 'puppetlabs/inifile', '1.4.1'
 mod 'puppetlabs/java', '1.4.1'
+mod 'puppetlabs/limits', '0.1.0'
+mod 'puppetlabs/mount_iso', '0.1.0'
 mod 'puppetlabs/mysql', '3.5.0'
 mod 'puppetlabs/ntp', '4.1.0'
 mod 'puppetlabs/powershell', '2.0.1'
@@ -55,44 +46,40 @@ mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/reboot', '1.1.0'
 mod 'puppetlabs/registry', '1.1.2'
 mod 'puppetlabs/splunk', '3.2.0'
-mod 'locp/cassandra', '1.9.2'
-
-# We need https://github.com/puppetlabs/puppetlabs-stdlib/pull/539. That means
-# we need stdlib 4.9.1 or newer. Since that hasn't been released yet,
-# temporarily pulling directly from git.
-#mod 'puppetlabs/stdlib', '4.9.0'
-mod 'stdlib',
-  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git',
-  :ref => '61333cfc48026af204483d681bd8b10cb44d6fc6'
-
-mod 'puppetlabs/vcsrepo', '1.3.1'
+mod 'puppetlabs/stdlib', '4.12.0'
 mod 'puppetlabs/tomcat', '1.3.2'
+mod 'puppetlabs/vcsrepo', '1.3.1'
 
 # Forge Community Modules
 
-mod 'abrader/gms', '1.0.2'
-mod 'ajjahn/samba', '0.3.1'
-mod 'badgerious/windows_env', '2.2.2'
+mod 'garethr-docker', '5.2.0'
 mod 'camptocamp/archive', '0.8.1'
 mod 'chocolatey/chocolatey', '1.2.5'
-mod 'cyberious/pget', '1.1.0'
-mod 'cyberious/windows_java', '1.0.2'
-mod 'hunner/hiera', '2.0.1'
-mod 'hunner/wordpress', '1.0.0'
-mod 'lwf/remote_file', '1.1.0'
-mod 'nanliu/staging', '1.0.3'
-mod 'pltraining/rbac', '0.0.4'
-mod 'puppet/iis', '1.4.1'
-mod 'puppet/windowsfeature', '1.1.0'
-mod 'rtyler/jenkins', '1.6.1'
+mod 'andulla/dsc_collection', '0.2.2'
+mod 'ipcrm/echo', '0.1.3'
 mod 'stahnma/epel', '1.0.2'
+mod 'vshn/gitlab', '1.8.0'
+mod 'abrader/gms', '1.0.2'
+mod 'hunner/hiera', '2.0.1'
+mod 'puppet/iis', '1.4.1'
+mod 'rtyler/jenkins', '1.6.1'
 mod 'tse/local_yum_repo', '0.2.0'
 mod 'WhatsARanjit/node_manager', '0.2.0'
 mod 'biemond/oradb', '2.0.2'
+mod 'cyberious/pget', '1.1.0'
+mod 'pltraining/rbac', '0.0.4'
+mod 'lwf/remote_file', '1.1.0'
+mod 'ajjahn/samba', '0.3.1'
+mod 'nanliu/staging', '1.0.3'
 mod 'fiddyspence/sysctl', '1.1.0'
 mod 'reidmv/unzip', '0.1.2'
-#Adding biemond's Wildfly module for Wildfly / JBoss demo
-mod 'biemond/wildfly', '0.5.2'
+mod 'andulla/vsphere_conf', '0.0.9'
+mod 'biemond/wildfly', '0.5.2' # Wildfly / JBoss demo
+mod 'badgerious/windows_env', '2.2.2'
+mod 'puppet/windows_firewall', '1.0.0'
+mod 'cyberious/windows_java', '1.0.2'
+mod 'puppet/windowsfeature', '1.1.0'
+mod 'hunner/wordpress', '1.0.0'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
@@ -128,15 +115,20 @@ mod 'razordemo',
 mod 'tse_admins',
   :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
 mod 'awsenv',
-  :git => 'git@github.com:puppetlabs/tse-module-awsenv.git'
+  :git => 'git@github.com:puppetlabs/tse-module-awsenv.git',
+  :ref => '0.1.0'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
   :ref => '0.2.0'
+mod 'vsphere',
+   :git => 'git@github.com:puppetlabs/puppetlabs-vsphere.git',
+   :ref => '1.2.2'
 mod 'vsphere_provision',
   :git => 'git@github.com:puppetlabs/tse-module-vsphere_provision.git',
   :ref => '1.0.0'
 mod 'tse_windows',
-  :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git'
+  :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git',
+  :ref => '0.1.0'
 mod 'zabbix_app',
   :git => 'git@github.com:ipcrm/appmgmt-module-zabbix_app.git'
 mod 'zabbix',
@@ -153,11 +145,13 @@ mod 'cloudshop',
   :git => 'https://github.com/velocity303/puppet-cloudshop.git',
   :ref => '1.0.0'
 mod 'tse_sqlserver',
-  :git => 'https://github.com/velocity303/tse-module-tse_sqlserver.git',
+  :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
   :ref => '1.0.1'
 mod 'sqlwebapp',
   :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
   :ref => '1.0.0'
 mod 'mount_iso',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_iso.git'
-mod 'ipcrm/echo', '0.1.3'
+mod 'sqlserver',
+  :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
+  :ref => '1.1.2'
