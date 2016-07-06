@@ -145,8 +145,8 @@ mod 'cloudshop',
   :git => 'https://github.com/velocity303/puppet-cloudshop.git',
   :ref => '1.0.0'
 mod 'tse_sqlserver',
-  :git => 'https://github.com/velocity303/tse-module-tse_sqlserver.git',
-  :ref => '1.0.0'
+  :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
+  :ref => '1.0.1'
 mod 'sqlwebapp',
   :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
   :ref => '1.0.0'
