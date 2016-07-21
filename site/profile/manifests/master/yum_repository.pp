@@ -37,7 +37,6 @@ class profile::master::yum_repository {
   }
 
   $centos7_x64_packages = [
-    'tomcat',
     'java',
   ]
 
