@@ -36,17 +36,17 @@ class profile::master::yum_repository {
     }
   }
 
-  $centos7_x64_packages = [
-    'java',
-  ]
+#  $centos7_x64_packages = [
+#    'java',
+#  ]
 
-  $centos7_x64_packages.each |$package| {
-    local_yum_repo::package { "${package}.el7.x86_64":
-      directory    => '/opt/tse-files/mirrors/centos/7/x86_64',
-      package_name => $package,
-      releasever   => '7',
-      basearch     => 'x86_64',
-    }
-  }
+#  $centos7_x64_packages.each |$package| {
+#    local_yum_repo::package { "${package}.el7.x86_64":
+#      directory    => '/opt/tse-files/mirrors/centos/7/x86_64',
+#      package_name => $package,
+#      releasever   => '7',
+#      basearch     => 'x86_64',
+#    }
+#  }
 
 }
