@@ -51,4 +51,15 @@ class profile::master::puppetserver {
     creates => '/etc/puppetlabs/license.key',
   }
 
+  # Provide an environment command to automatically commit code from
+  # code-staging and sync it to the live codedir. We can remove this command
+  # when PE-15438 and CODEMGMT-697 are resolved.
+  file { '/opt/puppetlabs/bin/puppet-code-commit':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '755',
+    source => 'puppet:///profile/puppet-code-commit',
+  }
+
 }
