@@ -59,7 +59,7 @@ class profile::master::puppetserver {
     owner  => 'root',
     group  => 'root',
     mode   => '755',
-    source => 'puppet:///profile/puppet-code-commit',
+    source => 'puppet:///modules/profile/puppet-code-commit',
   }
 
 }
