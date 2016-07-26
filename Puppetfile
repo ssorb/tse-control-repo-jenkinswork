@@ -27,7 +27,7 @@ mod 'database', :local => true
 mod 'puppetlabs-docker_platform', '2.1.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
-mod 'puppetlabs/aws', '1.3.0'
+mod 'puppetlabs/aws', '1.4.0'
 mod 'puppetlabs/azure', '1.0.2'
 mod 'puppetlabs/concat', '2.2.0'
 mod 'puppetlabs/dism', '1.2.0'
