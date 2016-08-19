@@ -1,4 +1,5 @@
 class profile::master::fileserver {
+  include 'stdlib'
   include 'apache'
   include 'profile::firewall'
 
@@ -28,6 +29,14 @@ class profile::master::fileserver {
     chain  => 'INPUT',
     proto  => 'tcp',
     action => 'accept',
+  }
+
+  # The *::finalize class includes some configuration that should be applied
+  # after everything is up and fully operational. Some of this configuration is
+  # used to signal to external watchers that the master is fully configured and
+  # ready.
+  class { 'profile::master::fileserver::finalize':
+    stage => 'deploy_app',
   }
 
 }
