@@ -18,19 +18,19 @@ forge "https://forgeapi.puppetlabs.com"
 # These modules are currently committed to the modules/ directory locally, but
 # should ideally be converted to regular module references to the Forge or to a
 # git repo.
-mod 'rgbank', :local => true
-mod 'http', :local => true
-mod 'database', :local => true
+# mod 'rgbank', :local => true
+# mod 'http', :local => true
+# mod 'database', :local => true
 
 # PL Modules
 
-mod 'puppetlabs-docker_platform', '2.1.0'
 mod 'puppetlabs/acl', '1.1.1'
 mod 'puppetlabs/apache', '1.6.0'
 mod 'puppetlabs/aws', '1.4.0'
 mod 'puppetlabs/azure', '1.0.2'
 mod 'puppetlabs/concat', '2.2.0'
 mod 'puppetlabs/dism', '1.2.0'
+mod 'puppetlabs/docker_platform', '2.1.0'
 mod 'puppetlabs/dsc', '1.0.1'
 mod 'puppetlabs/firewall', '1.8.1'
 mod 'puppetlabs/git', '0.4.0'
@@ -52,9 +52,9 @@ mod 'puppetlabs/vcsrepo', '1.3.1'
 
 # Forge Community Modules
 
-mod 'garethr-docker', '5.2.0'
 mod 'camptocamp/archive', '0.8.1'
 mod 'chocolatey/chocolatey', '1.2.5'
+mod 'garethr/docker', '5.2.0'
 mod 'andulla/dsc_collection', '0.2.2'
 mod 'ipcrm/echo', '0.1.3'
 mod 'stahnma/epel', '1.0.2'
@@ -83,6 +83,12 @@ mod 'hunner/wordpress', '1.0.0'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
+mod 'awsenv',
+  :git => 'git@github.com:puppetlabs/tse-module-awsenv.git',
+  :ref => '0.1.0'
+mod 'cloudshop',
+  :git => 'https://github.com/velocity303/puppet-cloudshop.git',
+  :ref => '1.0.0'
 mod 'cmsapp',
   :git => 'git@github.com:puppetlabs/tse-module-cmsapp.git'
 
@@ -96,6 +102,9 @@ mod 'dotnet',
 
 mod 'ec2tags',
   :git => 'git@github.com:mrzarquon/puppet-ec2tags.git'
+mod 'ibm_installation_manager',
+  :git => 'git@github.com:ipcrm/puppetlabs-ibm_installation_manager.git',
+  :ref => 'master'
 mod 'ldap',
   :git => 'git@github.com:puppetlabs/tse-module-ldapserver.git'
 mod 'nonpriv',
@@ -114,9 +123,6 @@ mod 'razordemo',
   :ref => '3.2.0'
 mod 'tse_admins',
   :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
-mod 'awsenv',
-  :git => 'git@github.com:puppetlabs/tse-module-awsenv.git',
-  :ref => '0.1.0'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
   :ref => '0.2.0'
@@ -129,27 +135,21 @@ mod 'vsphere_provision',
 mod 'tse_windows',
   :git => 'git@github.com:puppetlabs/tse-module-tse_windows.git',
   :ref => '0.1.0'
+mod 'tse_sqlserver',
+  :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
+  :ref => '1.0.1'
+mod 'sqlserver',
+  :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
+  :ref => '1.1.2'
+mod 'sqlwebapp',
+  :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
+  :ref => '1.0.0'
+mod 'websphere',
+  :git => 'git@github.com:ipcrm/puppetlabs-websphere.git',
+  :ref => 'master'
+mod 'wordpress_app',
+  :git => 'git@github.com:ipcrm/apporchestration-wordpress.git'
 mod 'zabbix_app',
   :git => 'git@github.com:ipcrm/appmgmt-module-zabbix_app.git'
 mod 'zabbix',
   :git => 'git@github.com:ipcrm/puppet-zabbix.git'
-mod 'wordpress_app',
-  :git => 'git@github.com:ipcrm/apporchestration-wordpress.git'
-mod 'websphere',
-  :git => 'git@github.com:ipcrm/puppetlabs-websphere.git',
-  :ref => 'master'
-mod 'ibm_installation_manager',
-  :git => 'git@github.com:ipcrm/puppetlabs-ibm_installation_manager.git',
-  :ref => 'master'
-mod 'cloudshop',
-  :git => 'https://github.com/velocity303/puppet-cloudshop.git',
-  :ref => '1.0.0'
-mod 'tse_sqlserver',
-  :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
-  :ref => '1.0.1'
-mod 'sqlwebapp',
-  :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
-  :ref => '1.0.0'
-mod 'sqlserver',
-  :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
-  :ref => '1.1.2'
