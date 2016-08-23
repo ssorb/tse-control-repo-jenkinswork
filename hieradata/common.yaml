@@ -5,6 +5,11 @@ splunk::params::version:  "6.0"
 splunk::params::build:    "182037"
 splunk::params::src_root: "http://master.inf.puppet.vm/demo_offline_splunk"
 
+# We're currently using spiette/puppet-selinux, which has not been updated with
+# correct defaults. We therefore need to use a different default than ships
+# with the module.
+selinux::params::modules_dir: "%{puppet_vardir}/selinux"
+
 preserved_users:
   - 'pe-puppet'
 
