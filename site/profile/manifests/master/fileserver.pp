@@ -6,12 +6,12 @@ class profile::master::fileserver {
   # Detect Vagrant
   case $::virtual {
     'virtualbox': {
-      $apache_user  = 'vagrant'
-      $apache_group = 'vagrant'
+      $admin_file_owner = 'vagrant'
+      $admin_file_group = 'vagrant'
     }
     default: {
-      $apache_user  = 'root'
-      $apache_group = 'root'
+      $admin_file_owner = 'root'
+      $admin_file_group = 'root'
     }
   }
 
@@ -20,8 +20,8 @@ class profile::master::fileserver {
     port          => '80',
     docroot       => '/opt/tse-files',
     priority      => '10',
-    docroot_owner => $apache_user,
-    docroot_group => $apache_group,
+    docroot_owner => $admin_file_owner,
+    docroot_group => $admin_file_group,
   }
 
   firewall { '110 apache allow all':

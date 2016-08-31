@@ -6,8 +6,8 @@ class profile::master::fileserver::finalize {
 
   file { '/opt/tse-files/deployed.txt':
     ensure  => file,
-    owner   => 'root',
-    group   => 'root',
+    owner   => $profile::master::fileserver::admin_file_owner,
+    group   => $profile::master::fileserver::admin_file_group,
     mode    => '0644',
     content => "complete\n",
   }
