@@ -1,14 +1,13 @@
 class profile::linux::selinux {
   include stdlib
 
-  class { 'selinux':
-    mode  => 'disabled',
+  class { 'profile::linux::selinux::setup':
     stage => 'setup',
   }
 
   reboot { 'selinux':
     apply     => finished,
-    subscribe => Class['selinux'],
+    subscribe => Class['profile::linux::selinux::setup'],
   }
 
 }
