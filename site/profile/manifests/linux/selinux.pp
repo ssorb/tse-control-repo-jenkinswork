@@ -6,4 +6,9 @@ class profile::linux::selinux {
     stage => 'setup',
   }
 
+  reboot { 'selinux':
+    apply     => finished,
+    subscribe => Class['selinux'],
+  }
+
 }
