@@ -25,9 +25,15 @@ define rgbank::db (
   }
 }
 
+if $::facts['dmi']['product']['name'] == 'VirtualBox' {
+  $ip_db = $::facts['networking']['interfaces']['enp0s8']['ip']
+} else {
+  $ip_db = $::facts['networking']['ip']
+}
+
 Rgbank::Db produces Mysqldb {
   database => "rgbank-${name}",
   user     => $user,
-  host     => $::hostname,
+  host     => $ip_db,
   password => $password
 }
