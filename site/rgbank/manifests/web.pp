@@ -22,6 +22,11 @@ define rgbank::web (
     notify   => Service['httpd'],
   }
 
+  package { 'wget':
+    ensure => present,
+    before => Wordpress::Instance::App["rgbank_${name}"],
+  }
+
   wordpress::instance::app { "rgbank_${name}":
     install_dir          => $install_dir_real,
     install_url          => 'http://wordpress.org',
@@ -69,9 +74,15 @@ define rgbank::web (
   }
 }
 
+if $::facts['dmi']['product']['name'] == 'VirtualBox' {
+  $ip_web = $::facts['networking']['interfaces']['enp0s8']['ip']
+} else {
+  $ip_web = $::facts['networking']['ip']
+}
+
 Rgbank::Web produces Http {
   name => $name,
-  ip   => $::networking['interfaces']['enp0s8']['ip'],
+  ip   => $ip_web,
   port => $listen_port,
   host => $::hostname,
 }
