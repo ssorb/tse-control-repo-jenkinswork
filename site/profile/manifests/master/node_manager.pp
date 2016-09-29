@@ -129,6 +129,7 @@ class profile::master::node_manager {
       'haproxy'                      => {},
       'profile::firewall'            => {},
       'profile::orchestrator_client' => {},
+      'role::rgbank::loadbalancer'   => {},
     }
   }
 
