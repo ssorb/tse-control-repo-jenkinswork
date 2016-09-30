@@ -61,6 +61,10 @@ class profile::master::puppetserver::demo_user (
         'instance'    => '*',
         'object_type' => 'orchestration',
       },
+      { 'action'      => 'view_data',
+        'instance'    => '*',
+        'object_type' => 'nodes',
+      },
     ],
   })
 
