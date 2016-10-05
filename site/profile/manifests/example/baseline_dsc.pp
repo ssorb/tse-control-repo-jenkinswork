@@ -1,4 +1,4 @@
-class profile::windows::baseline_dsc {
+class profile::example::baseline_dsc {
 
   # NOTE this requires powershell5, please use the powershell5 module to update.  It will reboot the machine without asking.
 
