@@ -115,6 +115,9 @@ mod 'openssh',
   :ref => '0.1.0'
 mod 'pe_windows_shortcuts',
   :git => 'git@github.com:puppetlabs/tse-module-pe_windows_shortcuts.git'
+mod 'powershell5',
+  :git => 'https://github.com/murdok5/powershell5.git',
+  :ref => 'master'
 mod 'puppet_vim_env',
   :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
   :ref => '2.1.2'
