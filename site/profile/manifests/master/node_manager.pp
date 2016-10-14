@@ -117,50 +117,52 @@ class profile::master::node_manager {
     password     => 'puppetlabs',
   }
 
-  node_group { 'rgbank / Load Balancers':
+  node_group { 'rgbank':
     ensure      => 'present',
     environment => 'production',
     parent      => 'All Nodes',
+    classes     => {},
+    rule        => ['and',
+      ['~', 'name', '^rgbank-.*'],
+    ],
+  }
+
+  node_group { 'rgbank load balancers':
+    ensure      => 'present',
+    environment => 'production',
+    parent      => 'rgbank',
     rule        => ['or',
       ['~', 'name', '^rgbank-loadbalancer-.*'],
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'haproxy'                      => {},
-      'profile::firewall'            => {},
-      'profile::orchestrator_client' => {},
       'role::rgbank::loadbalancer'   => {},
     }
   }
 
-  node_group { 'rgbank / App Servers':
+  node_group { 'rgbank app servers':
     ensure      => 'present',
     environment => 'production',
-    parent      => 'All Nodes',
+    parent      => 'rgbank',
     rule        => ['or',
       ['~', 'name', '^rgbank-appserver-.*'],
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'role::rgbank::appserver' => {},
+      'role::rgbank::app' => {},
     },
   }
 
-  node_group { 'rgbank / Database Servers':
+  node_group { 'rgbank database servers':
     ensure      => 'present',
     environment => 'production',
-    parent      => 'All Nodes',
+    parent      => 'rgbank',
     rule        => ['or',
       ['~', 'name', '^rgbank-database-.*'],
       ['~', 'name', '^rgbank-dev.*'],
     ],
     classes     => {
-      'mysql::server' => {
-        'override_options' => { 'mysqld' => { 'bind-address' => '0.0.0.0' } },
-      },
-      'git'                          => {},
-      'profile::firewall'            => {},
-      'profile::orchestrator_client' => {},
+      'role::rgbank::database' => {},
     },
   }
 
