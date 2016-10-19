@@ -80,6 +80,9 @@ mod 'puppet/windows_firewall', '1.0.0'
 mod 'cyberious/windows_java', '1.0.2'
 mod 'puppet/windowsfeature', '1.1.0'
 mod 'hunner/wordpress', '1.0.0'
+mod 'tse/winntp', '1.0.1'
+mod 'tse/time', '1.0.1'
+mod 'jriviere/windows_ad', '0.3.2'
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
@@ -140,13 +143,13 @@ mod 'tse_windows',
   :ref => '0.1.0'
 mod 'tse_sqlserver',
   :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
-  :ref => '1.0.1'
+  :ref => 'master'
 mod 'sqlserver',
   :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
-  :ref => '1.1.2'
+  :ref => '1.1.4'
 mod 'sqlwebapp',
   :git => 'https://github.com/velocity303/puppet-sqlwebapp.git',
-  :ref => '1.0.0'
+  :ref => 'master'
 mod 'websphere',
   :git => 'git@github.com:ipcrm/puppetlabs-websphere.git',
   :ref => 'master'
