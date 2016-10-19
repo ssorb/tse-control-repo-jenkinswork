@@ -144,7 +144,7 @@ mod 'tse_windows',
   :ref => '0.1.0'
 mod 'tse_sqlserver',
   :git => 'https://github.com/puppetlabs/tse-module-tse_sqlserver.git',
-  :ref => 'master'
+  :ref => '1.0.2'
 mod 'sqlserver',
   :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
   :ref => '1.1.4'
