@@ -96,11 +96,11 @@ file 'build/Puppetfile' => ['build/environment'] do
     Rake::FileList["#{'build/environment/modules'}/*"].each do |mod_dir|
       name = File.basename(mod_dir)
       head = File.read(File.join(mod_dir, '.git', 'HEAD')).chomp
-      ref  = head.match(%r{^ref: }) ? head.sub(%r{^ref: refs/heads/}, '') : head
+      sha = Dir.chdir(mod_dir) { %x{git rev-parse HEAD}.chomp }
 
       file.write("mod '#{name}',\n")
-      file.write("  :git => '#{ENV['offline_repos_path']}/#{name}.git',\n")
-      file.write("  :ref => '#{ref}'\n\n")
+      file.write("  :git    => '#{ENV['offline_repos_path']}/#{name}.git',\n")
+      file.write("  :commit => '#{sha}'\n\n")
     end
   end
 end
