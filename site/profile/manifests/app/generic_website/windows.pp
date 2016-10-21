@@ -47,11 +47,14 @@ class profile::app::generic_website::windows {
     description  => 'Inbound rule for HTTP Server - Port 80',
   }
 
-  staging::deploy { 'pl_generic_site.zip':
-    source  => 'puppet:///modules/profile/pl_generic_site.zip',
-    target  => $doc_root,
+  staging::file { 'pl_generic_site.zip':
+    source => "puppet:///modules/profile/pl_generic_site.zip",
+  }
+  
+  unzip { 'pl_generic_site.zip':
+    source    => "C:\\ProgramData\\staging\\profile\\pl_generic_site.zip",
+    creates   => "${doc_root}\\index.html",
     require => Iis::Manage_site[$::fqdn],
-    creates => "${doc_root}/index.html",
   }
 
 }
