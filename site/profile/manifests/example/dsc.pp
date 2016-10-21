@@ -38,7 +38,7 @@ class profile::example::dsc {
     dsc_ensure     => 'present',
     dsc_name       => 'SharesRoot',
     dsc_path       => 'c:\shares',
-    dsc_fullaccess => ["everyone","${::hostname}\vagrant"],
+    dsc_fullaccess => ["everyone"],
     dsc_folderenumerationmode => "Unrestricted",
   }
 
