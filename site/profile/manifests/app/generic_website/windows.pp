@@ -2,14 +2,16 @@ class profile::app::generic_website::windows {
 
   $doc_root = 'C:\inetpub\wwwroot\generic_website'
 
-  windowsfeature { 'IIS':
-    feature_name => [
+   $iis_features = [
       'Web-Server',
       'Web-WebServer',
       'Web-Http-Redirect',
       'Web-Mgmt-Console',
       'Web-Mgmt-Tools',
-    ],
+    ]
+
+  windowsfeature { $iis_features:
+    ensure => present,
   }
 
   iis::manage_site {'Default Web Site':
@@ -18,7 +20,7 @@ class profile::app::generic_website::windows {
 
   iis::manage_app_pool {'generic_website':
     require => [
-      Windowsfeature['IIS'],
+      Windowsfeature['Web-Server'],
       Iis::Manage_site['Default Web Site'],
     ],
   }
@@ -29,7 +31,7 @@ class profile::app::generic_website::windows {
     ip_address  => '*',
     app_pool    => 'generic_website',
     require     => [
-      Windowsfeature['IIS'],
+      Windowsfeature['Web-Server'],
       Iis::Manage_app_pool['generic_website']
     ],
   }
@@ -45,11 +47,14 @@ class profile::app::generic_website::windows {
     description  => 'Inbound rule for HTTP Server - Port 80',
   }
 
-  staging::deploy { 'pl_generic_site.zip':
-    source  => 'puppet:///modules/profile/pl_generic_site.zip',
-    target  => $doc_root,
+  staging::file { 'pl_generic_site.zip':
+    source => "puppet:///modules/profile/pl_generic_site.zip",
+  }
+  
+  unzip { 'pl_generic_site.zip':
+    source    => "C:\\ProgramData\\staging\\profile\\pl_generic_site.zip",
+    creates   => "${doc_root}\\index.html",
     require => Iis::Manage_site[$::fqdn],
-    creates => "${doc_root}/index.html",
   }
 
 }
