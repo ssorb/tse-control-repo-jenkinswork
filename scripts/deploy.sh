@@ -18,6 +18,13 @@ main()
   # Bootstrap classification by using puppet-apply to configure the node
   # manager, then running puppet-agent to enforce all configured state.
   /bin/bash $tools_path/refresh_classes.sh
+
+  # This is a hack. It is required because the node_manager module doesn't
+  # currently support compiling a catalog that includes node_group resources
+  # prior to the puppetclassify gem being available. Once that's fixed, we
+  # shouldn't need this anymore.
+  gem install --no-ri --no-rdoc puppetclassify
+
   puppet apply --exec 'include profile::master::node_manager'
   puppet agent --onetime --no-daemonize --color=false --verbose
 
