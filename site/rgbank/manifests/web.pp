@@ -74,17 +74,14 @@ define rgbank::web (
   }
 }
 
-if $::facts['dmi']['product']['name'] == 'VirtualBox' {
-  $ip_web = $::facts['networking']['interfaces']['enp0s8']['ip']
-} else {
-  $ip_web = $::facts['networking']['ip']
-}
-
 Rgbank::Web produces Http {
-  name => $name,
-  ip   => $ip_web,
-  port => $listen_port,
-  host => $::hostname,
+  name    => $name,
+  ip      => $ec2_metadata ? {
+    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
+    default => $ec2_metadata['public-ipv4'],
+  },
+  port     => $listen_port,
+  host     => $::hostname
 }
 
 Rgbank::Web consumes Mysqldb {
