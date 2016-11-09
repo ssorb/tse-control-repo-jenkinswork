@@ -76,7 +76,7 @@ define rgbank::web (
   $ip_web = $ec2_metadata ? {
     undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
     default => $ec2_metadata['public-ipv4'],
-  },
+  }
 
 }
 
