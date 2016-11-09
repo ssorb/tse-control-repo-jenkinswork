@@ -24,16 +24,14 @@ define rgbank::db (
     password_hash => mysql_password($password),
   }
 
-  $ip_db = $ec2_metadata ? {
-    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
-    default => $ec2_metadata['public-ipv4'],
-  }
-
 }
 
 Rgbank::Db produces Mysqldb {
   database => "rgbank-${name}",
-  host     => $ip_db,
+  host     => $ec2_metadata ? {
+    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
+    default => $ec2_metadata['public-ipv4'],
+  },
   user     => $user,
   password => $password,
 }

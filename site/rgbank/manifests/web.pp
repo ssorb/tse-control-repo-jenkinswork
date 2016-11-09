@@ -73,16 +73,14 @@ define rgbank::web (
     port    => $listen_port,
   }
 
-  $ip_web = $ec2_metadata ? {
-    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
-    default => $ec2_metadata['public-ipv4'],
-  }
-
 }
 
 Rgbank::Web produces Http {
   name => $name,
-  ip   => $ip_web,
+  ip   => $ec2_metadata ? {
+    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
+    default => $ec2_metadata['public-ipv4'],
+  },
   port => $listen_port,
   host => $::hostname,
 }
