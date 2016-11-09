@@ -72,16 +72,19 @@ define rgbank::web (
     docroot => $install_dir_real,
     port    => $listen_port,
   }
-}
 
-Rgbank::Web produces Http {
-  name    => $name,
-  ip      => $ec2_metadata ? {
+  $ip_web = $ec2_metadata ? {
     undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
     default => $ec2_metadata['public-ipv4'],
   },
-  port     => $listen_port,
-  host     => $::hostname
+
+}
+
+Rgbank::Web produces Http {
+  name => $name,
+  ip   => $ip_web,
+  port => $listen_port,
+  host => $::hostname,
 }
 
 Rgbank::Web consumes Mysqldb {
