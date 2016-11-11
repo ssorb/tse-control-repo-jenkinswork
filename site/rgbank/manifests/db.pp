@@ -1,6 +1,10 @@
 define rgbank::db (
   $user,
   $password,
+  $ip_db = $::ec2_metadata ? {
+    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
+    default => $::ec2_metadata['public-ipv4'],
+  },
 ) {
   $db_name = "rgbank-${name}"
 
@@ -28,10 +32,7 @@ define rgbank::db (
 
 Rgbank::Db produces Mysqldb {
   database => "rgbank-${name}",
-  host     => $ec2_metadata ? {
-    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
-    default => $ec2_metadata['public-ipv4'],
-  },
+  host     => $ip_db,
   user     => $user,
   password => $password,
 }

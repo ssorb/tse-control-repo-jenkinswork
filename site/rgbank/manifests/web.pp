@@ -5,6 +5,10 @@ define rgbank::web (
   $db_password,
   $listen_port = '8060',
   $install_dir = undef,
+  $ip_web = $::ec2_metadata ? {
+    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
+    default => $::ec2_metadata['public-ipv4'],
+  },
 ) {
 
   if $install_dir {
@@ -77,10 +81,7 @@ define rgbank::web (
 
 Rgbank::Web produces Http {
   name => $name,
-  ip   => $ec2_metadata ? {
-    undef   => $::facts['networking']['interfaces']['enp0s8']['ip'],
-    default => $ec2_metadata['public-ipv4'],
-  },
+  ip   => $ip_web,
   port => $listen_port,
   host => $::hostname,
 }
