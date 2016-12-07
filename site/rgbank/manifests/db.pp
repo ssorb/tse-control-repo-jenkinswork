@@ -28,6 +28,11 @@ define rgbank::db (
     password_hash => mysql_password($password),
   }
 
+  mysql_user { "${user}@${::fqdn}":
+    ensure        => 'present',
+    password_hash => mysql_password($password),
+  }
+
 }
 
 Rgbank::Db produces Mysqldb {
