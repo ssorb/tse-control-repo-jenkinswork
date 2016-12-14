@@ -65,11 +65,7 @@ mod 'hunner/hiera', '2.0.1'
 mod 'puppet/iis', '1.4.1'
 mod 'rtyler/jenkins', '1.6.1'
 mod 'tse/local_yum_repo', '0.2.0'
-#mod 'WhatsARanjit/node_manager', '0.3.0'
-# Adding this temporary reference to Abir's fork of node_manager. Remove when Ranjit updates node_manager repo
-mod 'node_manager',
-  :git => 'git@github.com:maju6406/prosvcs-node_manager.git',
-  :ref => 'patch-1'
+mod 'WhatsARanjit/node_manager', '0.3.1'
 mod 'biemond/oradb', '2.0.2'
 mod 'cyberious/pget', '1.1.0'
 mod 'pltraining/rbac', '0.0.5'
