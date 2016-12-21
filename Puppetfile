@@ -132,7 +132,7 @@ mod 'tse_admins',
   :git => 'git@github.com:puppetlabs/tse-module-tse_admins.git'
 mod 'tse_facts',
   :git => 'git@github.com:puppetlabs/tse-module-tse_facts.git',
-  :ref => '0.2.0'
+  :ref => '0.3.0'
 mod 'vsphere',
    :git => 'git@github.com:puppetlabs/puppetlabs-vsphere.git',
    :ref => '1.2.2'
