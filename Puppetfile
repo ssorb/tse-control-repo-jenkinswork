@@ -149,7 +149,7 @@ mod 'sqlserver',
   :git => 'git@github.com:puppetlabs/puppetlabs-sqlserver.git',
   :ref => '1.1.4'
 mod 'sqlwebapp',
-  :git => 'git@github.com:puppetlabs/tse-module-sqlwebapp.git',
+  :git => 'https://github.com/puppetlabs/tse-module-sqlwebapp.git',
   :ref => 'master'
 mod 'websphere',
   :git => 'git@github.com:ipcrm/puppetlabs-websphere.git',
