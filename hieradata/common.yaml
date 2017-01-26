@@ -1,6 +1,6 @@
 ---
 
-gitlab::package_ensure: '8.14.4-ce.0'
+gitlab::package_ensure: '8.14.4-ce.0.el7'
 puppet_enterprise::profile::master::check_for_updates: false
 
 splunk::params::version:  "6.0"
