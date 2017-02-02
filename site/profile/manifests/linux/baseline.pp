@@ -7,12 +7,10 @@ class profile::linux::baseline {
     ensure => installed,
   }
 
-  package { 'git':
-    ensure => installed,
-  }
-
   # USERS
-  user { 'Puppet Demo':
-    ensure   => present,
+  user { 'PuppetDemo':
+    ensure     => present,
+    managehome => true,
+    groups     => ['wheel'],
   }
 }
