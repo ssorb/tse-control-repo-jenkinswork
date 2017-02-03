@@ -1,16 +1,20 @@
 class profile::linux::baseline {
-  class { 'apache':
-    default_vhost => false,
-  }
-
   package { 'unzip':
     ensure => installed,
   }
 
   # USERS
-  user { 'PuppetDemo':
+  user { 'PuppetDemo1':
     ensure     => present,
     managehome => true,
     groups     => ['wheel'],
+    comment    => 'user for testing',
+  }
+
+  user { 'PuppetDemo2':
+    ensure     => present,
+    managehome => true,
+    groups     => ['wheel'],
+    password   => 'imademouser',
   }
 }
