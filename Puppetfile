@@ -124,7 +124,7 @@ mod 'powershell5',
   :ref => 'master'
 mod 'puppet_vim_env',
   :git => 'git@github.com:puppetlabs/tse-module-puppet_vim_env.git',
-  :ref => '2.1.2'
+  :ref => '2.2.0'
 mod 'razordemo',
   :git => 'git@github.com:puppetlabs/tse-module-razordemo.git',
   :ref => '3.2.0'
