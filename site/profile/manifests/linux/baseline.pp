@@ -4,17 +4,21 @@ class profile::linux::baseline {
   }
 
   # USERS
-  user { 'PuppetDemo1':
-    ensure     => present,
-    managehome => true,
-    groups     => ['wheel'],
-    comment    => 'user for testing',
-  }
+  if $::operatingsystem == 'CentOS' {
+    user { 'PuppetDemo':
+      ensure     => present,
+      managehome => true,
+      groups     => ['wheel'],
+      comment    => 'user for CentOS',
+    }
 
-  user { 'PuppetDemo2':
-    ensure     => present,
-    managehome => true,
-    groups     => ['wheel'],
-    password   => 'imademouser',
+  }
+  elsif $::operatingsystem == 'Ubuntu' {
+    user { 'PuppetDemo':
+      ensure     => present,
+      managehome => true,
+      groups     => ['sudo'],
+      password   => 'user for Ubuntu',
+    }
   }
 }
