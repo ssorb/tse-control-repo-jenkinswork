@@ -5,7 +5,7 @@ class profile::linux::baseline {
 
   # USERS
   if $::operatingsystem == 'CentOS' {
-    user { 'PuppetDemo':
+    user { 'puppetdemo':
       ensure     => present,
       managehome => true,
       groups     => ['wheel'],
@@ -14,7 +14,7 @@ class profile::linux::baseline {
 
   }
   elsif $::operatingsystem == 'Ubuntu' {
-    user { 'PuppetDemo':
+    user { 'puppetdemo':
       ensure     => present,
       managehome => true,
       groups     => ['sudo'],
