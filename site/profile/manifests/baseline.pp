@@ -4,5 +4,5 @@ class profile::baseline {
   }
   elsif $::kernel == 'windows' {
     include profile::baseline::windows
-  }
+  } 
 }
