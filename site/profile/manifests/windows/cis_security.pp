@@ -1,15 +1,13 @@
 class profile::windows::cis_security {
 
-  # CIS Microsoft Windows Server 2012 R2 v2.2.0 11-04-2014
+  # CIS Microsoft Windows Server 2012 R2 v2.2.0 04-28-2016
   # https://benchmarks.cisecurity.org/tools2/windows/CIS_Microsoft_Windows_Server_2012_R2_Benchmark_v2.2.0.pdf
 
 
-  # 1.1.2 (L1) Ensure 'Maximum password age' is set to '60 or fewer days, but not 0' (Scored)
-  exec {'Set Max Password Age':
-    command  => "net accounts /maxpwage:15",
-    provider => 'powershell',
+  # 2.3.1.3 (L1) Ensure 'Accounts: Guest account status' is set to 'Disabled' (Scored)
+  user { 'guest':
+    ensure => 'absent',
   }
-  
 
   # 9.1.1 (L1) Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On (recommended)' (Scored)
   service {'MpsSvc':
