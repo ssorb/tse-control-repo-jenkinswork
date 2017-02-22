@@ -38,7 +38,7 @@ class profile::windows::cis_security {
   # 19.6.5.1.1 (L2) Ensure 'Turn off Help Experience Improvement Program' is set to 'Enabled' (Scored)
   registry_value { 'HKEY_LOCAL_MACHINE\Software\Microsoft\SQMClient\Windows\CEIPEnable':
     type   => dword,
-    data   => 'O',
+    data   => '0',
   }
 
 }
