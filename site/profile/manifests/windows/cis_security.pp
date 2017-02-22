@@ -5,6 +5,7 @@ class profile::windows::cis_security {
 
 
   # 2.3.1.3 (L1) Ensure 'Accounts: Guest account status' is set to 'Disabled' (Scored)
+  # 2.3.1.6 (L1) Configure 'Accounts: Rename guest account' (Scored)
   user { 'guest':
     ensure => 'absent',
   }
