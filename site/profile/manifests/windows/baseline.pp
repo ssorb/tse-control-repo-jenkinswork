@@ -1,17 +1,16 @@
 class profile::windows::baseline {
 
-  # PACKAGES
+  # CORP PACKAGES
   Package {
     ensure   => installed,
     provider => chocolatey,
   }
   
-  package { 'Firefox': }
   package { 'notepadplusplus': }
   package { '7zip': }
   package { 'git': }
 
-  # FIREWALL
+  # CUSTOM APPLICATION FIREWALL RULE
   windows_firewall::exception { 'TSErule':
     ensure       => present,
     direction    => 'in',
@@ -23,13 +22,13 @@ class profile::windows::baseline {
     description  => 'Inbound rule example for demo purposes',
   }
 
-  # USERS
+  # CUSTOM USERS
   user { 'Puppet Demo':
     ensure   => present,
     groups   => ['Administrators'],
   }
 
-  # REG KEYS
+  # CUSTOM APP REG KEYS
   registry_key { 'HKEY_LOCAL_MACHINE\Software\Demonstration':
     ensure       => present,
     purge_values => true,
