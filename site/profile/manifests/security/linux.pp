@@ -1,4 +1,0 @@
-class profile::security::linux {
-
-}
-
