@@ -1,4 +1,4 @@
-class profile::baseline::windows::firewall_rules {
+class profile::platform::windows::firewall_rules {
 
   # CUSTOM APPLICATION FIREWALL RULE
   windows_firewall::exception { 'TSErule':

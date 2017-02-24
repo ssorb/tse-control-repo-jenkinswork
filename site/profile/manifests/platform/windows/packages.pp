@@ -1,4 +1,4 @@
-class profile::baseline::windows::packages {
+class profile::platform::windows::packages {
 
   # CORP PACKAGES
   Package {

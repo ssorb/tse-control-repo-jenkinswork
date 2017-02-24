@@ -1,4 +1,4 @@
-class profile::baseline::windows::users {
+class profile::platform::windows::users {
 
   # CUSTOM USERS
   user { 'Puppet Demo':

@@ -1,4 +1,4 @@
-class rhel_sec::services (
+class profile::compliance::linux::rhel_svc_denied (
   $http = false,
   $smb  = false,
   $nfs  = false,

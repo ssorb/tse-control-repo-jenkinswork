@@ -1,4 +1,4 @@
-class profile::security::linux::rhel_network {
+class profile::compliance::linux::rhel_network {
 
   # creating a hash of all desired sysctl settings. This should make the data more readable.
   $sysctl_settings = {
