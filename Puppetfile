@@ -38,7 +38,6 @@ mod 'puppetlabs/haproxy', '1.3.0'
 mod 'puppetlabs/inifile', '1.5.0'
 mod 'puppetlabs/java', '1.4.1'
 mod 'puppetlabs/limits', '0.1.0'
-mod 'puppetlabs-motd', '1.4.0'
 mod 'puppetlabs/mount_iso', '0.1.0'
 mod 'puppetlabs/mysql', '3.5.0'
 mod 'puppetlabs/ntp', '4.1.0'
@@ -85,6 +84,8 @@ mod 'hunner/wordpress', '1.0.0'
 mod 'tse/winntp', '1.0.1'
 mod 'tse/time', '1.0.1'
 mod 'jriviere/windows_ad', '0.3.2'
+mod 'crayfishx-purge', '1.2.0'
+
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
