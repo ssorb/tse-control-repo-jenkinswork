@@ -85,6 +85,8 @@ mod 'hunner/wordpress', '1.0.0'
 mod 'tse/winntp', '1.0.1'
 mod 'tse/time', '1.0.1'
 mod 'jriviere/windows_ad', '0.3.2'
+mod 'crayfishx-purge', '1.2.0'
+
 
 # Git TSE modules - either maintained under seteam or by individual SE's
 
