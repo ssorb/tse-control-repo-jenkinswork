@@ -3,7 +3,7 @@ define rgbank::load (
   $port = 80,
 ) {
 
-  haproxy::listen {"rgank-${name}":
+  haproxy::listen {"rgbank-${name}":
     collect_exported => false,
     ipaddress        => '0.0.0.0',
     mode             => 'http',
