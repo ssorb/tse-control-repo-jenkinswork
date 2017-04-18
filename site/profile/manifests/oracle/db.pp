@@ -37,7 +37,6 @@ class profile::oracle::db {
   # Defaults
   Sysctl {
     ensure => 'present',
-    permanent => 'yes',
   }
 
   # Check ora_db_name, can't exceed 8 chars
