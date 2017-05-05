@@ -65,10 +65,6 @@ class profile::master::puppetserver::deploy_user (
         'instance'    => '*',
         'object_type' => 'environment',
       },
-      { 'action'      => 'override_lifetime',
-        'instance'    => '*',
-        'object_type' => 'tokens',
-      },
     ],
   })
 
