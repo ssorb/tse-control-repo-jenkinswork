@@ -25,16 +25,12 @@ class profile::master::puppetserver::deploy_user (
     require => File[$deploy_key_dir],
   }
 
-  # private key
-  file { $deploy_key_file:
-    ensure  => file,
-    owner   => 'pe-puppet',
-    group   => 'pe-puppet',
-    mode    => '0600',
-    require => Exec["create ${deploy_username} ssh key"],
-  }
+  # The puppet_enterprise module delcares a file resource that ensures the
+  # permissions and owner of $deploy_key_file are correct so we won't manage it
+  # here.
 
   # public key
+  # (the puppet_enterprise module doesn't manage the public key)
   file { "${deploy_key_file}.pub":
     ensure  => file,
     owner   => 'pe-puppet',
