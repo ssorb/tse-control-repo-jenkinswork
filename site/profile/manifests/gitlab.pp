@@ -1,6 +1,6 @@
 class profile::gitlab {
   include profile::firewall
-  
+
   firewall { '100 allow https':
     proto  => 'tcp',
     dport  => '443',
@@ -41,7 +41,7 @@ class profile::gitlab {
 
   remote_file { '/etc/gitlab/pe-demo-repos.tar.gz':
     ensure => present,
-    source => "http://${::settings::server}/pe-demo-repos.tar.gz",
+    source => "http://${::settings::server}:81/pe-demo-repos.tar.gz",
   }
 
   exec { '/etc/gitlab/init.sh && touch /etc/gitlab/init':
