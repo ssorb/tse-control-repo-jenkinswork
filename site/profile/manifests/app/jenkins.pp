@@ -46,7 +46,7 @@ class profile::app::jenkins (
 
     tomcat::instance{ "tomcat${tomcat_major_version}":
       install_from_source    => true,
-      source_url             => "http://master.inf.puppet.vm/tomcat/apache-tomcat-${tomcat_version}.tar.gz",
+      source_url             => "http://${::puppet_server}:81/tomcat/apache-tomcat-${tomcat_version}.tar.gz",
       source_strip_first_dir => true,
       catalina_base          => $catalina_dir,
       catalina_home          => $catalina_dir,
@@ -62,7 +62,7 @@ class profile::app::jenkins (
     }
 
     tomcat::war { "jenkins-${jenkins_version}.war" :
-      war_source    => "http://master.inf.puppet.vm/war/${jenkins_version}/jenkins.war",
+      war_source    => "http://${::puppet_server}:81/war/${jenkins_version}/jenkins.war",
       catalina_base => $catalina_dir,
       notify        => File["${catalina_dir}/webapps/jenkins"],
     }
@@ -100,7 +100,7 @@ class profile::app::jenkins (
     windows_java::jdk { '8u45':
       ensure  => present,
       version => '8u45',
-      source  => 'http://master.inf.puppet.vm/jdk/jdk-8u45-windows-x64.exe',
+      source  => "http://${::puppet_server}:81/jdk/jdk-8u45-windows-x64.exe",
     }
 
     windows_firewall::exception { 'Tomcat':
@@ -116,7 +116,7 @@ class profile::app::jenkins (
 
     remote_file { "C:/apache-tomcat-${tomcat_version}.exe":
       ensure => present,
-      source => "http://master.inf.puppet.vm/tomcat/apache-tomcat-${tomcat_version}.exe",
+      source => "http://${::puppet_server}:81/tomcat/apache-tomcat-${tomcat_version}.exe",
       before => Package["Apache Tomcat ${tomcat_major_version}.0 Tomcat${tomcat_major_version} (remove only)"],
     }
 
@@ -144,7 +144,7 @@ class profile::app::jenkins (
 
     remote_file { "C:/Program Files/Apache Software Foundation/Tomcat ${tomcat_major_version}.0/webapps/jenkins.war":
       ensure    => latest,
-      source    => "http://master.inf.puppet.vm/war/${jenkins_version}/jenkins.war",
+      source    => "http://${::puppet_server}:81/war/${jenkins_version}/jenkins.war",
       subscribe => Service["tomcat${tomcat_major_version}"],
     }
   }

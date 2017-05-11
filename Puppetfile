@@ -47,7 +47,7 @@ mod 'puppetlabs/puppetserver_gem', '0.1.0'
 mod 'puppetlabs/reboot', '1.2.1'
 mod 'puppetlabs/registry', '1.1.2'
 mod 'puppetlabs/splunk', '3.2.0'
-mod 'puppetlabs/stdlib', '4.12.0'
+mod 'puppetlabs/stdlib', '4.17.0'
 mod 'puppetlabs/tomcat', '1.3.2'
 mod 'puppetlabs/vcsrepo', '1.3.1'
 
