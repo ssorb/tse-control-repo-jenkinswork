@@ -11,9 +11,9 @@
   String $deploy_user = 'code_mgr_deploy_user',
   String $root_pw = 'puppetlabs',
   String $deploy_pw = 'puppetlabs',
-  String $webhook_url = "https://master.inf.puppet.vm:8170/code-manager/v1/webhook?type=gitlab&token=${token}",
+  String $webhook_url = "https://${::puppet_server}:8170/code-manager/v1/webhook?type=gitlab&token=${token}",
   String $gitlab_server = 'gitlab.inf.puppet.vm',
-  String $master_server = 'master.inf.puppet.vm'
+  String $master_server = $::puppet_server,
 | -%>
 #!/bin/bash
 
