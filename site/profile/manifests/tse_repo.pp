@@ -4,7 +4,7 @@ class profile::tse_repo {
   $basearch   = $::os['architecture']
 
   yumrepo { 'tse-repo':
-    baseurl  => "http://${::servername}/mirrors/centos/${releasever}/${basearch}",
+    baseurl  => "http://${::puppet_server}:81/mirrors/centos/${releasever}/${basearch}",
     descr    => 'TSE Cached Files',
     enabled  => 1,
     gpgcheck => 1,

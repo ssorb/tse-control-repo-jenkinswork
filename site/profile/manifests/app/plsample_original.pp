@@ -12,6 +12,6 @@ class profile::app::plsample_original (
   tomcat::war { 'plsample':
     ensure  => $ensure,
     warfile => "plsample-${version}.war",
-    source  => "http://${::servername}/tomcat/plsample-${version}.war",
+    source  => "http://${::puppet_server}:81/tomcat/plsample-${version}.war",
   }
 }

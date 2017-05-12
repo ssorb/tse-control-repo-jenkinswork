@@ -25,7 +25,7 @@ class profile::app::jenkins_original (
   tomcat::war { 'jenkins':
     ensure  => $ensure,
     warfile => "jenkins${version_string}.war",
-    source  => "http://${::servername}/war/${version}/jenkins.war",
+    source  => "http://${::puppet_server}:81/war/${version}/jenkins.war",
   }
 
 }

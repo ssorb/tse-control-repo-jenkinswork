@@ -34,7 +34,7 @@ class profile::windows::dotnet (
         $package_dir = 'C:/Windows/Temp'
         remote_file { "C:/Windows/Temp/${dotnetexe}":
           ensure => present,
-          source => "http://${::servername}/dotnetcms/${dotnetexe}",
+          source => "http://${::puppet_server}:81/dotnetcms/${dotnetexe}",
           before => Dotnet[".NET Framework ${ver}"],
         }
       }
