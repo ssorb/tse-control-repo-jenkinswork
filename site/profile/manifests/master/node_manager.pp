@@ -28,7 +28,6 @@ class profile::master::node_manager {
       'pe_repo'                                          => {},
       'pe_repo::platform::el_6_x86_64'                   => {},
       'pe_repo::platform::el_7_x86_64'                   => {},
-      'pe_repo::platform::ubuntu_1204_amd64'             => {},
       'pe_repo::platform::ubuntu_1404_amd64'             => {},
       'pe_repo::platform::windows_x86_64'                => {},
       'puppet_enterprise::profile::master'               => {
