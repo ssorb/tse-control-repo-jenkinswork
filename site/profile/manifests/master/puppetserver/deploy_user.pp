@@ -22,7 +22,7 @@ class profile::master::puppetserver::deploy_user (
   # In 2017.2 Puppet takes over this file before we run, hence we have to override the existing empty file
   exec { "create ${deploy_username} ssh key":
     command => "/bin/yes | /usr/bin/ssh-keygen -t rsa -b 2048 -C '${deploy_username}' -f ${deploy_key_file} -q -N ''",
-    onlyif  =>  "/bin/test -e ${deploy_key_file}",
+    unless  => "/bin/test -s ${deploy_key_file} > /dev/null 2>&1",
     require => File[$deploy_key_dir],
   }
 
