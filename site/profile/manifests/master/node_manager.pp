@@ -40,6 +40,14 @@ class profile::master::node_manager {
       'profile::vim'                                     => { 'colorscheme' => 'elflord' },
     },
   }
+node_group { 'PE Agent':
+    ensure               => 'present',
+    classes              => {'puppet_enterprise::profile::agent' => {'package_inventory_enabled' => 'true'}},
+    environment          => 'production',
+    override_environment => 'false',
+    parent               => 'All Nodes',
+    rule                 => ['and', ['~', ['fact', 'aio_agent_version'], '.+']],
+  }
 
   node_group { 'Gitlab Server':
     ensure               => present,
