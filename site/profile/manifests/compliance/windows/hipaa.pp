@@ -22,6 +22,7 @@ class profile::compliance::windows::hipaa {
     unless      => [
       [ 'name', '==', 'Administrator' ],
       [ 'name', '==', 'Guest' ],
+      [ 'name', '==', 'vagrant' ],
       [ 'name', '==', 'Local Admin 1' ],
       [ 'name', '==', 'Local Admin 2' ],
     ]
