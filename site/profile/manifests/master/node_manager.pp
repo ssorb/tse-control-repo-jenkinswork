@@ -40,7 +40,8 @@ class profile::master::node_manager {
       'profile::vim'                                     => { 'colorscheme' => 'elflord' },
     },
   }
-node_group { 'PE Agent':
+
+  node_group { 'PE Agent':
     ensure               => 'present',
     classes              => {'puppet_enterprise::profile::agent' => {'package_inventory_enabled' => 'true'}},
     environment          => 'production',
