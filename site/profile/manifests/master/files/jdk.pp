@@ -7,7 +7,7 @@ class profile::master::files::jdk (
   }
 
   remote_file { 'jdk-8u45-windows-x64.exe':
-    source  => 'http://download.oracle.com/otn-pub/java/jdk/8u45-b15/jdk-8u45-windows-x64.exe',
+    source  => 'https://s3-us-west-2.amazonaws.com/tseteam/files/jdk-8u45-windows-x64.exe',
     path    => "${srv_root}/jdk/jdk-8u45-windows-x64.exe",
     headers => {
       'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
