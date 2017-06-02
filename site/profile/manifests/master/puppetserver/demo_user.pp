@@ -129,8 +129,8 @@ class profile::master::puppetserver::demo_user (
     require => Exec["create ${demo_username} rbac token"],
   }
 
-  file { $root_token_file:
-    ensure => link,
-    target => $demo_token_file,
-  }
+#  file { $root_token_file:
+#    ensure => link,
+#    target => $demo_token_file,
+#  }
 }
