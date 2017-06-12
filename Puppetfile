@@ -340,3 +340,10 @@ mod 'zabbix_app',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/zabbix_app.git',
   :commit => 'c853a32f3422149fb4e97af97cca11fdf6d1554c'
 
+mod 'puppetlabs-motd', '1.4.0'
+mod 'lboynton-rpmforge', '0.1.3'
+mod 'stahnma-epel', '1.2.2'
+mod 'puppetlabs-apt', '2.3.0'
+mod 'gildas-homebrew', '0.4.16'
+mod 'cyberious-apm', '0.1.1'
+mod 'crayfishx-purge', '1.2.0'
