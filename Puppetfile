@@ -266,7 +266,7 @@ mod 'tse_facts',
 
 mod 'tse_sqlserver',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/tse_sqlserver.git',
-  :commit => 'ceb9e7ca185e3f370cbca43f4904029e72a9b075'
+  :branch => 'master'
 
 mod 'tse_windows',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/tse_windows.git',
