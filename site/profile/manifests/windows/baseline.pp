@@ -1,16 +1,14 @@
 class profile::windows::baseline {
-
-  # CORP PACKAGES
+  # PACKAGES
   Package {
     ensure   => installed,
     provider => chocolatey,
   }
   
-  package { 'notepadplusplus': }
-  package { '7zip': }
+  package { 'Firefox': }
   package { 'git': }
 
-  # CUSTOM APPLICATION FIREWALL RULE
+  # FIREWALL
   windows_firewall::exception { 'TSErule':
     ensure       => present,
     direction    => 'in',
@@ -21,27 +19,26 @@ class profile::windows::baseline {
     display_name => 'TSE PUPPET DEMO',
     description  => 'Inbound rule example for demo purposes',
   }
-
-  # CUSTOM USERS
+  
+  # USERS
   user { 'Puppet Demo':
     ensure   => present,
     groups   => ['Administrators'],
   }
-
-  # CUSTOM APP REG KEYS
+  
+  # REG KEYS
   registry_key { 'HKEY_LOCAL_MACHINE\Software\Demonstration':
     ensure       => present,
     purge_values => true,
   }
-
   registry_value { 'HKEY_LOCAL_MACHINE\Software\Demonstration\value1':
     type => string,
     data => 'this is a value new from puppet intro',
   }
-
   registry_value { 'HKEY_LOCAL_MACHINE\Software\Demonstration\value2':
     type         => dword,
     data         => '0xFFFFFFFF',
   }
-
+  
+  include profile::windows::local_policy 
 }
