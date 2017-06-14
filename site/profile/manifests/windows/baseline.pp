@@ -39,6 +39,4 @@ class profile::windows::baseline {
     type         => dword,
     data         => '0xFFFFFFFF',
   }
-  
-  include profile::windows::local_policy 
 }
