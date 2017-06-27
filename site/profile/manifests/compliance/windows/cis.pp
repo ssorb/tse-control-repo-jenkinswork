@@ -18,28 +18,28 @@ class profile::compliance::windows::cis {
   # 9.1.1 (L1) Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On (recommended)' (Scored)
   # 9.2.1 (L1) Ensure 'Windows Firewall: Private: Firewall state' is set to 'On (recommended)' (Scored)
   # 9.3.1 (L1) Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)' (Scored)
-  service {'MpsSvc':
-    ensure   => 'running',
-    enable   => 'true',
-  }
+#  service {'MpsSvc':
+#    ensure   => 'running',
+#    enable   => 'true',
+#  }
 
-  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\EnableFirewall':
-    type   => dword,
-    data   => '1',
-    notify => Service['MpsSvc'],
-  }
+#  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\EnableFirewall':
+#    type   => dword,
+#    data   => '1',
+#    notify => Service['MpsSvc'],
+#  }
 
-  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile\EnableFirewall':
-    type   => dword,
-    data   => '1',
-    notify => Service['MpsSvc'],
-  }
+#  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile\EnableFirewall':
+#    type   => dword,
+#    data   => '1',
+#    notify => Service['MpsSvc'],
+#  }
 
-  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile\EnableFirewall':
-    type   => dword,
-    data   => '1',
-    notify => Service['MpsSvc'],
-  }
+#  registry_value { 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile\EnableFirewall':
+#    type   => dword,
+#    data   => '1',
+#    notify => Service['MpsSvc'],
+#  }
 
   # 18.9.48.3.3.1 (L2) Ensure 'Do not allow COM port redirection' is set to 'Enabled' (Scored)
   registry_value { 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\fDisableCcm':
