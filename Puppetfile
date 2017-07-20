@@ -152,9 +152,9 @@ mod 'mysql',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/mysql.git',
   :commit => '7e1f2b099ce7985cc99f8d8121d23071bd31056e'
 
-mod 'node_manager',
-  :git    => 'git@gitlab.inf.puppet.vm:puppet/node_manager.git',
-  :commit => '5842056c18957f9be5626219030d29755796f261'
+#mod 'node_manager',
+#  :git    => 'git@gitlab.inf.puppet.vm:puppet/node_manager.git',
+#  :commit => '5842056c18957f9be5626219030d29755796f261'
 
 mod 'nonpriv',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/nonpriv.git',
@@ -347,3 +347,4 @@ mod 'puppetlabs-apt', '2.3.0'
 mod 'gildas-homebrew', '0.4.16'
 mod 'crayfishx-purge', '1.2.0'
 mod 'reidmv-pe_mco_shell_agent', '2.0.0'
+mod 'WhatsARanjit-node_manager', '0.4.2'
