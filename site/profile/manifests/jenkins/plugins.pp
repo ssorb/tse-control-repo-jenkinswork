@@ -24,7 +24,7 @@ class profile::jenkins::plugins {
   jenkins::plugin { 'script-security':version => '1.29.1',} 
   jenkins::plugin { 'matrix-project':version => '1.11',} 
   jenkins::plugin { 'build-timeout':version => '1.18',} 
-  jenkins::plugin { 'credentials':version => '2.1.14',} 
+#  jenkins::plugin { 'credentials':version => '2.1.14',} 
   jenkins::plugin { 'ssh-credentials':version => '1.13',} 
   jenkins::plugin { 'workflow-step-api':version => '2.12',} 
   jenkins::plugin { 'plain-credentials':version => '1.4',} 
