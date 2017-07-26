@@ -20,13 +20,16 @@ class profile::jenkins::server {
     password => 'puppetlabs',
   }
   
+  include 'docker'
+  include 'git'
+  
 #  package { 'git':
 #    ensure => installed,
 #  }
   
-  class { 'docker':
-    require => Class['jenkins'],
-  }
+#  class { 'docker':
+#    require => Class['jenkins'],
+#  }
   
   # Start docker  service
   service { 'docker':
