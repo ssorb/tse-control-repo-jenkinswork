@@ -46,10 +46,10 @@ class profile::jenkins::server {
     group    => ['docker'],
   }
   
-  user { 'jenkins':
-    ensure   => present,
-    group    => ['docker'],    
-  }  
+#  user { 'jenkins':
+#    ensure   => present,
+#    group    => ['docker'],    
+#  }  
   
   class { '::maven':
     package_ensure  => '3.0.5'
