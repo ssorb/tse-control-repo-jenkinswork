@@ -31,10 +31,10 @@ class profile::jenkins::server {
 #    require => Class['jenkins'],
 #  }
   
-  # Start docker  service
-  service { 'docker':
-    ensure  => 'running',
-  }
+#  # Start docker  service
+#  service { 'docker':
+#    ensure  => 'running',
+#  }
 
   # Start jenkins service
   service { 'jenkins':
