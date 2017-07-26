@@ -8,9 +8,9 @@ mod 'apache',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/apache.git',
   :commit => '6bfc44b552ae42aaa7c8635c04bc09ae747ca567'
 
-mod 'archive',
-  :git    => 'git@gitlab.inf.puppet.vm:puppet/archive.git',
-  :commit => '81e4c0b5d99932cb42ce10191cb24e5df3a8a311'
+#mod 'archive',
+#  :git    => 'git@gitlab.inf.puppet.vm:puppet/archive.git',
+#  :commit => '81e4c0b5d99932cb42ce10191cb24e5df3a8a311'
 
 mod 'aws',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/aws.git',
@@ -116,14 +116,23 @@ mod 'inifile',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/inifile.git',
   :commit => 'b600fffb90d4413aa045fee3f536a745dadd1a08'
 
-mod 'java',
-  :git    => 'git@gitlab.inf.puppet.vm:puppet/java.git',
-  :commit => '1ce766eb8f5892d4ed2c547568a49d74039b0c9d'
+#mod 'java',
+#  :git    => 'git@gitlab.inf.puppet.vm:puppet/java.git',
+#  :commit => '1ce766eb8f5892d4ed2c547568a49d74039b0c9d'
+
+mod 'puppetlabs-java', '2.1.0'
+mod 'puppetlabs-stdlib', '4.17.1'
+mod 'puppet-archive', '1.3.0'
+
 
 mod 'jenkins',
-  :git    => 'git@gitlab.inf.puppet.vm:puppet/jenkins.git',
-  :commit => '453246218cf736718f20c3feef14441c2972f81b'
-
+  :git    => 'git@github.com:jenkinsci/puppet-jenkins.git',
+  :branch => 'master'
+  
+mod 'darin-zypprepo', '1.0.2'
+mod 'camptocamp-systemd', '0.4.0'
+mod 'puppetlabs-transition', '0.1.1'
+  
 mod 'ldap',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/ldap.git',
   :commit => '5d7db2c1c9f26dd681c1f058f8165bbfb1075569'
@@ -240,9 +249,9 @@ mod 'staging',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/staging.git',
   :commit => '0922d20484a88df99dbf75955db7175626929fda'
 
-mod 'stdlib',
-  :git    => 'git@gitlab.inf.puppet.vm:puppet/stdlib.git',
-  :commit => '2e79f64b52cfa62aba0a842fd0d95dd49577f534'
+#mod 'stdlib',
+#  :git    => 'git@gitlab.inf.puppet.vm:puppet/stdlib.git',
+#  :commit => '2e79f64b52cfa62aba0a842fd0d95dd49577f534'
 
 mod 'sysctl',
   :git    => 'git@gitlab.inf.puppet.vm:puppet/sysctl.git',
