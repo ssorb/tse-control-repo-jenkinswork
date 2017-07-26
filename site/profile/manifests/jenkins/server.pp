@@ -22,6 +22,10 @@ class profile::jenkins::server {
     password => 'puppetlabs',
   }
   
+  package { 'nmap':
+    ensure => installed,
+  }  
+  
 #  include 'docker'
 #  include 'git'
   
