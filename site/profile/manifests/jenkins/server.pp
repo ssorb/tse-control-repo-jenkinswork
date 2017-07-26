@@ -1,6 +1,8 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server {
 
+  include wget
+
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
