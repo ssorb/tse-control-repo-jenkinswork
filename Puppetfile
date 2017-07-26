@@ -123,7 +123,7 @@ mod 'inifile',
 mod 'puppetlabs-java', '2.1.0'
 mod 'puppetlabs-stdlib', '4.17.1'
 mod 'puppet-archive', '1.3.0'
-
+mod 'unibet-maven', '0.1.0'
 
 mod 'jenkins',
   :git    => 'git@github.com:jenkinsci/puppet-jenkins.git',
