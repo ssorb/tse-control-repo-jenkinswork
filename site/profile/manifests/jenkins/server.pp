@@ -20,8 +20,8 @@ class profile::jenkins::server {
     password => 'puppetlabs',
   }
   
-  include 'docker'
-  include 'git'
+#  include 'docker'
+#  include 'git'
   
 #  package { 'git':
 #    ensure => installed,
