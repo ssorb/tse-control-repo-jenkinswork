@@ -5,7 +5,7 @@ class profile::jenkins::plugins {
   jenkins::plugin { 'pipeline-build-step':version => '2.5.1',} 
   jenkins::plugin { 'cloudbees-folder':version => '6.1.0',} 
   jenkins::plugin { 'docker-commons':version => '1.8',} 
-  jenkins::plugin { 'structs':version => '1.9',} 
+#  jenkins::plugin { 'structs':version => '1.9',} 
   jenkins::plugin { 'email-ext':version => '2.58',} 
   jenkins::plugin { 'junit':version => '1.20',} 
   jenkins::plugin { 'antisamy-markup-formatter':version => '1.5',} 
