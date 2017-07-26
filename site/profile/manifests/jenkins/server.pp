@@ -34,7 +34,6 @@ class profile::jenkins::server {
   # Start docker  service
   service { 'docker':
     ensure  => 'running',
-    require => Class['docker'],
   }
 
   # Start jenkins service
