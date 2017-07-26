@@ -40,7 +40,6 @@ class profile::jenkins::server {
   # Start jenkins service
   service { 'jenkins':
     ensure  => 'running',
-    require => Class['docker'],
   }
   
   user { 'ec2-user':
