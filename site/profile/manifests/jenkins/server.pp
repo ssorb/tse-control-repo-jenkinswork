@@ -53,8 +53,9 @@ class profile::jenkins::server {
 #    groups    => ['docker'],    
 #  }  
   
-  class { '::maven':
-    package_ensure  => '3.0.5'
-  }
+ # Install Maven
+class { "maven::maven":
+  version => "3.0.5", # version to install
+} 
 
 }
