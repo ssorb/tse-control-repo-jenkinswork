@@ -37,9 +37,9 @@ class profile::jenkins::server {
 #  }
 
   # Start jenkins service
-  service { 'jenkins':
-    ensure  => 'running',
-  }
+#  service { 'jenkins':
+#    ensure  => 'running',
+#  }
   
   user { 'ec2-user':
     ensure   => present,
