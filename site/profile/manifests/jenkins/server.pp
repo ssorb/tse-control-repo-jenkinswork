@@ -43,12 +43,12 @@ class profile::jenkins::server {
   
   user { 'ec2-user':
     ensure   => present,
-    group    => ['docker'],
+    groups    => ['docker'],
   }
   
 #  user { 'jenkins':
 #    ensure   => present,
-#    group    => ['docker'],    
+#    groups    => ['docker'],    
 #  }  
   
   class { '::maven':
