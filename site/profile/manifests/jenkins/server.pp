@@ -19,5 +19,39 @@ class profile::jenkins::server {
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
   }
+  
+  package { 'git':
+    ensure => installed,
+  }
+  
+  class { 'docker':
+    require => Class['jenkins'],
+  }
+  
+  # Start docker  service
+  service { 'docker':
+    ensure  => 'running',
+    require => Class['docker'],
+  }
+
+  # Start jenkins service
+  service { 'jenkins':
+    ensure  => 'running',
+    require => Class['docker'],
+  }
+  
+  user { 'ec2-user':
+    ensure   => present,
+    group    => ['docker'],
+  }
+  
+  user { 'jenkins':
+    ensure   => present,
+    group    => ['docker'],    
+  }  
+  
+  class { '::maven':
+    package_ensure  => '3.0.5'
+  }
 
 }
