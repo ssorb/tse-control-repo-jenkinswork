@@ -33,7 +33,6 @@ class profile::jenkins::server {
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
     require       => [ File[$docs_gz_path],Class['jenkins'] ],
-    notify  => Service['jenkins'],    
   }
 
   file { "${jenkins_path}/jobs/Pipeline/":
