@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.13">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.4.7">
+      <gitLabConnection>slice-gitlab</gitLabConnection>
+    </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <com.dabsquared.gitlabjenkins.GitLabPushTrigger plugin="gitlab-plugin@1.4.7">
+          <spec></spec>
+          <triggerOnPush>true</triggerOnPush>
+          <triggerOnMergeRequest>true</triggerOnMergeRequest>
+          <triggerOnAcceptedMergeRequest>false</triggerOnAcceptedMergeRequest>
+          <triggerOnClosedMergeRequest>false</triggerOnClosedMergeRequest>
+          <triggerOpenMergeRequestOnPush>never</triggerOpenMergeRequestOnPush>
+          <triggerOnNoteRequest>true</triggerOnNoteRequest>
+          <noteRegex>trigger</noteRegex>
+          <ciSkip>true</ciSkip>
+          <skipWorkInProgressMergeRequest>true</skipWorkInProgressMergeRequest>
+          <setBuildDescription>true</setBuildDescription>
+          <branchFilterType>All</branchFilterType>
+          <includeBranchesSpec></includeBranchesSpec>
+          <excludeBranchesSpec></excludeBranchesSpec>
+          <targetBranchRegex></targetBranchRegex>
+          <secretToken>{AQAAABAAAAAQsFHFw1L+FgX3rzCfzthWvxFvqHYEvS1cAaMETJZz1RQ=}</secretToken>
+        </com.dabsquared.gitlabjenkins.GitLabPushTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.36.1">
+    <script>node {
+    puppet.credentials &apos;puppet-access-token&apos;
+    def mvnHome
+    stage(&apos;Preparation&apos;) { // for display purposes
+        git &apos;git@gitlab.inf.puppet.vm:puppet/ContinuousIntegrationAndContinuousDeliveryApp.git&apos;
+        gitlabCommitStatus {
+          sh &apos;echo &quot;Preparation&quot;&apos;
+        }
+        mvnHome = tool &apos;M2&apos;
+    }
+    stage(&apos;Test&apos;) {
+        try {
+            sh &quot;&apos;${mvnHome}/bin/mvn&apos; test&quot;
+            sh &apos;/var/lib/jenkins/workspace/Pipeline/dockerDeployment.sh&apos;
+            sleep 2
+            sh &apos;/var/lib/jenkins/workspace/Pipeline/isdockerwebserverup.sh&apos;
+            gitlabCommitStatus {
+              sh &apos;echo &quot;Test&quot;&apos;
+            }
+        } catch (e) {
+            notifyStarted(&quot;Tests Failed in Jenkins!&quot;)
+            throw e
+        }
+    }
+    stage(&apos;Build&apos;) {
+        try {
+            sh &quot;&apos;${mvnHome}/bin/mvn&apos; clean package -DskipTests&quot;
+            gitlabCommitStatus {
+              sh &apos;echo &quot;Build&quot;&apos;
+            }
+        }catch (e) {
+            notifyStarted(&quot;Build Failed in Jenkins!&quot;)
+            throw e
+        }
+    }
+    stage(&apos;Results&apos;) {
+        try{
+            // Create jar
+            archive &apos;target/*.jar&apos;
+            // Create RPM
+            sh   &apos;/var/lib/jenkins/workspace/Pipeline/runDeployment.sh&apos;
+            gitlabCommitStatus {
+              sh &apos;echo &quot;Results&quot;&apos;
+            }
+        }catch (e) {
+            notifyStarted(&quot;Packaging Failed in Jenkins!&quot;)
+            throw e
+        }
+    }
+    stage(&apos;Deployment&apos;) {
+        try{
+            // Run Puppet on test machine to get latest code
+            sh &apos;source /var/lib/jenkins/.openstack_snapshotrc;nova rebuild --poll &quot;895e732e-3f32-4d6c-8cc2-481f6bf03f78&quot; &quot;d9553b4f-b4f8-483e-9e4f-a91c3b8e3208&quot;&apos;
+            sleep 10
+            // Puppet Pipeline Plugin magic
+            puppet.codeDeploy &apos;development&apos;
+            puppet.job &apos;development&apos;, query: &apos;nodes { certname = &quot;centos-7-3.pdx.puppet.vm&quot; }&apos;
+            gitlabCommitStatus {
+              sh &apos;echo &quot;Deployment&quot;&apos;
+            }
+        }catch (e) {
+            notifyStarted(&quot;Deployment Failed in Jenkins!&quot;)
+            throw e
+        }
+    }
+    stage(&apos;Post&apos;) {
+        sleep 1
+      sh &apos;echo &quot;The build is done!&quot;&apos;
+      gitlabCommitStatus {
+        sh &apos;echo &quot;Post&quot;&apos;
+      }
+    }
+    notifyStarted(&quot;All is well! Your code is tested,built,and deployed.&quot;)
+}
+def notifyStarted(String message) {
+//  slackSend (color: &apos;#FFFF00&apos;, message: &quot;${message}: Job &apos;${env.JOB_NAME} [${env.BUILD_NUMBER}]&apos; (${env.BUILD_URL})&quot;)
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
