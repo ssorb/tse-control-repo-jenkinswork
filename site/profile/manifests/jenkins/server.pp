@@ -1,6 +1,10 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server {
 
+  $docs_filename = 'xmls.tar.gz'
+  $docs_gz_path  = "/tmp/${docs_filename}"
+  $jenkins_path  = '/var/lib/jenkins'
+
   include wget
 
   java::oracle { 'jdk8' :
@@ -20,6 +24,20 @@ class profile::jenkins::server {
 #  class { jenkins::security:
 #    security_model => 'full_control',
 #  }
+
+  file {$docs_gz_path:
+    ensure => file,
+    source => "puppet:///modules/profile/${docs_filename}",
+  }
+
+  archive { $docs_gz_path:
+    path          => $docs_gz_path,
+    #cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
+    extract       => true,
+    extract_path  => $jenkins_path,
+    creates       => "${jenkins_path}/config.xml" #directory inside tgz
+    require       => [ File[$docs_gz_path],Class['jenkins'] ],
+  }
 
   file { '/var/lib/jenkins/jobs/Pipeline/':
     ensure  => directory,
