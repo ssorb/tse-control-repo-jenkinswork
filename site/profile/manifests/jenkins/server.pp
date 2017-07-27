@@ -58,7 +58,7 @@ class profile::jenkins::server {
 
   exec { 'jenkins restart':
     command     => 'systemctl jenkins restart',
-    creates     => '/tmp/restart-jenkins'
+    creates     => '/tmp/restart-jenkins',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     refreshonly => true,
     require => File['/var/lib/jenkins/jobs/Pipeline/config.xml']
