@@ -1,6 +1,6 @@
 class profile::jenkins::plugins {
   jenkins::plugin { 'ace-editor': }
-  jenkins::plugin { 'ant':version}
+  jenkins::plugin { 'ant':}
   jenkins::plugin { 'antisamy-markup-formatter'}
   jenkins::plugin { 'authentication-tokens':}
   jenkins::plugin { 'bouncycastle-api':}
