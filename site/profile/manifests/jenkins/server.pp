@@ -13,7 +13,7 @@ class profile::jenkins::server {
 
   class { 'jenkins':
     configure_firewall => true,
-    direct_download    => 'http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.7.4-1.1.noarch.rpm',
+    direct_download    => 'http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.60.2-1.1.noarch.rpm',
     require            => Java::Oracle['jdk8'],
   }
 
