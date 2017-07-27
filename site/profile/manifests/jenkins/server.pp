@@ -50,7 +50,6 @@ class profile::jenkins::server {
     source  => 'puppet:///modules/profile/PipelineConfig.xml',
     mode    => '0755',
     require => File["${jenkins_path}/jobs/Pipeline/"],
-    notify  => Service['jenkins'],
   }
 
 #  exec { 'jenkins restart':
