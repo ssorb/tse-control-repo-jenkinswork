@@ -21,6 +21,23 @@ class profile::jenkins::server {
 #    security_model => 'full_control',
 #  }
 
+  file { '/var/lib/jenkins/jobs/Pipeline/':
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+    require => Class['jenkins']
+  }
+
+  file { '/var/lib/jenkins/jobs/Pipeline/config.xml':
+    ensure  => file,  
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => 'puppet:///modules/profile/config.xml'
+    mode    => '0755',
+    require => File['/var/lib/jenkins/jobs/Pipeline/']
+  }
+
   jenkins::user { 'admin':
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
