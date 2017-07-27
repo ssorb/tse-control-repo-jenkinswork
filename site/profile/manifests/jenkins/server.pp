@@ -18,10 +18,10 @@ class profile::jenkins::server {
   }
 
   
-#  jenkins::user { 'root':
-#    email    => 'sailseng@example.com',
-#    password => 'puppetlabs',
-#  }  
+  jenkins::user { 'admin':
+    email    => 'sailseng@example.com',
+    password => 'puppetlabs',
+  }  
   
   package { 'nmap':
     ensure => installed,
