@@ -52,13 +52,13 @@ class profile::jenkins::server {
     require => File["${jenkins_path}/jobs/Pipeline/"],
   }
 
-#  exec { 'jenkins restart':
-#    command     => 'systemctl jenkins restart',
-#    creates     => '/tmp/restart-jenkins',
-#    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-#    refreshonly => true,
-#    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
-#  }
+  exec { 'jenkins restart':
+    command     => 'systemctl jenkins restart',
+    creates     => '/tmp/restart-jenkins',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    refreshonly => true,
+    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+  }
 
   jenkins::user { 'admin':
     email    => 'sailseng@example.com',
