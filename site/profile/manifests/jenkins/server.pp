@@ -61,7 +61,7 @@ class profile::jenkins::server {
     creates     => '/tmp/restart-jenkins',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     refreshonly => true,
-    require => File['/var/lib/jenkins/jobs/Pipeline/config.xml']
+    require =>  [ Archive[$docs_gz_path],File['/var/lib/jenkins/jobs/Pipeline/config.xml'], Class['jenkins'] ],
   }
 
   jenkins::user { 'admin':
