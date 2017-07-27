@@ -35,7 +35,7 @@ class profile::jenkins::server {
     #cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
     extract       => true,
     extract_path  => $jenkins_path,
-    creates       => "${jenkins_path}/config.xml", #directory inside tgz
+    creates       => "/tmp/xmls-file", #directory inside tgz
     require       => [ File[$docs_gz_path],Class['jenkins'] ],
   }
 
@@ -54,6 +54,14 @@ class profile::jenkins::server {
     source  => 'puppet:///modules/profile/PipelineConfig.xml',
     mode    => '0755',
     require => File['/var/lib/jenkins/jobs/Pipeline/']
+  }
+
+  exec { 'jenkins restart':
+    command     => 'systemctl jenkins restart',
+    creates     => '/tmp/restart-jenkins'
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    refreshonly => true,
+    require => File['/var/lib/jenkins/jobs/Pipeline/config.xml']
   }
 
   jenkins::user { 'admin':
