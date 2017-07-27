@@ -35,7 +35,7 @@ class profile::jenkins::server {
     #cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
     extract       => true,
     extract_path  => $jenkins_path,
-    creates       => "${jenkins_path}/config.xml" #directory inside tgz
+    creates       => "${jenkins_path}/config.xml", #directory inside tgz
     require       => [ File[$docs_gz_path],Class['jenkins'] ],
   }
 
