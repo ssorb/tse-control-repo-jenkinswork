@@ -34,7 +34,7 @@ class profile::jenkins::plugins {
   jenkins::plugin { 'mailer':}
   jenkins::plugin { 'mapdb-api':}
   jenkins::plugin { 'matrix-auth':}
-  jenkins::plugin { 'matrix-project'}
+  jenkins::plugin { 'matrix-project':}
   jenkins::plugin { 'momentjs':}
   jenkins::plugin { 'pam-auth':}
   jenkins::plugin { 'php-builtin-web-server':}
