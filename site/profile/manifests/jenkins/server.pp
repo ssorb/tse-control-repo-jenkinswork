@@ -51,7 +51,7 @@ class profile::jenkins::server {
     ensure  => file,  
     owner   => 'jenkins',
     group   => 'jenkins',
-    source  => 'puppet:///modules/profile/config.xml'
+    source  => 'puppet:///modules/profile/PipelineConfig.xml'
     mode    => '0755',
     require => File['/var/lib/jenkins/jobs/Pipeline/']
   }
