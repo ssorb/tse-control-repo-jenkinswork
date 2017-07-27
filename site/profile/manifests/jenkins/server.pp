@@ -17,11 +17,14 @@ class profile::jenkins::server {
     require            => Java::Oracle['jdk8'],
   }
 
-  
-  jenkins::user { 'admin':
-    email    => 'sailseng@example.com',
-    password => 'puppetlabs',
-  }  
+  class { jenkins::security:
+    security_model => 'full_control',
+  }
+
+#  jenkins::user { 'admin':
+#    email    => 'sailseng@example.com',
+#    password => 'puppetlabs',
+#  }  
   
   package { 'nmap':
     ensure => installed,
