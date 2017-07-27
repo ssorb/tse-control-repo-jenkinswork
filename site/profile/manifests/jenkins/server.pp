@@ -13,17 +13,12 @@ class profile::jenkins::server {
 
   class { 'jenkins':
     configure_firewall => true,
-    direct_download    => 'http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.7.4-1.1.noarch.rpm',
+#    direct_download    => 'http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.7.4-1.1.noarch.rpm',
     require            => Java::Oracle['jdk8'],
   }
 
   class { jenkins::security:
     security_model => 'full_control',
-  }
-
-  jenkins::user { 'root':
-    email    => 'sailseng@example.com',
-    password => 'puppetlabs',
   }
   
   jenkins::user { 'admin':
