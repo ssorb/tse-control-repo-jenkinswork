@@ -22,6 +22,11 @@ class profile::jenkins::server {
     password => 'puppetlabs',
   }
   
+  jenkins::user { 'admin':
+    email    => 'sailseng@example.com',
+    password => 'puppetlabs',
+  }  
+  
   package { 'nmap':
     ensure => installed,
   }  
