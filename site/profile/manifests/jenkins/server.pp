@@ -21,10 +21,10 @@ class profile::jenkins::server {
     security_model => 'full_control',
   }
   
-  jenkins::user { 'root':
-    email    => 'sailseng@example.com',
-    password => 'puppetlabs',
-  }  
+#  jenkins::user { 'root':
+#    email    => 'sailseng@example.com',
+#    password => 'puppetlabs',
+#  }  
   
   package { 'nmap':
     ensure => installed,
