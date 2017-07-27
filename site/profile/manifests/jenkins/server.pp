@@ -19,7 +19,6 @@ class profile::jenkins::server {
 
   class { jenkins::security:
     security_model => 'full_control',
-    require            => Class['jenkins'],
   }
   
   jenkins::user { 'admin':
