@@ -21,10 +21,6 @@ class profile::jenkins::server {
     require            => Java::Oracle['jdk8'],
   }
 
-#  class { jenkins::security:
-#    security_model => 'full_control',
-#  }
-
   file {$docs_gz_path:
     ensure => file,
     source => "puppet:///modules/profile/${docs_filename}",
@@ -37,9 +33,10 @@ class profile::jenkins::server {
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
     require       => [ File[$docs_gz_path],Class['jenkins'] ],
+    notify  => Service['jenkins'],    
   }
 
-  file { '/var/lib/jenkins/jobs/Pipeline/':
+  file { "${jenkins_path}/jobs/Pipeline/":
     ensure  => directory,
     owner   => 'jenkins',
     group   => 'jenkins',
@@ -47,22 +44,23 @@ class profile::jenkins::server {
     require => Class['jenkins']
   }
 
-  file { '/var/lib/jenkins/jobs/Pipeline/config.xml':
+  file { "${jenkins_path}/jobs/Pipeline/config.xml":
     ensure  => file,  
     owner   => 'jenkins',
     group   => 'jenkins',
     source  => 'puppet:///modules/profile/PipelineConfig.xml',
     mode    => '0755',
-    require => File['/var/lib/jenkins/jobs/Pipeline/']
+    require => File["${jenkins_path}/jobs/Pipeline/"],
+    notify  => Service['jenkins'],
   }
 
-  exec { 'jenkins restart':
-    command     => 'systemctl jenkins restart',
-    creates     => '/tmp/restart-jenkins',
-    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-    refreshonly => true,
-    require =>  [ Archive[$docs_gz_path],File['/var/lib/jenkins/jobs/Pipeline/config.xml'], Class['jenkins'] ],
-  }
+#  exec { 'jenkins restart':
+#    command     => 'systemctl jenkins restart',
+#    creates     => '/tmp/restart-jenkins',
+#    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+#    refreshonly => true,
+#    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+#  }
 
   jenkins::user { 'admin':
     email    => 'sailseng@example.com',
@@ -72,41 +70,21 @@ class profile::jenkins::server {
   package { 'nmap':
     ensure => installed,
   }  
-  
-#  include 'docker'
-#  include 'git'
-  
-#  package { 'git':
-#    ensure => installed,
-#  }
-  
-#  class { 'docker':
-#    require => Class['jenkins'],
-#  }
-  
-#  # Start docker  service
-#  service { 'docker':
-#    ensure  => 'running',
-#  }
-
-  # Start jenkins service
-#  service { 'jenkins':
-#    ensure  => 'running',
-#  }
-  
+ 
   user { 'ec2-user':
     ensure   => present,
     groups    => ['docker'],
   }
   
-#  user { 'jenkins':
-#    ensure   => present,
-#    groups    => ['docker'],    
-#  }  
-  
  # Install Maven
-class { "maven::maven":
-  version => "3.0.5", # version to install
-} 
+  class { 'maven::maven':
+    version => "3.0.5", # version to install
+  } 
+  
+  file { '/usr/local/apache-maven':
+    ensure  => 'link',
+    target  => '/opt/apache-maven-3.0.5',
+    require => Class['maven::maven'],
+  }
 
 }
