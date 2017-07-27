@@ -17,6 +17,10 @@ class profile::jenkins::server {
     require            => Java::Oracle['jdk8'],
   }
 
+  class { jenkins::security:
+    security_model => 'full_control',
+  }
+
   jenkins::user { 'root':
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
