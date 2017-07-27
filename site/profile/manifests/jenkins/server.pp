@@ -21,10 +21,9 @@ class profile::jenkins::server {
     security_model => 'full_control',
   }
   
-  jenkins::user { 'admin':
+  jenkins::user { 'root':
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
-    require  => Class['jenkins'],
   }  
   
   package { 'nmap':
