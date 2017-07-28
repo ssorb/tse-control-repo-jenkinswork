@@ -51,6 +51,21 @@ class profile::jenkins::server {
     mode    => '0755',
     require => File["${jenkins_path}/jobs/Pipeline/"],
   }
+  
+  file { "${jenkins_path}/workspace/":
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }
+  
+  file { "${jenkins_path}/workspace/Pipeline/":
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+    require =>  File["${jenkins_path}/workspace/"]
+  }  
 
   exec { 'jenkins restart':
     command     => 'systemctl restart jenkins',
