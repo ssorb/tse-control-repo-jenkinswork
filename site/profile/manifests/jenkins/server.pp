@@ -67,6 +67,13 @@ class profile::jenkins::server {
     require =>  File["${jenkins_path}/workspace/"]
   }  
 
+  exec {'fix perms':
+    command => "chown -R jenkins:jenkins ${jenkins_path} *",
+    creates     => '/tmp/fix-perms',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+  }     
+
   exec { 'jenkins restart':
     command     => 'systemctl restart jenkins',
     creates     => '/tmp/restart-jenkins',
