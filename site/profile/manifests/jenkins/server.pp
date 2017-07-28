@@ -97,7 +97,7 @@ class profile::jenkins::server {
   
   exec { "create ssh key for jenkins user":
     cwd         => "${jenkins_path}",
-    command     => "ssh-keygen -t rsa -b 4096 -C 'your_email@example.com' -N '' -f id_rsa",
+    command     => 'ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
     user        => "jenkins",
     environment => ["HOME=${jenkins_path}"],
   }
