@@ -25,33 +25,31 @@
           <includeBranchesSpec></includeBranchesSpec>
           <excludeBranchesSpec></excludeBranchesSpec>
           <targetBranchRegex></targetBranchRegex>
-          <secretToken>{AQAAABAAAAAQsFHFw1L+FgX3rzCfzthWvxFvqHYEvS1cAaMETJZz1RQ=}</secretToken>
+          <secretToken>{AQAAABAAAAAQf4HfezYWWVulChfX+z1Pm2MukWlH4ki68JXw3LgACqI=}</secretToken>
         </com.dabsquared.gitlabjenkins.GitLabPushTrigger>
       </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.36.1">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.37">
     <script>node {
     puppet.credentials &apos;puppet-access-token&apos;
     def mvnHome
     stage(&apos;Preparation&apos;) { // for display purposes
         git &apos;git@gitlab.inf.puppet.vm:puppet/ContinuousIntegrationAndContinuousDeliveryApp.git&apos;
+        sh &apos;cd deployment/ &amp;&amp; rm -rf control-repo &amp;&amp; git clone  -b development git@gitlab.inf.puppet.vm:puppet/control-repo.git &amp;&amp; sed -ie \&apos;$d\&apos; control-repo/environment.conf &amp;&amp; cd ..&apos;
         gitlabCommitStatus {
           sh &apos;echo &quot;Preparation&quot;&apos;
         }
         mvnHome = tool &apos;M2&apos;
     }
-    stage(&apos;Test&apos;) {
+    stage(&apos;Unit Tests&apos;) {
         try {
             sh &quot;&apos;${mvnHome}/bin/mvn&apos; test&quot;
-            sh &apos;/var/lib/jenkins/workspace/Pipeline/dockerDeployment.sh&apos;
-            sleep 2
-            sh &apos;/var/lib/jenkins/workspace/Pipeline/isdockerwebserverup.sh&apos;
             gitlabCommitStatus {
-              sh &apos;echo &quot;Test&quot;&apos;
+              sh &apos;echo &quot;Unit Test&quot;&apos;
             }
         } catch (e) {
-            notifyStarted(&quot;Tests Failed in Jenkins!&quot;)
+            notifyStarted(&quot;Unit Tests Failed in Jenkins!&quot;)
             throw e
         }
     }
@@ -66,12 +64,12 @@
             throw e
         }
     }
-    stage(&apos;Results&apos;) {
+    stage(&apos;Package&apos;) {
         try{
             // Create jar
             archive &apos;target/*.jar&apos;
             // Create RPM
-            sh   &apos;/var/lib/jenkins/workspace/Pipeline/runDeployment.sh&apos;
+            sh   &apos;/var/lib/jenkins/workspace/Pipeline/deployRPM.sh&apos;
             gitlabCommitStatus {
               sh &apos;echo &quot;Results&quot;&apos;
             }
@@ -80,7 +78,20 @@
             throw e
         }
     }
-    stage(&apos;Deployment&apos;) {
+    stage(&apos;Docker Acceptance Tests&apos;) {
+        try {
+            sh &apos;/var/lib/jenkins/workspace/Pipeline/dockerDeployment.sh&apos;
+            sleep 2
+            sh &apos;/var/lib/jenkins/workspace/Pipeline/isserverup.sh localhost 8090&apos;
+            gitlabCommitStatus {
+              sh &apos;echo &quot;Test&quot;&apos;
+            }
+        } catch (e) {
+            notifyStarted(&quot;Tests Failed in Jenkins!&quot;)
+            throw e
+        }
+    }
+    stage(&apos;Prod Deployment&apos;) {
         try{
             // Run Puppet on test machine to get latest code
             sh &apos;source /var/lib/jenkins/.openstack_snapshotrc;nova rebuild --poll &quot;895e732e-3f32-4d6c-8cc2-481f6bf03f78&quot; &quot;d9553b4f-b4f8-483e-9e4f-a91c3b8e3208&quot;&apos;
@@ -97,7 +108,9 @@
         }
     }
     stage(&apos;Post&apos;) {
-        sleep 1
+      sleep 2
+      //sh &apos;/var/lib/jenkins/workspace/Pipeline/isserverup.sh centos-7-3.pdx.puppet.vm 8090&apos;
+      //sh &apos;/bin/nmap -p 8090 centos-7-3.pdx.puppet.vm | grep 8090 | grep open&apos;
       sh &apos;echo &quot;The build is done!&quot;&apos;
       gitlabCommitStatus {
         sh &apos;echo &quot;Post&quot;&apos;
@@ -113,4 +126,4 @@ def notifyStarted(String message) {
   </definition>
   <triggers/>
   <disabled>false</disabled>
-</flow-definition>
+</flow-definition>[
