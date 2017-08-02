@@ -123,7 +123,8 @@ class profile::jenkins::server {
  
   exec { "add jenkins user to docker group":
     command => '/sbin/usermod -a -G docker jenkins',
-    creates     => '/tmp/usermod-perms',
+    creates => '/tmp/usermod-perms',
+    require => Class['jenkins']
   } 
   
   file { "${jenkins_path}/.ssh/":
