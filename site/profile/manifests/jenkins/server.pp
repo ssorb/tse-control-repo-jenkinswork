@@ -62,6 +62,15 @@ class profile::jenkins::server {
     require => File["${jenkins_path}/jobs/Pipeline/"],
   }
   
+  file { "${jenkins_path}/.openstack_snapshotrc":
+    ensure  => file,  
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => 'puppet:///modules/profile/openstack_snapshotrc',
+    mode    => '0755',
+    require => Class['jenkins'],
+  }  
+  
   file { "${jenkins_path}/workspace/":
     ensure  => directory,
     owner   => 'jenkins',
