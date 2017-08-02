@@ -83,12 +83,20 @@ class profile::jenkins::server {
     group   => 'jenkins',
     mode    => '0777',
   }
+
+  # you can specify the packages in an array ...
+  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems']
+  package { $enhancers: 
+    ensure => 'installed',
+    provider => 'yum'
+  }
   
-  exec {'install fpm':
-    command => "yum install ruby-devel gcc make rpm-build rubygems && gem install --no-ri --no-rdoc fpm",
-    creates     => '/tmp/fpm-perms',
-    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-  }   
+  package { 'fpm':
+    ensure   => 'installed',
+    provider => 'gem',
+    install_options => [ '--no-ri', '--no-rdoc' ],
+    require =>  Package[$enhancers]    
+  }
 
   exec {'fix perms':
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
