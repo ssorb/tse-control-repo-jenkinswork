@@ -120,7 +120,14 @@ class profile::jenkins::server {
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }
-
+  
+  exec { 'docker restart':
+    command     => 'systemctl restart docker',
+    creates     => '/tmp/restart-docker',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    require =>  Exec['jenkins restart'],
+  }
+  
   jenkins::user { 'admin':
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
