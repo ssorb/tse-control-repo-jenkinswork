@@ -17,6 +17,22 @@ class profile::jenkins::server {
     host_aliases => 'centos-7-3',
   }  
 
+  class { 'python' :
+    version    => '3.6.0',
+    pip        => 'present',
+    dev        => 'absent',
+    virtualenv => 'absent',
+    gunicorn   => 'absent',
+  }
+
+  # you can specify the packages in an array ...
+  $pips = [ 'python-keystoneclient', 'python-glanceclient', 'python-novaclient']  
+  package { $pips:
+    ensure => present,
+    provider => "pip",
+    require => Class['python'],    
+  }  
+
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
