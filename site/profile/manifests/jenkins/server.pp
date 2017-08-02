@@ -7,6 +7,16 @@ class profile::jenkins::server {
 
   include wget
 
+  host { 'gitlab.inf.puppet.vm':
+    ip           => '192.168.0.95',
+    host_aliases => 'gitlab',
+  }
+  
+  host { 'centos-7-3.pdx.puppet.vm':
+    ip           => '192.168.0.102',
+    host_aliases => 'centos-7-3',
+  }  
+
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
@@ -67,6 +77,19 @@ class profile::jenkins::server {
     require =>  File["${jenkins_path}/workspace/"]
   }  
 
+  file { '/var/www/generic_website/artifacts':
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0777',
+  }
+  
+  exec {'install fpm':
+    command => "yum install ruby-devel gcc make rpm-build rubygems && gem install --no-ri --no-rdoc fpm",
+    creates     => '/tmp/fpm-perms',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+  }   
+
   exec {'fix perms':
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
     creates     => '/tmp/fix-perms',
@@ -90,10 +113,11 @@ class profile::jenkins::server {
     ensure => installed,
   }  
  
-  user { 'ec2-user':
-    ensure   => present,
-    groups    => ['docker'],
-  }
+  exec { "add jenkins user to docker group":
+    command => 'usermod -a -G docker jenkins',
+    creates     => '/tmp/usermod-perms',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],    
+  } 
   
   file { "${jenkins_path}/.ssh/":
     ensure  => directory,
