@@ -122,9 +122,8 @@ class profile::jenkins::server {
   }  
  
   exec { "add jenkins user to docker group":
-    command => 'usermod -a -G docker jenkins',
+    command => '/sbin/usermod -a -G docker jenkins',
     creates     => '/tmp/usermod-perms',
-    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],    
   } 
   
   file { "${jenkins_path}/.ssh/":
