@@ -17,22 +17,6 @@ class profile::jenkins::server {
     host_aliases => 'centos-7-3',
   }  
 
-  class { 'python' :
-    version    => 'python34',
-    pip        => 'present',
-    dev        => 'absent',
-    virtualenv => 'absent',
-    gunicorn   => 'absent',
-  }
-
-  # you can specify the packages in an array ...
-  $pips = [ 'python-keystoneclient', 'python-glanceclient', 'python-novaclient']  
-  package { $pips:
-    ensure => present,
-    provider => "pip",
-    require => Class['python'],    
-  }  
-
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
@@ -109,8 +93,8 @@ class profile::jenkins::server {
     mode    => '0777',
   }
 
-  # you can specify the packages in an array ...
-  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems']
+# fpm and novaclient dependencies
+  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems', 'python-devel', 'python-pip', 'python-setuptools']
   package { $enhancers: 
     ensure => 'installed',
     provider => 'yum'
@@ -122,6 +106,22 @@ class profile::jenkins::server {
     install_options => [ '--no-ri', '--no-rdoc' ],
     require =>  Package[$enhancers]    
   }
+
+#  class { 'python' :
+#    version    => 'python34',
+#    pip        => 'present',
+#    dev        => 'present',
+#    virtualenv => 'absent',
+#    gunicorn   => 'absent',
+#  }
+
+  # you can specify the packages in an array ...
+  $pips = [ 'python-keystoneclient', 'python-glanceclient', 'python-novaclient']  
+  package { $pips:
+    ensure => present,
+    provider => 'pip',
+    require => Package[$enhancers] ,    
+  } 
 
   exec {'fix perms':
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
