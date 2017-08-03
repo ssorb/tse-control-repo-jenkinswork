@@ -18,7 +18,7 @@ class profile::jenkins::server {
   }  
 
   class { 'python' :
-    version    => '3.6.0',
+    version    => 'system',
     pip        => 'present',
     dev        => 'absent',
     virtualenv => 'absent',
