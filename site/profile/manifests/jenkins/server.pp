@@ -116,7 +116,7 @@ class profile::jenkins::server {
 #  }
 
   # you can specify the packages in an array ...
-  $pips = [ 'python-keystoneclient', 'python-glanceclient', 'python-novaclient']  
+  $pips = [ 'python-keystoneclient', 'python-novaclient']  
   package { $pips:
     ensure => present,
     provider => 'pip',
