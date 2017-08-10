@@ -122,7 +122,11 @@ mod 'inifile',
 
 mod 'puppetlabs-java', '2.1.0'
 mod 'puppetlabs-stdlib', '4.17.1'
-mod 'puppet-archive', '1.3.0'
+
+mod 'puppet-archive',
+  :git    => 'https://github.com/voxpupuli/puppet-archive.git',
+  :branch => 'master'
+
 mod 'maestrodev-maven', '1.4.0'
 
 mod 'jenkins',
