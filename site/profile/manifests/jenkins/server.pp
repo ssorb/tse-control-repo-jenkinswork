@@ -158,20 +158,21 @@ class profile::jenkins::server {
     require => Class['jenkins']
   } 
   
-#  file { "${jenkins_path}/.ssh/":
-#    ensure  => directory,
-#    owner   => 'jenkins',
-#    group   => 'jenkins',
-#    mode    => '0755',
-#  }  
+  # Generate ssh key for jenkins user
+  file { "${jenkins_path}/.ssh/":
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }  
   
-#  exec { "create ssh key for jenkins user":
-#    cwd         => "${jenkins_path}/.ssh",
-#    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
-#    user        => 'jenkins',
-#    environment => ["HOME=${jenkins_path}"],
-#     require => File[ "${jenkins_path}/.ssh/"],
-#  }
+  exec { "create ssh key for jenkins user":
+    cwd         => "${jenkins_path}/.ssh",
+    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
+    user        => 'jenkins',
+    environment => ["HOME=${jenkins_path}"],
+     require => File[ "${jenkins_path}/.ssh/"],
+  }
   
  # Install Maven
   class { 'maven::maven':
