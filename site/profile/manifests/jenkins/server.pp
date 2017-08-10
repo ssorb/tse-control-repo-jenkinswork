@@ -39,8 +39,8 @@ class profile::jenkins::server {
 #    source => "puppet:///modules/profile/${docs_filename}",
 #  }
 
-  archive { $docs_gz_path:
-    source        => 'puppet:///modules/profile/${docs_filename}',
+  archive { $docs_filename:
+    source        => "puppet:///modules/profile/${docs_filename}",
     extract       => true,
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
@@ -128,14 +128,14 @@ class profile::jenkins::server {
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
     creates     => '/tmp/fix-perms',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+    require =>  [ Archive[$docs_filename],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }     
 
   exec { 'jenkins restart':
     command     => 'systemctl restart jenkins',
     creates     => '/tmp/restart-jenkins',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-    require =>  [ Archive[$docs_gz_path],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+    require =>  [ Archive[$docs_filename],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }
   
   exec { 'docker restart':
