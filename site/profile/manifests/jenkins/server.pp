@@ -40,7 +40,7 @@ class profile::jenkins::server {
 #  }
 
   archive { $docs_gz_path:
-    src           => 'puppet:///modules/profile/${docs_filename}',
+    source        => 'puppet:///modules/profile/${docs_filename}',
     extract       => true,
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
