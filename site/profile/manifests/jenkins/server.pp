@@ -3,11 +3,13 @@ class profile::jenkins::server {
 
   $jenkins_path  = '/var/lib/jenkins'
 
+# Include docker, wget, git, and apache (generic website)
   include wget
   include docker
   include git  
   include profile::app::generic_website::linux
 
+# add gitlabd and centos-7-3 to hosts file
   host { 'gitlab.inf.puppet.vm':
     ip           => '192.168.0.95',
     host_aliases => 'gitlab',
@@ -18,6 +20,7 @@ class profile::jenkins::server {
     host_aliases => 'centos-7-3',
   }  
 
+#install java
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
@@ -26,17 +29,14 @@ class profile::jenkins::server {
     java_se       => 'jdk',
   }
 
+# install jenkins
   class { 'jenkins':
     configure_firewall => true,
     direct_download    => 'http://pkg.jenkins-ci.org/redhat/jenkins-2.62-1.1.noarch.rpm',
     require            => Java::Oracle['jdk8'],
   }
 
-#  file {$docs_gz_path:
-#    ensure => file,
-#    source => "puppet:///modules/profile/${docs_filename}",
-#  }
-
+#unpack pre-baked jenkins config data
   archive {  "${jenkins_path}/xmls.tar.gz":
     source        => 'puppet:///modules/profile/xmls.tar.gz',
     extract       => true,
@@ -45,6 +45,7 @@ class profile::jenkins::server {
     require       => [ Class['jenkins'] ],
   }
 
+#set up pipeline
   file { "${jenkins_path}/jobs/Pipeline/":
     ensure  => directory,
     owner   => 'jenkins',
@@ -62,15 +63,6 @@ class profile::jenkins::server {
     require => File["${jenkins_path}/jobs/Pipeline/"],
   }
   
-  file { "${jenkins_path}/.openstack_snapshotrc":
-    ensure  => file,  
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    source  => 'puppet:///modules/profile/openstack_snapshotrc',
-    mode    => '0755',
-    require => Class['jenkins'],
-  }  
-  
   file { "${jenkins_path}/workspace/":
     ensure  => directory,
     owner   => 'jenkins',
@@ -86,6 +78,7 @@ class profile::jenkins::server {
     require =>  File["${jenkins_path}/workspace/"]
   }  
 
+# Set up artifact repository
   file { '/var/www/generic_website/artifacts':
     ensure  => directory,
     owner   => 'jenkins',
@@ -107,21 +100,7 @@ class profile::jenkins::server {
     require =>  Package[$enhancers]    
   }
 
-#  class { 'python' :
-#    version    => 'python34',
-#    pip        => 'present',
-#    dev        => 'present',
-#    virtualenv => 'absent',
-#    gunicorn   => 'absent',
-#  }
-
-#  $pips = [ 'python-keystoneclient', 'python-novaclient']  
-#  package { $pips:
-#    ensure => present,
-#    provider => 'pip',
-#    require => Package[$enhancers] ,    
-#  } 
-
+# Make sure all the files in /var/lib/jenks are owned by jenkins:jenkins
   exec {'fix perms':
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
     creates     => '/tmp/fix-perms',
@@ -129,6 +108,7 @@ class profile::jenkins::server {
     require =>  [ Archive["${jenkins_path}/xmls.tar.gz"],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }     
 
+# restart jenkins
   exec { 'jenkins restart':
     command     => 'systemctl restart jenkins',
     creates     => '/tmp/restart-jenkins',
@@ -136,6 +116,7 @@ class profile::jenkins::server {
     require =>  [ Archive["${jenkins_path}/xmls.tar.gz"],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }
   
+# restart docker  
   exec { 'docker restart':
     command     => 'systemctl restart docker',
     creates     => '/tmp/restart-docker',
@@ -143,22 +124,20 @@ class profile::jenkins::server {
     require =>  Exec['jenkins restart'],
   }
   
+# create jenkins user admin  
   jenkins::user { 'admin':
     email    => 'sailseng@example.com',
     password => 'puppetlabs',
   }  
   
-#  package { 'nmap':
-#    ensure => installed,
-#  }  
- 
+#  Add jenkins user to docker group
   exec { "add jenkins user to docker group":
     command => '/sbin/usermod -a -G docker jenkins',
     creates => '/tmp/usermod-perms',
     require => Class['jenkins']
   } 
   
-  # Generate ssh key for jenkins user
+# Generate ssh key for jenkins user
   file { "${jenkins_path}/.ssh/":
     ensure  => directory,
     owner   => 'jenkins',
