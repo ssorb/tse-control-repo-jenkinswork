@@ -34,18 +34,19 @@ class profile::jenkins::server {
     require            => Java::Oracle['jdk8'],
   }
 
-  file {$docs_gz_path:
-    ensure => file,
-    source => "puppet:///modules/profile/${docs_filename}",
-  }
+#  file {$docs_gz_path:
+#    ensure => file,
+#    source => "puppet:///modules/profile/${docs_filename}",
+#  }
 
   archive { $docs_gz_path:
-    path          => $docs_gz_path,
-    #cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
+    src           => 'puppet:///modules/profile/${docs_filename}'
+#    path          => $docs_gz_path,
+#    cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
     extract       => true,
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
-    require       => [ File[$docs_gz_path],Class['jenkins'] ],
+    require       => [ Class['jenkins'] ],
   }
 
   file { "${jenkins_path}/jobs/Pipeline/":
@@ -96,8 +97,8 @@ class profile::jenkins::server {
     mode    => '0777',
   }
 
-# fpm and novaclient dependencies
-  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems', 'python-devel', 'python-pip', 'python-setuptools']
+# fpm dependencies
+  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems' ]
   package { $enhancers: 
     ensure => 'installed',
     provider => 'yum'
@@ -118,13 +119,12 @@ class profile::jenkins::server {
 #    gunicorn   => 'absent',
 #  }
 
-  # you can specify the packages in an array ...
-  $pips = [ 'python-keystoneclient', 'python-novaclient']  
-  package { $pips:
-    ensure => present,
-    provider => 'pip',
-    require => Package[$enhancers] ,    
-  } 
+#  $pips = [ 'python-keystoneclient', 'python-novaclient']  
+#  package { $pips:
+#    ensure => present,
+#    provider => 'pip',
+#    require => Package[$enhancers] ,    
+#  } 
 
   exec {'fix perms':
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
@@ -152,9 +152,9 @@ class profile::jenkins::server {
     password => 'puppetlabs',
   }  
   
-  package { 'nmap':
-    ensure => installed,
-  }  
+#  package { 'nmap':
+#    ensure => installed,
+#  }  
  
   exec { "add jenkins user to docker group":
     command => '/sbin/usermod -a -G docker jenkins',
@@ -162,20 +162,20 @@ class profile::jenkins::server {
     require => Class['jenkins']
   } 
   
-  file { "${jenkins_path}/.ssh/":
-    ensure  => directory,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0755',
-  }  
+#  file { "${jenkins_path}/.ssh/":
+#    ensure  => directory,
+#    owner   => 'jenkins',
+#    group   => 'jenkins',
+#    mode    => '0755',
+#  }  
   
-  exec { "create ssh key for jenkins user":
-    cwd         => "${jenkins_path}/.ssh",
-    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
-    user        => 'jenkins',
-    environment => ["HOME=${jenkins_path}"],
-     require => File[ "${jenkins_path}/.ssh/"],
-  }
+#  exec { "create ssh key for jenkins user":
+#    cwd         => "${jenkins_path}/.ssh",
+#    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
+#    user        => 'jenkins',
+#    environment => ["HOME=${jenkins_path}"],
+#     require => File[ "${jenkins_path}/.ssh/"],
+#  }
   
  # Install Maven
   class { 'maven::maven':
