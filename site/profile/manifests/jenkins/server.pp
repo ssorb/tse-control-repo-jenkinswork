@@ -168,7 +168,7 @@ class profile::jenkins::server {
   
   exec { "create ssh key for jenkins user":
     cwd         => "${jenkins_path}/.ssh",
-    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa',
+    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts',
     user        => 'jenkins',
     environment => ["HOME=${jenkins_path}"],
      require => File[ "${jenkins_path}/.ssh/"],
