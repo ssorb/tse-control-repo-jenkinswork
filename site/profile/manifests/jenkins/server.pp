@@ -6,6 +6,9 @@ class profile::jenkins::server {
   $jenkins_path  = '/var/lib/jenkins'
 
   include wget
+  include docker
+  include git  
+  include profile::app::generic_website::linux
 
   host { 'gitlab.inf.puppet.vm':
     ip           => '192.168.0.95',
