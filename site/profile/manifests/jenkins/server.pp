@@ -1,8 +1,6 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server {
 
-  $docs_filename = 'xmls.tar.gz'
-  $docs_gz_path  = "/tmp/${docs_filename}"
   $jenkins_path  = '/var/lib/jenkins'
 
   include wget
@@ -39,8 +37,8 @@ class profile::jenkins::server {
 #    source => "puppet:///modules/profile/${docs_filename}",
 #  }
 
-  archive { $docs_filename:
-    source        => "puppet:///modules/profile/${docs_filename}",
+  archive { 'xmls.tar.gz':
+    source        => 'puppet:///modules/profile/xmls.tar.gz',
     extract       => true,
     extract_path  => $jenkins_path,
     creates       => "/tmp/xmls-file", #directory inside tgz
@@ -128,14 +126,14 @@ class profile::jenkins::server {
     command => "chown -R jenkins:jenkins ${jenkins_path} *",
     creates     => '/tmp/fix-perms',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-    require =>  [ Archive[$docs_filename],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+    require =>  [ Archive['xmls.tar.gz'],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }     
 
   exec { 'jenkins restart':
     command     => 'systemctl restart jenkins',
     creates     => '/tmp/restart-jenkins',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-    require =>  [ Archive[$docs_filename],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
+    require =>  [ Archive['xmls.tar.gz'],File["${jenkins_path}/jobs/Pipeline/config.xml"], Class['jenkins'] ],
   }
   
   exec { 'docker restart':
