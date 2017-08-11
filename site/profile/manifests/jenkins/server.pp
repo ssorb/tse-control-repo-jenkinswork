@@ -13,10 +13,7 @@ class profile::jenkins::server (
   $jenkins_ssh_key_file_name = 'id-control_repo.rsa'
   $jenkins_ssh_key_file = "${jenkins_ssh_key_directory}/${jenkins_ssh_key_file_name}"
   $git_management_system     = 'github'
-  $jenkins_role_name         = versioncmp($::pe_server_version, '2016.5.0') ? {
-                                                -1      => 'Deploy Environments',
-                                                default => 'Code Deployers',
-                                              }
+  $jenkins_role_name         = 'Code Deployers'
   $control_repo_project_name = 'puppet/control-repo'
 
 # Generate ssh key for jenkins user
