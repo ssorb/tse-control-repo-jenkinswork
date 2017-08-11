@@ -1,7 +1,7 @@
-<%- | String  $service_user,
-      String  $service_user_password,
+<%- | String  $jenkins_service_user,
+      String  $jenkins_service_user_password,
       String  $classifier_hostname,
       Integer $classifier_port,
       String  $token_filename
 | -%>
-/bin/curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "<%= $service_user %>", "password": "<%= $service_user_password %>", "lifetime": "0"}' https://<%= $classifier_hostname %>:<%= $classifier_port %>/rbac-api/v1/auth/token >> <%= $token_filename %>
+/bin/curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "<%= $jenkins_service_user %>", "password": "<%= $jenkins_service_user_password %>", "lifetime": "0"}' https://<%= $classifier_hostname %>:<%= $classifier_port %>/rbac-api/v1/auth/token >> <%= $token_filename %>
