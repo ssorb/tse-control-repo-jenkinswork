@@ -12,7 +12,7 @@ class profile::jenkins::server (
   $jenkins_ssh_key_directory   = "${jenkins_path}/.ssh"
   $jenkins_ssh_key_file_name = 'id-control_repo.rsa'
   $jenkins_ssh_key_file = "${jenkins_ssh_key_directory}/${jenkins_ssh_key_file_name}"
-  $git_management_system     = 'github'
+  $git_management_system     = 'gitlab'
   $jenkins_role_name         = 'Code Deployers'
   $control_repo_project_name = 'puppet/control-repo'
 
