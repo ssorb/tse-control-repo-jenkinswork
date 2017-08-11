@@ -1,8 +1,68 @@
 # Requires rtyler/jenkins module
-class profile::jenkins::server {
+class profile::jenkins::server (
+  Optional[String] $gms_api_token    = hiera('gms_api_token', undef),
+  Optional[String] $gms_server_url   = hiera('gms_server_url', undef),
+ ){
+  
+  $jenkins_path     = '/var/lib/jenkins'
+  $jenkins_service_user      = 'jenkins_service_user'
+  $token_directory  = "${jenkins_path}/.puppetlabs",
+  $token_filename   = "${token_directory}/${$jenkins_service_user}_token"
+  $jenkins_service_user_password = fqdn_rand_string(40, '', "${jenkins_service_user}_password")
+  $jenkins_ssh_key_directory   = "${jenkins_path}/.ssh"
+  $jenkins_ssh_key_file_name = 'id-control_repo.rsa'
+  $jenkins_ssh_key_file = "${jenkins_ssh_key_directory}/${jenkins_ssh_key_file_name}"
+  $git_management_system     = 'github'
+  $jenkins_role_name         = versioncmp($::pe_server_version, '2016.5.0') ? {
+                                                -1      => 'Deploy Environments',
+                                                default => 'Code Deployers',
+                                              }
+  $control_repo_project_name = 'puppet/control-repo',
 
-  $jenkins_path  = '/var/lib/jenkins'
+# Generate ssh key for jenkins user
+  file { $jenkins_ssh_key_directory:
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }  
+  
+  exec { 'create ssh key for jenkins user':
+    cwd         => $jenkins_ssh_key_directory,
+    command     => "/bin/ssh-keygen -t rsa -b 4096 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
+    user        => 'jenkins',
+    environment => ["HOME=${jenkins_path}"],
+     require => File[ "${jenkins_path}/.ssh/"],
+  }  
+  
+# create rbac user for jenkins 
+  rbac_user { $jenkins_service_user :
+    ensure       => 'present',
+    name         => $jenkins_service_user,
+    email        => "${jenkins_service_user}@example.com",
+    display_name => 'Jenkins Service Account',
+    password     => $jenkins_service_user_password,
+    roles        => [ $jenkins_role_name ],
+  }
 
+  file { $token_directory :
+    ensure => directory,
+    owner  => 'jenkins',
+    group  => 'jenkins',
+  }
+
+  exec { "Generate Token for ${jenkins_service_user}" :
+    command => epp('profile/jenkins/create_rbac_token.epp',
+                  { 'jenkins_service_user'          => $jenkins_service_user,
+                    'jenkins_service_user_password' => $jenkins_service_user_password,
+                    'classifier_hostname'           => 'master.inf.puppet.vm',
+                    'classifier_port'               => '4433',
+                    'token_filename'                => $token_filename
+                  }),
+    creates => $token_filename,
+    require => [ Rbac_user[$jenkins_service_user], File[$token_directory] ],
+  }  
+  
 # Include docker, wget, git, and apache (generic website)
   include wget
   include docker
@@ -136,22 +196,6 @@ class profile::jenkins::server {
     creates => '/tmp/usermod-perms',
     require => Class['jenkins']
   } 
-  
-# Generate ssh key for jenkins user
-  file { "${jenkins_path}/.ssh/":
-    ensure  => directory,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0755',
-  }  
-  
-  exec { "create ssh key for jenkins user":
-    cwd         => "${jenkins_path}/.ssh",
-    command     => '/bin/ssh-keygen -t rsa -b 4096 -C \'your_email@example.com\' -N \'\' -f id_rsa && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts',
-    user        => 'jenkins',
-    environment => ["HOME=${jenkins_path}"],
-     require => File[ "${jenkins_path}/.ssh/"],
-  }
   
  # Install Maven
   class { 'maven::maven':
