@@ -40,7 +40,7 @@ class profile::jenkins::server (
   }  
 
 $token_script = @(EOT)
-OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token']; >/var/lib/jenkins/.puppetlabs/token"`
+OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token'];" >/var/lib/jenkins/.puppetlabs/token`
 | EOT
 
   file { "/tmp/create_token.sh":
