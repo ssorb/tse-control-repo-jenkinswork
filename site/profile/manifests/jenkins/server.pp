@@ -53,7 +53,7 @@ class profile::jenkins::server (
                   { 'jenkins_service_user'          => $jenkins_service_user,
                     'jenkins_service_user_password' => $jenkins_service_user_password,
                     'classifier_hostname'           => 'master.inf.puppet.vm',
-                    'classifier_port'               => '4433',
+                    'classifier_port'               => 4433,
                     'token_filename'                => $token_filename
                   }),
     creates => $token_filename,
