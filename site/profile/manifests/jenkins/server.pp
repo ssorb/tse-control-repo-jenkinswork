@@ -1,7 +1,7 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server (
-  Optional[String] $gms_api_token    = hiera('gms_api_token', undef),
-  Optional[String] $gms_server_url   = hiera('gms_server_url', undef),
+  Optional[String] $gms_api_token    = "et9FqxWxzkoF7GJXgqTQ",
+  Optional[String] $gms_server_url   = "https://gitlab.inf.puppet.vm",
  ){
   
   $jenkins_path     = '/var/lib/jenkins'
@@ -39,6 +39,7 @@ class profile::jenkins::server (
     mode    => '0755',
   }  
 
+# create Puppet auth token
 $token_script = @(EOT)
 OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token'];" >/var/lib/jenkins/.puppetlabs/token`
 | EOT
@@ -57,6 +58,17 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     require =>  [ File["/tmp/create_token.sh"], File[ "$token_directory"],],
   }
+  
+  git_deploy_key { "add_deploy_key_to_puppet_control-${::fqdn}":
+    ensure       => present,
+    name         => "jenkins-${::fqdn}",
+    path         => "${jenkins_ssh_key_file}.pub",
+    token        => $gms_api_token,
+    project_name => $control_repo_project_name,
+    server_url   => $gms_server_url,
+    provider     => $git_management_system,
+    require => Exec[ 'create ssh key for jenkins user'],
+  }  
 
 # Include docker, wget, git, and apache (generic website)
   include wget
