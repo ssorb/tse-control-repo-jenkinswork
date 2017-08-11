@@ -6,7 +6,7 @@ class profile::jenkins::server (
   
   $jenkins_path     = '/var/lib/jenkins'
   $jenkins_service_user      = 'jenkins_service_user'
-  $token_directory  = "${jenkins_path}/.puppetlabs",
+  $token_directory  = "${jenkins_path}/.puppetlabs"
   $token_filename   = "${token_directory}/${$jenkins_service_user}_token"
   $jenkins_service_user_password = fqdn_rand_string(40, '', "${jenkins_service_user}_password")
   $jenkins_ssh_key_directory   = "${jenkins_path}/.ssh"
@@ -17,7 +17,7 @@ class profile::jenkins::server (
                                                 -1      => 'Deploy Environments',
                                                 default => 'Code Deployers',
                                               }
-  $control_repo_project_name = 'puppet/control-repo',
+  $control_repo_project_name = 'puppet/control-repo'
 
 # Generate ssh key for jenkins user
   file { $jenkins_ssh_key_directory:
