@@ -29,39 +29,34 @@ class profile::jenkins::server (
     command     => "/bin/ssh-keygen -t rsa -b 4096 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
     user        => 'jenkins',
     environment => ["HOME=${jenkins_path}"],
-     require => File[ "${jenkins_path}/.ssh/"],
+    require => File[ "${jenkins_path}/.ssh/"],
   }  
-  
-# create rbac user for jenkins 
-#  rbac_user { $jenkins_service_user :
-#    ensure       => 'present',
-#    name         => $jenkins_service_user,
-#    email        => "${jenkins_service_user}@example.com",
-#    display_name => 'Jenkins Service Account',
-#    password     => $jenkins_service_user_password,
-#    roles        => [ $jenkins_role_name ],
-#  }
 
- # file { $token_directory :
- #   ensure => directory,
- #   owner  => 'jenkins',
- #   group  => 'jenkins',
- # }
+  file { $token_directory:
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }  
 
-#  exec { "Generate Token for ${jenkins_service_user}" :
-#    command => epp('profile/jenkins/create_rbac_token.epp',
-#                  { 'jenkins_service_user'          => $jenkins_service_user,
-#                    'jenkins_service_user_password' => $jenkins_service_user_password,
-#                    'classifier_hostname'           => 'master.inf.puppet.vm',
-#                    'classifier_port'               => 4433,
-#                    'token_filename'                => $token_filename
-#                  }),
-#    creates => $token_filename,
-#    require => [ Rbac_user[$jenkins_service_user], File[$token_directory] ],
-#  }  
-  
-$auth_token = pick('/root/.puppetlabs/token', generate ('/bin/curl -sS -k -X POST -H \'Content-Type: application/json\' -d \'{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}\' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj[\'token\'];"'))
-notify {"auth token: ${auth_token}":} 
+$token_script = @(EOT)
+OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token']; >/var/lib/jenkins/.puppetlabs/token"`
+| EOT
+
+  file { "/tmp/create_token.sh":
+    ensure  => file,
+    content => $token_script,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',  
+  }
+
+  exec { 'Create Puppet Auth Token':
+    command     => '/tmp/create_token.sh',
+    creates     => '/tmp/create-auth-token',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    require =>  [ File["/tmp/create_token.sh"], File[ "$token_directory"],],
+  }
 
 # Include docker, wget, git, and apache (generic website)
   include wget
