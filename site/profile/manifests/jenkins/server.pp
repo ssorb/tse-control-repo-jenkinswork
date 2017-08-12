@@ -35,8 +35,8 @@ class profile::jenkins::server (
 
 # For simplicity, make a copy of pub key available on webserver
   exec { 'Copy ssh key to webserver':
-    command     => '/bin/cp ${jenkins_ssh_key_file}.pub /var/www/generic_website/pubkey.html',
-    creates     => '/tmp/public_key_token',
+    command     => "/bin/cp ${jenkins_ssh_key_file}.pub /var/www/generic_website/pubkey.html",
+    creates     => '/tmp/public_key_token_web',
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     require =>  [ Exec['create ssh key for jenkins user'],],
   }
