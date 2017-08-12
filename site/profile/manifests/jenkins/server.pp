@@ -28,7 +28,7 @@ class profile::jenkins::server (
     cwd         => $jenkins_ssh_key_directory,
     command     => "/bin/ssh-keygen -t rsa -b 4096 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
     user        => 'jenkins',
-    creates     => $jenkins_ssh_key_file  
+    creates     => $jenkins_ssh_key_file,  
     environment => ["HOME=${jenkins_path}"],
     require => File[ "${jenkins_path}/.ssh/"],
   }  
