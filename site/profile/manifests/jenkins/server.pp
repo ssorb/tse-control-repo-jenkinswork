@@ -26,7 +26,7 @@ class profile::jenkins::server (
   
   exec { 'create ssh key for jenkins user':
     cwd         => $jenkins_ssh_key_directory,
-    command     => "/bin/ssh-keygen -t rsa -b 4096 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
+    command     => "/bin/ssh-keygen -t rsa -b 2048 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
     user        => 'jenkins',
     creates     => $jenkins_ssh_key_file,  
     environment => ["HOME=${jenkins_path}"],
