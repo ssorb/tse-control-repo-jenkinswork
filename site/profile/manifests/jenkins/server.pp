@@ -76,6 +76,32 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require =>  [ File["/tmp/create_token.sh"], File[ "$token_directory"],],
   }
   
+# For simplicity, make a copy of the Puppet Auth token available on webserver
+  exec { 'Copy auth token to webserver':
+    command     => "/bin/cp /var/lib/jenkins/.puppetlabs/token /var/www/generic_website/auth_token.html",
+    creates     => '/tmp/auth_token_web',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    require =>  [ Exec['Create Puppet Auth Token'],],
+  }
+  
+  file { '/var/www/generic_website/auth_token.html':
+    ensure  => file,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0777',  
+    require =>  [ Exec['Copy auth token to webserver'] ],    
+  }  
+  
+  $html_contents = "<h1>Tokens and Keys!</h1><a href='pubkey.html'>Jenkins User SSH Key</a><br/><a href='auth_token.html'>Puppet Auth Token</a>"
+  file { "/var/www/generic_website/tokens.html":
+    ensure  => file,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0777',  
+    content => $html_contents,
+    require => [ File['/var/www/generic_website/auth_token.html'] ],    
+  }    
+  
   git_deploy_key { "add_deploy_key_to_puppet_control-${::fqdn}":
     ensure       => present,
     name         => "jenkins-${::fqdn}",
