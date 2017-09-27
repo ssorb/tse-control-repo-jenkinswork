@@ -1,9 +1,13 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server (
-  Optional[String] $gms_api_token    = "et9FqxWxzkoF7GJXgqTQ",
-  Optional[String] $gms_server_url   = "https://gitlab.inf.puppet.vm",
+  Optional[String] $gms_api_token = 'et9FqxWxzkoF7GJXgqTQ',
+  Optional[String] $gitlab_domain = 'gitlab.inf.puppet.vm',  
+  Optional[String] $gitlab_ip     = '192.168.0.95',   
+  Optional[String] $prod_deploy_domain = 'centos-7-3.pdx.puppet.vm',  
+  Optional[String] $prod_deploy_ip     = '192.168.0.102',     
  ){
   
+  $gms_server_url = "https://${$gitlab_domain}"
   $jenkins_path     = '/var/lib/jenkins'
   $jenkins_service_user      = 'jenkins_service_user'
   $token_directory  = "${jenkins_path}/.puppetlabs"
@@ -16,6 +20,16 @@ class profile::jenkins::server (
   $jenkins_role_name         = 'Code Deployers'
   $control_repo_project_name = 'puppet/control-repo'
 
+$token_script = @(EOT)
+OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token'];" >/var/lib/jenkins/.puppetlabs/token`
+| EOT
+
+  $html_contents = "<h1>Tokens and Keys!</h1><a href='pubkey.html'>Jenkins User SSH Key</a><br/><a href='auth_token.html'>Puppet Auth Token</a>"
+  $doc_root = '/var/www/generic_website'
+
+  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems' ]
+
+
 # Generate ssh key for jenkins user
   file { $jenkins_ssh_key_directory:
     ensure  => directory,
@@ -26,7 +40,7 @@ class profile::jenkins::server (
   
   exec { 'create ssh key for jenkins user':
     cwd         => $jenkins_ssh_key_directory,
-    command     => "/bin/ssh-keygen -t rsa -b 2048 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan gitlab.inf.puppet.vm >> ~/.ssh/known_hosts",
+    command     => "/bin/ssh-keygen -t rsa -b 2048 -C 'jenkins' -f ${jenkins_ssh_key_file} -q -N '' && ssh-keyscan ${$gitlab_domain} >> ~/.ssh/known_hosts",
     user        => 'jenkins',
     creates     => $jenkins_ssh_key_file,  
     environment => ["HOME=${jenkins_path}"],
@@ -57,10 +71,6 @@ class profile::jenkins::server (
   }  
 
 # create Puppet auth token
-$token_script = @(EOT)
-OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "puppetlabs", "lifetime": "1y"}' https://master.inf.puppet.vm:4433/rbac-api/v1/auth/token | python -c "import json,sys;obj=json.load(sys.stdin);print obj['token'];" >/var/lib/jenkins/.puppetlabs/token`
-| EOT
-
   file { "/tmp/create_token.sh":
     ensure  => file,
     content => $token_script,
@@ -92,8 +102,7 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require =>  [ Exec['Copy auth token to webserver'] ],    
   }  
   
-  $html_contents = "<h1>Tokens and Keys!</h1><a href='pubkey.html'>Jenkins User SSH Key</a><br/><a href='auth_token.html'>Puppet Auth Token</a>"
-  file { "/var/www/generic_website/tokens.html":
+  file { "/var/www/generic_website/index.html":
     ensure  => file,
     owner   => 'jenkins',
     group   => 'jenkins',
@@ -117,16 +126,50 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
   include wget
   include docker
   include git  
-  include profile::app::generic_website::linux
 
-# add gitlabd and centos-7-3 to hosts file
-  host { 'gitlab.inf.puppet.vm':
-    ip           => '192.168.0.95',
+# install apache
+  if !defined(Package['unzip']) {
+    package { 'unzip': ensure => present; }
+  }
+
+  class { 'apache':
+    default_vhost => false,
+  }
+
+  file { $doc_root:
+    ensure => directory,
+    owner  => $::apache::user,
+    group  => $::apache::group,
+    mode   => '0755',
+  }
+
+  apache::vhost { $::fqdn:
+    port    => '80',
+    docroot => $doc_root,
+    require => File[$doc_root],
+  }
+
+#  firewall { '80 allow apache access':
+#    dport  => [80],
+#    proto  => tcp,
+#    action => accept,
+#  }
+
+#  staging::deploy { 'pl_generic_site.zip':
+#    source  => 'puppet:///modules/profile/pl_generic_site.zip',
+#    target  => $doc_root,
+#    require => Apache::Vhost[$::fqdn],
+#    creates => "${doc_root}/index.html",
+#  }
+
+# add gitlab and production machine to hosts file
+  host { "${gitlab_domain}":
+    ip           => "${gitlab_ip}",
     host_aliases => 'gitlab',
   }
   
-  host { 'centos-7-3.pdx.puppet.vm':
-    ip           => '192.168.0.102',
+  host { "${prod_deploy_domain}":
+    ip           => "${prod_deploy_ip}",
     host_aliases => 'centos-7-3',
   }  
 
@@ -197,7 +240,6 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
   }
 
 # fpm dependencies
-  $enhancers = [ 'ruby-devel', 'gcc', 'make', 'rpm-build', 'rubygems' ]
   package { $enhancers: 
     ensure => 'installed',
     provider => 'yum'
