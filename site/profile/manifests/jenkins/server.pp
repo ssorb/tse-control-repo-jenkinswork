@@ -3,7 +3,7 @@ class profile::jenkins::server (
   Optional[String] $gms_api_token = 'et9FqxWxzkoF7GJXgqTQ',
   Optional[String] $gitlab_domain = 'gitlab.inf.puppet.vm',  
   Optional[String] $gitlab_ip     = '192.168.0.95',   
-  Optional[String] $prod_deploy_domain = 'centos-7-3.pdx.puppet.vm',  
+  Optional[String] $prod_deploy_domain = 'javaappserver.puppet.pdx.vm',  
   Optional[String] $prod_deploy_ip     = '192.168.0.102',     
  ){
   
@@ -149,19 +149,6 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require => File[$doc_root],
   }
 
-#  firewall { '80 allow apache access':
-#    dport  => [80],
-#    proto  => tcp,
-#    action => accept,
-#  }
-
-#  staging::deploy { 'pl_generic_site.zip':
-#    source  => 'puppet:///modules/profile/pl_generic_site.zip',
-#    target  => $doc_root,
-#    require => Apache::Vhost[$::fqdn],
-#    creates => "${doc_root}/index.html",
-#  }
-
 # add gitlab and production machine to hosts file
   host { "${gitlab_domain}":
     ip           => "${gitlab_ip}",
@@ -170,7 +157,7 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
   
   host { "${prod_deploy_domain}":
     ip           => "${prod_deploy_ip}",
-    host_aliases => 'centos-7-3',
+    host_aliases => 'javaappserver',
   }  
 
 #install java
