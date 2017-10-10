@@ -1,10 +1,7 @@
 # Requires rtyler/jenkins module
 class profile::jenkins::server (
-  Optional[String] $gms_api_token = 'et9FqxWxzkoF7GJXgqTQ',
+  Optional[String] $gms_api_token = '',
   Optional[String] $gitlab_domain = 'gitlab.inf.puppet.vm',  
-  Optional[String] $gitlab_ip     = '192.168.0.95',   
-  Optional[String] $prod_deploy_domain = 'javaappserver.puppet.pdx.vm',  
-  Optional[String] $prod_deploy_ip     = '192.168.0.102',     
  ){
   
   $gms_server_url = "https://${$gitlab_domain}"
@@ -110,17 +107,20 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     content => $html_contents,
     require => [ File['/var/www/generic_website/auth_token.html'] ],    
   }    
-  
-  git_deploy_key { "add_deploy_key_to_puppet_control-${::fqdn}":
-    ensure       => present,
-    name         => "jenkins-${::fqdn}",
-    path         => "${jenkins_ssh_key_file}.pub",
-    token        => $gms_api_token,
-    project_name => $control_repo_project_name,
-    server_url   => $gms_server_url,
-    provider     => $git_management_system,
-    require => Exec[ 'create ssh key for jenkins user'],
-  }  
+
+# if gitlab token is provided, try inserting the deploy key into gitlab directly 
+  if $gms_api_token != '' {
+    git_deploy_key { "add_deploy_key_to_puppet_control":
+      ensure       => present,
+      name         => 'jenkins-deploy-key',
+      path         => "${jenkins_ssh_key_file}.pub",
+      token        => $gms_api_token,
+      project_name => $control_repo_project_name,
+      server_url   => $gms_server_url,
+      provider     => $git_management_system,
+      require => Exec[ 'create ssh key for jenkins user'],
+    }  
+  } 
 
 # Include docker, wget, git, and apache (generic website)
   include wget
@@ -149,18 +149,8 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require => File[$doc_root],
   }
 
-# add gitlab and production machine to hosts file
-  host { "${gitlab_domain}":
-    ip           => "${gitlab_ip}",
-    host_aliases => 'gitlab',
-  }
-  
-  host { "${prod_deploy_domain}":
-    ip           => "${prod_deploy_ip}",
-    host_aliases => 'javaappserver',
-  }  
 
-#install java
+# install java
   java::oracle { 'jdk8' :
     ensure        => 'present',
     url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
@@ -185,7 +175,7 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require       => [ Class['jenkins'] ],
   }
 
-#set up pipeline
+# set up pipeline
   file { "${jenkins_path}/jobs/Pipeline/":
     ensure  => directory,
     owner   => 'jenkins',
@@ -263,20 +253,21 @@ OUTPUT=`/bin/curl -sS -k -X POST -H 'Content-Type: application/json' -d '{"login
     require =>  Exec['jenkins restart'],
   }
   
-# create jenkins user admin  
-  jenkins::user { 'admin':
-    email    => 'sailseng@example.com',
-    password => 'puppetlabs',
-  }  
+# create jenkins user admin
+  exec { "create jenkins user admin":
+    command => "/bin/cat /usr/lib/jenkins/puppet_helper.groovy | /usr/bin/java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://127.0.0.1:8080 groovy = create_or_update_user admin sailseng@example.com 'puppetlabs' 'Managed by Puppet'",
+    creates => '/tmp/jenkins-admin-usercreated-perms',
+    require => Class['jenkins']
+  } 
   
-#  Add jenkins user to docker group
+#  add jenkins user to docker group
   exec { "add jenkins user to docker group":
     command => '/sbin/usermod -a -G docker jenkins',
     creates => '/tmp/usermod-perms',
     require => Class['jenkins']
   } 
   
- # Install Maven
+# install Maven
   class { 'maven::maven':
     version => "3.0.5", # version to install
   } 
