@@ -20,7 +20,7 @@
     </jenkins.model.BuildDiscarderProperty>
     <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.27.0">
-      <projectUrl>https://github.com/maju6406/ContinuousIntegrationAndContinuousDeliveryApp/</projectUrl>
+      <projectUrl>https://github.com/ssorb/ContinuousIntegrationAndContinuousDeliveryApp/</projectUrl>
       <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.4.7">
@@ -39,7 +39,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/maju6406/ContinuousIntegrationAndContinuousDeliveryApp</url>
+          <url>https://github.com/ssorb/ContinuousIntegrationAndContinuousDeliveryApp</url>
           <credentialsId>puppet-github-up</credentialsId>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
