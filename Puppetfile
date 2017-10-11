@@ -131,7 +131,7 @@ mod 'maestrodev-maven', '1.4.0'
 
 mod 'jenkins',
   :git    => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :branch => '5ab2c8a8207f6351f59706255087c6eef32778d9'
+  :branch => 'master'
   
 mod 'darin-zypprepo', '1.0.2'
 mod 'camptocamp-systemd', '0.4.0'
