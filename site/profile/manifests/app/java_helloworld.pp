@@ -5,11 +5,19 @@ class profile::app::java_helloworld (
 ) {
 
   # Install Java
-  java::oracle { 'jdk8' :
+#  java::oracle { 'jdk8' :
+#    ensure        => 'present',
+#    url_hash      => '090f390dda5b47b9b721c7dfaa008135',
+#    version_major => '8u144',
+#    version_minor => 'b01',
+#    java_se       => 'jdk',
+#  }
+
+java::oracle { 'jdk8' :
     ensure        => 'present',
-    url_hash      => '090f390dda5b47b9b721c7dfaa008135',
-    version_major => '8u144',
-    version_minor => 'b01',
+    url_hash      => 'd54c1d3a095b4ff2b6607d096fa80163',
+    version_major => '8u131',
+    version_minor => 'b11',
     java_se       => 'jdk',
   }
 
